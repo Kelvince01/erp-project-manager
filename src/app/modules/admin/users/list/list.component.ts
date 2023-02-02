@@ -1,54 +1,54 @@
-import {
-  ACTIONS,
-  AppState,
-  IUser,
-} from './../../../../data/reducers/users.reducer';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as Rx from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { selectAppState } from 'src/app/data/selectors/app.selector';
+import { setAPIStatus } from 'src/app/data/stores/app.action';
+import { Appstate } from 'src/app/data/stores/appstate';
+import { selectUsers } from 'src/app/data/users/user.selector';
 import {
-  IFilter,
-  ACTIONS as FilterACTIONS,
-} from 'src/app/data/reducers/user-filter.reducer';
+  invokeUsersAPI,
+  invokeDeleteUserAPI,
+} from 'src/app/data/users/users.action';
 
+declare var window: any;
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
-  public users: Rx.Observable<Array<IUser>>;
-  public filter: Rx.Observable<IFilter>;
+  constructor(private store: Store, private appStore: Store<Appstate>) {}
 
-  constructor(private store: Store<AppState>) {
-    // this.users = store.select('users');
-    this.users = Rx.Observable.combineLatest(
-      store.select('users'),
-      store.select('filter'),
-      this.applyFilter
+  users$ = this.store.pipe(select(selectUsers));
+  deleteModal: any;
+  idToDelete: number = 0;
+
+  ngOnInit(): void {
+    this.deleteModal = new window.bootstrap.Modal(
+      document.getElementById('deleteModal')
     );
+
+    this.store.dispatch(invokeUsersAPI());
   }
 
-  applyFilter(users: Array<IUser>, filter: IFilter): Array<IUser> {
-    return users
-      .filter(
-        (x) =>
-          !filter.name ||
-          x.name.toLowerCase().indexOf(filter.name.toLowerCase()) !== -1
-      )
-      .filter(
-        (x) =>
-          !filter.email ||
-          x.email.toLowerCase().indexOf(filter.email.toLowerCase()) !== -1
-      );
+  openDeleteModal(id: number) {
+    this.idToDelete = id;
+    this.deleteModal.show();
   }
 
-  ngOnInit(): void {}
-
-  delete(user: any) {
-    this.store.dispatch({
-      type: ACTIONS.DELETE_USER,
-      payload: user,
+  delete() {
+    this.store.dispatch(
+      invokeDeleteUserAPI({
+        id: this.idToDelete,
+      })
+    );
+    let apiStatus$ = this.appStore.pipe(select(selectAppState));
+    apiStatus$.subscribe((apState) => {
+      if (apState.apiStatus == 'success') {
+        this.deleteModal.hide();
+        this.appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+      }
     });
   }
 }

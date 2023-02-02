@@ -1,13 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { ACTIONS, AppState, IUser } from '../reducers/users.reducer';
+import { HttpClient } from '@angular/common/http';
+import { IUser } from '@models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private USER_API_URL = 'https://randomuser.me/api/?results=';
+  constructor(private http: HttpClient) {}
+
+  get() {
+    return this.http.get<IUser[]>('http://localhost:3000/users');
+  }
+
+  getById(id: number) {
+    return this.http.get<IUser>(`http://localhost:3000/users/${id}`);
+  }
+
+  create(payload: IUser) {
+    return this.http.post<IUser>('http://localhost:3000/users', payload);
+  }
+
+  update(payload: IUser) {
+    return this.http.put<IUser>(
+      `http://localhost:3000/users/${payload.UsersID}`,
+      payload
+    );
+  }
+
+  delete(id: number) {
+    return this.http.delete(`http://localhost:3000/users/${id}`);
+  }
+
+  /*private USER_API_URL = 'https://randomuser.me/api/?results=';
 
   constructor(private store: Store<AppState>, private http: HttpClient) {}
 
@@ -64,5 +88,5 @@ export class UserService {
         elements.item(i)?.classList.add('fade');
       }
     }
-  }
+  }*/
 }

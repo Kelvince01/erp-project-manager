@@ -1,14 +1,17 @@
 <span class="count"
-  >Number of freelancers online: {{ (users | async)?.length }}</span
+  >Number of freelancers online: {{ (users$ | async)?.length }}</span
 >
-<div class="freelancer fade thumbail" *ngFor="let user of users | async">
-  <button type="button" class="close" aria-label="Close" (click)="delete(user)">
+<div class="freelancer fade thumbail" *ngFor="let user of users$ | async">
+  <button type="button" class="close" aria-label="Close" (click)="delete()">
     <span aria-hidden="true">&times;</span></button
   ><br />
-  <img class="img-circle center-block" src="{{ user.thumbnail }}" /><br />
+  <img
+    class="img-circle center-block"
+    src="assets/images/default-profile.png"
+  /><br />
   <div class="info">
-    <span><strong>Name: </strong>{{ user.name }}</span>
-    <span><strong>Email: </strong>{{ user.email }}</span>
+    <span><strong>Name: </strong>{{ user.FirstName }}</span>
+    <span><strong>Email: </strong>{{ user.Email }}</span>
   </div>
-  <a class="btn btn-default">Hire {{ user.name }}</a>
+  <a class="btn btn-default">Hire {{ user.FirstName }}</a>
 </div>

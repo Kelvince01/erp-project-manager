@@ -19,10 +19,22 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ES2022", "dom"],
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "rxjs": ["dist/rxjs"],
+      "@core/*": ["src/app/core/*"],
+      "@admin/*": ["src/app/modules/admin/*"],
+      "@auth/*": ["src/app/auth/*"],
+      "@main/*": ["src/app/modules/main/*"],
+      "@services/*": ["src/app/data/services/*"],
+      "@models/*": ["src/app/data/models/*"],
+      "@utils/*": ["src/app/utilities/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@envs/*": ["src/environments/*"],
+      "@angular/core/src/metadata/*": ["./node_modules/@angular/core"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

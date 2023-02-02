@@ -1,0 +1,30 @@
+<div class="container">
+  <legend *ngIf="isAddMode">Add A New Department</legend>
+  <legend *ngIf="!isAddMode">Update A New Department</legend>
+  <div class="mb-3">
+    <label for="txtDepartmentName" class="form-label">Department Name</label>
+    << type="text" [(ngModel)]="departmentForm.name" class="form-control"
+    id="txtDepartmentName" />
+  </div>
+  <div class="mb-3">
+    <label for="txtAuthor" class="form-label">Author</label>
+    << type="text" [(ngModel)]="departmentForm.author" class="form-control"
+    id="txtAuthor" />
+  </div>
+  <div class="mb-3">
+    <label for="txtCost" class="form-label">Cost</label>
+    << type="number" [(ngModel)]="departmentForm.cost" class="form-control"
+    id="txtCost" />
+  </div>
+  <button *ngIf="isAddMode" type="button" class="btn btn-dark" (click)="save()">
+    Create
+  </button>
+  <button
+    *ngIf="!isAddMode"
+    type="button"
+    class="btn btn-dark"
+    (click)="udapte()"
+  >
+    Update
+  </button>
+</div>
