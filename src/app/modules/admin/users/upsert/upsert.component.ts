@@ -1,7 +1,8 @@
+import { select } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
 import { UserService } from 'src/app/data/services/user.service';
 import { MustMatch } from '@utils/must-match.validator';
@@ -23,7 +24,7 @@ export class UpsertComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private toastr: ToastrService // private alertService: AlertService
+    private toastr: MessageService
   ) {}
 
   ngOnInit() {
@@ -98,11 +99,15 @@ export class UpsertComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.toastr.success('User added', 'Success');
+          this.toastr.add({
+            severity: 'success',
+            detail: 'User added',
+            summary: 'Success',
+          });
           this.router.navigate(['../'], { relativeTo: this.route });
         },
         error: (error: any) => {
-          this.toastr.error(error);
+          this.toastr.add({ severity: 'success', detail: error });
           this.loading = false;
         },
       });
@@ -114,11 +119,15 @@ export class UpsertComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.toastr.success('User updated', 'Success');
+          this.toastr.add({
+            severity: 'success',
+            detail: 'User updated',
+            summary: 'Success',
+          });
           this.router.navigate(['../../'], { relativeTo: this.route });
         },
         error: (error: any) => {
-          this.toastr.error(error);
+          this.toastr.add({ severity: 'error', detail: error });
           this.loading = false;
         },
       });

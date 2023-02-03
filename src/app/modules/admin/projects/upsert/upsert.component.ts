@@ -1,4 +1,4 @@
-import { ToastrService } from 'ngx-toastr';
+import { MessageService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,7 +23,7 @@ export class UpsertComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AuthService,
-    private alertService: ToastrService
+    private alertService: MessageService
   ) {}
 
   ngOnInit() {
@@ -77,11 +77,11 @@ export class UpsertComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.alertService.success('User saved');
+          this.alertService.add({ severity: 'success', detail: 'User saved' });
           this.router.navigateByUrl('/users');
         },
         error: (error) => {
-          this.alertService.error(error);
+          this.alertService.add({ severity: 'error', detail: error });
           this.submitting = false;
         },
       });

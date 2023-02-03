@@ -1,8 +1,13 @@
 <span class="count"
   >Number of users online: {{ (users$ | async)?.length }}</span
 >
-<div class="freelancer fade thumbail" *ngFor="let user of users$ | async">
-  <button type="button" class="close" aria-label="Close" (click)="delete()">
+<div class="user thumbail" *ngFor="let user of users$ | async">
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="deleteUser(user)"
+  >
     <span aria-hidden="true">&times;</span></button
   ><br />
   <img

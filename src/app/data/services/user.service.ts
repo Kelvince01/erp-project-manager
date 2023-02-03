@@ -1,3 +1,5 @@
+import { MessageService } from 'primeng/api';
+import { FeathersService } from '@services/feathers.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '@models/user.model';
@@ -6,10 +8,53 @@ import { IUser } from '@models/user.model';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private feathers: FeathersService,
+    private messages: MessageService
+  ) {}
 
   get() {
     return this.http.get<IUser[]>('http://localhost:3030/users');
+  }
+
+  users$() {
+    // just returning the observable will query the backend on every subscription
+    // using some caching mechanism would be wise in more complex applications
+    return (
+      (<any>this.feathers // todo: remove 'any' assertion when feathers-reactive typings are up-to-date with buzzard
+        .service('users'))
+        // .watch()
+        .find()
+    );
+  }
+
+  messages$() {
+    // just returning the observable will query the backend on every subscription
+    // using some caching mechanism would be wise in more complex applications
+    return (
+      this.feathers // todo: remove 'any' assertion when feathers-reactive typings are up-to-date with buzzard
+        .service('messages')
+        // .watch()
+        .find({
+          query: {
+            $sort: { createdAt: -1 },
+            $limit: 25,
+          },
+        })
+    );
+  }
+
+  sendMessage(message: string) {
+    if (message === '') {
+      return;
+    }
+
+    // feathers-reactive Observables are hot by default,
+    // so we don't need to subscribe to make create() happen.
+    this.feathers.service('messages').create({
+      text: message,
+    });
   }
 
   getById(id: number) {
@@ -18,6 +63,21 @@ export class UserService {
 
   create(payload: IUser) {
     return this.http.post<IUser>('http://localhost:3030/users', payload);
+  }
+
+  signup(data: any) {
+    this.feathers
+      .service('users')
+      .create({ ...data })
+      .then(() =>
+        this.messages.add({ severity: 'success', detail: 'User created.' })
+      )
+      .catch((err) =>
+        this.messages.add({
+          severity: 'error',
+          detail: 'Could not create user!',
+        })
+      );
   }
 
   update(payload: IUser) {

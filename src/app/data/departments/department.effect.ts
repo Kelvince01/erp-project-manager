@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, map, mergeMap, switchMap, withLatestFrom } from 'rxjs';
+import { EMPTY, map, mergeMap, retry, switchMap, withLatestFrom } from 'rxjs';
 import { DepartmentsService } from '../services/departments.service';
 import {
   deleteDepartmentAPISuccess,
@@ -13,9 +13,10 @@ import {
   saveNewDepartmentAPISucess,
   updateDepartmentAPISucess,
 } from './departments.action';
-import { selectDepartments } from '../selectors/department.selector';
-import { Appstate } from './appstate';
-import { setAPIStatus } from './app.action';
+import { setAPIStatus } from '../stores/app.action';
+import { Appstate } from '../stores/appstate';
+import { selectDepartments } from './department.selector';
+import { Paginated } from '@feathersjs/feathers';
 
 @Injectable()
 export class DepartmentsEffect {
@@ -55,11 +56,13 @@ export class DepartmentsEffect {
         if (departmentformStore.length > 0) {
           return EMPTY;
         }
-        return this.departmentsService
-          .get()
-          .pipe(
-            map((data) => departmentsFetchAPISuccess({ allDepartments: data }))
-          );
+        return this.departmentsService.get().pipe(
+          retry(2),
+          // map((response: Paginated<any>) => response.data)
+          map((data: Paginated<any>) =>
+            departmentsFetchAPISuccess({ allDepartments: data.data })
+          )
+        );
       })
     )
   );

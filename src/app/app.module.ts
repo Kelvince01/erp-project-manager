@@ -9,14 +9,17 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from './data/reducers/app.reduce';
-import { ToastrModule } from 'ngx-toastr';
 import { AdminModule } from '@admin/admin.module';
 import { MainModule } from '@main/main.module';
 import { AuthModule } from '@auth/auth.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from '@utils/interceptors/error.interceptor';
 import { JwtInterceptor } from '@utils/interceptors/jwt.interceptor';
-// import { FeathersService } from '@services/feathers.service';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerInterceptor } from '@utils/interceptors/spinner.interceptor';
+import { FeathersService } from '@services/feathers.service';
+import { AuthService } from '@services/auth.service';
+import { AuthGuard } from '@utils/guards/auth.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,12 +27,9 @@ import { JwtInterceptor } from '@utils/interceptors/jwt.interceptor';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    NgxSpinnerModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-spin-clockwise-fade' }),
     StoreModule.forRoot({ appState: appReducer }),
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'toast-top-right',
-      preventDuplicates: true,
-    }),
     SharedModule,
     CoreModule,
     AuthModule,
@@ -45,7 +45,10 @@ import { JwtInterceptor } from '@utils/interceptors/jwt.interceptor';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    // FeathersService,
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
+    FeathersService,
+    AuthService,
+    AuthGuard,
   ],
   bootstrap: [AppComponent],
 })

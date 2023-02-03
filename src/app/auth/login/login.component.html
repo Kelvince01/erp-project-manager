@@ -6,12 +6,12 @@
         <label class="form-label">Email</label>
         <input
           type="email"
-          formControlName="email"
+          formControlName="Email"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+          [ngClass]="{ 'is-invalid': submitted && f['Email'].errors }"
         />
-        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-          <div *ngIf="f['email'].errors['required']['email']">
+        <div *ngIf="submitted && f['Email'].errors" class="invalid-feedback">
+          <div *ngIf="f['Email'].errors['required']['email']">
             Email is required
           </div>
         </div>
@@ -20,12 +20,12 @@
         <label class="form-label">Password</label>
         <input
           type="password"
-          formControlName="password"
+          formControlName="Password"
           class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+          [ngClass]="{ 'is-invalid': submitted && f['Password'].errors }"
         />
-        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-          <div *ngIf="f['password'].errors['required']">
+        <div *ngIf="submitted && f['Password'].errors" class="invalid-feedback">
+          <div *ngIf="f['Password'].errors['required']">
             Password is required
           </div>
         </div>

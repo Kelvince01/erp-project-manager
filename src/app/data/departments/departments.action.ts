@@ -7,7 +7,8 @@ export const invokeDepartmentsAPI = createAction(
 
 export const departmentsFetchAPISuccess = createAction(
   '[Departments API] Fetch API Success',
-  props<{ allDepartments: IDepartment[] }>()
+  // props<{ allDepartments: IDepartment[] }>()
+  props<{ allDepartments: any }>()
 );
 
 export const invokeSaveNewDepartmentAPI = createAction(

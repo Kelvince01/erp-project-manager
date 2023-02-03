@@ -3,16 +3,15 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { switchMap } from 'rxjs';
-import { IDepartment } from 'src/app/data/models/department.model';
-import { selectAppState } from 'src/app/data/selectors/app.selector';
-import { selectDepartmentById } from 'src/app/data/selectors/department.selector';
-import { setAPIStatus } from 'src/app/data/stores/app.action';
-import { Appstate } from 'src/app/data/stores/appstate';
+import { selectDepartmentById } from 'src/app/data/departments/department.selector';
 import {
   invokeSaveNewDepartmentAPI,
   invokeUpdateDepartmentAPI,
-} from 'src/app/data/stores/departments.action';
-
+} from 'src/app/data/departments/departments.action';
+import { IDepartment } from 'src/app/data/models/department.model';
+import { selectAppState } from 'src/app/data/selectors/app.selector';
+import { setAPIStatus } from 'src/app/data/stores/app.action';
+import { Appstate } from 'src/app/data/stores/appstate';
 @Component({
   selector: 'app-upsert-department',
   templateUrl: './upsert.component.html',
@@ -27,11 +26,12 @@ export class UpsertComponent implements OnInit {
   ) {}
 
   departmentForm: IDepartment = {
-    DepartID: 0,
+    CompanyID: 1,
     Department: '',
+    HOD: '',
     Description: '',
-    // cost: 0,
   };
+
   // form: FormGroup;
   id: string = '';
   isAddMode: boolean = false;
@@ -52,6 +52,7 @@ export class UpsertComponent implements OnInit {
       fetchData$.subscribe((data) => {
         if (data) {
           this.departmentForm = { ...data };
+          this.departmentForm.DepartID = data.DepartID;
         } else {
           this.router.navigate(['/admin/departments']);
         }

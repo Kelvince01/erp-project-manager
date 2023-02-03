@@ -1,13 +1,15 @@
+import { IDepartment } from './../../../../data/models/department.model';
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { selectDepartments } from 'src/app/data/departments/department.selector';
+import {
+  invokeDepartmentsAPI,
+  invokeDeleteDepartmentAPI,
+} from 'src/app/data/departments/departments.action';
 import { selectAppState } from 'src/app/data/selectors/app.selector';
-import { selectDepartments } from 'src/app/data/selectors/department.selector';
 import { setAPIStatus } from 'src/app/data/stores/app.action';
 import { Appstate } from 'src/app/data/stores/appstate';
-import {
-  invokeDeleteDepartmentAPI,
-  invokeDepartmentsAPI,
-} from 'src/app/data/stores/departments.action';
 
 declare var window: any;
 
@@ -17,23 +19,48 @@ declare var window: any;
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
-  constructor(private store: Store, private appStore: Store<Appstate>) {}
+  constructor(
+    private store: Store,
+    private appStore: Store<Appstate>,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   departments$ = this.store.pipe(select(selectDepartments));
-  deleteModal: any;
+  deleteDialog: boolean = false;
   idToDelete: number = 0;
 
   ngOnInit(): void {
-    this.deleteModal = new window.bootstrap.Modal(
-      document.getElementById('deleteModal')
-    );
-
     this.store.dispatch(invokeDepartmentsAPI());
+    console.log(this.departments$);
   }
 
-  openDeleteModal(id: number) {
-    this.idToDelete = id;
-    this.deleteModal.show();
+  openDelete() {
+    // this.submitted = false;
+    this.deleteDialog = true;
+  }
+
+  hideDialog() {
+    this.deleteDialog = false;
+    // this.submitted = false;
+  }
+
+  deleteDepartment(department: IDepartment) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete ' + department.Department + '?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        // this.departments$ = this.departments$.filter(val => val.id !== department.DepartID);
+        // this.product = {};
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Department Deleted',
+          life: 3000,
+        });
+      },
+    });
   }
 
   delete() {
@@ -45,7 +72,6 @@ export class ListComponent implements OnInit {
     let apiStatus$ = this.appStore.pipe(select(selectAppState));
     apiStatus$.subscribe((apState) => {
       if (apState.apiStatus == 'success') {
-        this.deleteModal.hide();
         this.appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );

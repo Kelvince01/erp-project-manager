@@ -9,10 +9,19 @@ import { AuthService } from '@services/auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, private accountService: AuthService) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const user = this.accountService.userValue;
+    /* Try to auth with the server. If authed resolve to true, else resolve to false */
+    return this.auth
+      .logIn()
+      .then(() => true)
+      .catch(() => {
+        this.router.navigate(['/login']);
+        return false;
+      });
+
+    /*const user = this.auth.userValue;
     if (user) {
       // authorised so return true
       return true;
@@ -22,6 +31,6 @@ export class AuthGuard implements CanActivate {
     this.router.navigate(['/accounts/login'], {
       queryParams: { returnUrl: state.url },
     });
-    return false;
+    return false;*/
   }
 }

@@ -1,9 +1,9 @@
-import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -20,15 +20,16 @@ export class RegisterComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AuthService,
-    private toastr: ToastrService
+    private toastr: MessageService
   ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      FirstName: ['', Validators.required],
+      Surname: ['', Validators.required],
+      Email: ['', [Validators.required, Validators.email]],
+      Username: ['', Validators.required],
+      Password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -54,11 +55,15 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.toastr.success('Registration successful');
+          this.toastr.add({
+            severity: 'success',
+            summary: 'Registration successful',
+            detail: 'Via MessageService',
+          });
           this.router.navigate(['../login'], { relativeTo: this.route });
         },
         error: (error: any) => {
-          this.toastr.error(error);
+          this.toastr.add({ severity: 'error', summary: error });
           this.loading = false;
         },
       });

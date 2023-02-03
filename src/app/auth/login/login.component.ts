@@ -1,9 +1,8 @@
-import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs';
 import { AuthService } from '@services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -20,13 +19,13 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AuthService,
-    private alertService: ToastrService
+    private alertService: MessageService
   ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      Email: ['', Validators.required],
+      Password: ['', Validators.required],
     });
   }
 
@@ -48,18 +47,19 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
     this.accountService
-      .login(this.f['email'].value, this.f['password'].value)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          // get return url from query parameters or default to home page
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigateByUrl(returnUrl);
-        },
-        error: (error: any) => {
-          this.alertService.error(error);
-          this.loading = false;
-        },
+      .logIn({
+        strategy: 'local',
+        Email: this.f['Email'].value,
+        Password: this.f['Password'].value,
+      }) // navigate to base URL on success
+      .then(() => {
+        // get return url from query parameters or default to home page
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.router.navigateByUrl(returnUrl);
+      })
+      .catch((err) => {
+        this.alertService.add({ severity: 'error', detail: err });
+        this.loading = false;
       });
   }
 }

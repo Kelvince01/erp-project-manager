@@ -1,3 +1,4 @@
+import { FeathersService } from '@services/feathers.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,7 +13,11 @@ export class AuthService {
   private userSubject: BehaviorSubject<IUser | null>;
   public user: Observable<IUser | null>;
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private feathers: FeathersService
+  ) {
     this.userSubject = new BehaviorSubject(
       JSON.parse(localStorage.getItem('user')!)
     );
@@ -23,28 +28,55 @@ export class AuthService {
     return this.userSubject.value;
   }
 
+  public currentUser() {
+    return Promise.resolve(this.feathers.getCurrentUser());
+  }
+
+  public logIn(credentials?: any): Promise<any> {
+    return this.feathers.authenticate(credentials);
+  }
+
+  public logOut() {
+    this.feathers.logout();
+    this.router.navigate(['/']);
+  }
+
+  getAuthToken(): string {
+    return localStorage.getItem('access_token')!;
+  }
+
   login(email: string, password: string) {
-    return this.http
-      .post<IUser>(`${environment.apiUrl}/authentication`, {
-        Email: email,
-        Password: password,
-        strategy: 'local',
-      })
-      .pipe(
-        map((user) => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('user', JSON.stringify(user));
-          this.userSubject.next(user);
-          return user;
+    return (
+      this.http
+        // .post<IUser>(`${environment.apiUrl}/authentication`, {
+        .post<any>(`${environment.apiUrl}/authentication`, {
+          Email: email,
+          Password: password,
+          strategy: 'local',
         })
-      );
+        .pipe(
+          map((user) => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem(
+              'access_token',
+              JSON.stringify(user.accessToken)
+              // user.accessToken
+            );
+            localStorage.setItem('user', JSON.stringify(user.user));
+
+            this.userSubject.next(user);
+            return user;
+          })
+        )
+    );
   }
 
   logout() {
     // remove user from local storage and set current user to null
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
     this.userSubject.next(null);
-    this.router.navigate(['/account/login']);
+    this.router.navigate(['/accounts/login']);
   }
 
   register(user: IUser) {

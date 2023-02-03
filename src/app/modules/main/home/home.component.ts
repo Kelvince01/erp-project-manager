@@ -8,9 +8,12 @@ import { AuthService } from '@services/auth.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  user: IUser | null;
+  user!: IUser | null;
 
   constructor(private accountService: AuthService) {
-    this.user = this.accountService.userValue;
+    // this.user = this.accountService.userValue;
+    this.accountService.currentUser().then((user) => {
+      this.user = user;
+    });
   }
 }

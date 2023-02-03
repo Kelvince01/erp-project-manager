@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IDepartment } from '../models/department.model';
 
-export const selectDepartments =
-  createFeatureSelector<IDepartment[]>('departments');
+export const selectDepartments = createFeatureSelector<any>('departments');
+// createFeatureSelector<IDepartment[]>('departments');
 
 export const selectDepartmentById = (departmentId: number) =>
   createSelector(selectDepartments, (departments: IDepartment[]) => {
@@ -13,8 +13,8 @@ export const selectDepartmentById = (departmentId: number) =>
     return departmentbyId[0];
   });
 
-export const areDepartmentsLoaded = createSelector(
-  selectDepartments,
-  (state) => state
-  // (state) => state.departmantsLoaded
-);
+// export const areDepartmentsLoaded = createSelector(
+//   selectDepartments,
+//   (state) => state
+//   // (state) => state.departmantsLoaded
+// );

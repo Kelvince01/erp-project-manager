@@ -16,7 +16,8 @@ export class AppComponent implements OnInit {
     private primengConfig: PrimeNGConfig,
     private accountService: AuthService
   ) {
-    this.accountService.user.subscribe((x) => (this.user = x));
+    // this.accountService.user.subscribe((x) => (this.user = x));
+    this.user = this.accountService.currentUser as any;
   }
 
   ngOnInit() {
@@ -24,6 +25,6 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.accountService.logout();
+    this.accountService.logOut();
   }
 }

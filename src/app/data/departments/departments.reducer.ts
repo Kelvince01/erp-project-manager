@@ -5,7 +5,7 @@ import {
   departmentsFetchAPISuccess,
   saveNewDepartmentAPISucess,
   updateDepartmentAPISucess,
-} from '../stores/departments.action';
+} from '../departments/departments.action';
 
 export const initialState: ReadonlyArray<IDepartment> = [];
 

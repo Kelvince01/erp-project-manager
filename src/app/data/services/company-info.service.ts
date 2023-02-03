@@ -1,41 +1,40 @@
 import { Observable } from 'rxjs';
 import { FeathersService } from '@services/feathers.service';
-import { IDepartment } from './../models/department.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ICompanyInfo } from '@models/company-info.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DepartmentsService {
+export class CompanyInfoService {
   constructor(private http: HttpClient, private feathers: FeathersService) {}
 
-  // get(): Observable<IDepartment[]> {
   get(): Observable<any> {
-    // return this.http.get<IDepartment[]>('http://localhost:3030/departments');
+    // return this.http.get<ICompanyInfo[]>('http://localhost:3030/company-info');
     return (
       (<any>this.feathers // todo: remove 'any' assertion when feathers-reactive typings are up-to-date with buzzard
-        .service('departments'))
+        .service('company-info'))
         // .watch()
         .find()
     );
   }
 
-  create(payload: IDepartment) {
-    return this.http.post<IDepartment>(
-      'http://localhost:3030/departments',
+  create(payload: ICompanyInfo) {
+    return this.http.post<ICompanyInfo>(
+      'http://localhost:3030/company-info',
       payload
     );
   }
 
-  update(payload: IDepartment) {
-    return this.http.put<IDepartment>(
-      `http://localhost:3030/departments/${payload.DepartID}`,
+  update(payload: ICompanyInfo) {
+    return this.http.put<ICompanyInfo>(
+      `http://localhost:3030/company-info/${payload.CompanyID}`,
       payload
     );
   }
 
   delete(id: number) {
-    return this.http.delete(`http://localhost:3030/departments/${id}`);
+    return this.http.delete(`http://localhost:3030/company-info/${id}`);
   }
 }
