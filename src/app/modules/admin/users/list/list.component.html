@@ -1,5 +1,5 @@
 <span class="count"
-  >Number of freelancers online: {{ (users$ | async)?.length }}</span
+  >Number of users online: {{ (users$ | async)?.length }}</span
 >
 <div class="freelancer fade thumbail" *ngFor="let user of users$ | async">
   <button type="button" class="close" aria-label="Close" (click)="delete()">

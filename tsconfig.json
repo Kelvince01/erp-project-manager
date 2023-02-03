@@ -21,7 +21,7 @@
     "useDefineForClassFields": false,
     "allowSyntheticDefaultImports": true,
     "lib": ["ES2022", "dom"],
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "manual_typings"],
     "paths": {
       "rxjs": ["dist/rxjs"],
       "@core/*": ["src/app/core/*"],
@@ -33,7 +33,8 @@
       "@utils/*": ["src/app/utilities/*"],
       "@shared/*": ["src/app/shared/*"],
       "@envs/*": ["src/environments/*"],
-      "@angular/core/src/metadata/*": ["./node_modules/@angular/core"]
+      "@angular/core/src/metadata/*": ["./node_modules/@angular/core"],
+      "lodash/*": ["node_modules/@types/lodash-es/*"]
     }
   },
   "angularCompilerOptions": {

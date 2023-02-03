@@ -140,3 +140,106 @@
     <a routerLink="/admin/users" class="btn btn-link">Cancel</a>
   </div>
 </form>
+
+<!--
+  <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
+  <div class="container">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto ps-5 mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <!- Button trigger modal ->
+        <button type="button" class="btn btn-info px-4" data-bs-toggle="modal" data-bs-target="#loginModal">
+          Registration Now
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<!- Modal ->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Registration Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm" (ngSubmit)="registerFormSubmit" class="row g-3">
+          <div class="col-md-12">
+            <label for="id_email" class="form-label">Email address</label>
+            <input formControlName="email" [class.is-invalid]="email.touched && email.invalid" type="email"
+              class="form-control" id="id_email">
+            <div *ngIf="email.invalid && email.touched">
+              <div *ngIf="email.errors?.required" class="d-block invalid-feedback">Please
+                provide a Email.</div>
+              <div *ngIf="email.errors?.email" class="d-block invalid-feedback">Email address is not valid</div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <label for="id_number" class="form-label">Mobile Number</label>
+            <input formControlName="number" [class.is-invalid]="number.touched && number.invalid"
+              type="password" class="form-control" id="id_number">
+            <div *ngIf="number.touched && number.errors?.required" class="d-block invalid-feedback">Provide your mobile number.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="id_firstName" class="form-label">First name</label>
+            <input formControlName="firstName" type="text" class="form-control" id="id_firstName" required>
+            <div *ngIf="firstName.touched && firstName.errors?.required" class="d-block invalid-feedback">Provide your first name.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="id_lastName" class="form-label">Last name</label>
+            <input type="text" class="form-control" formControlName="lastName" id="id_lastName" required>
+            <div *ngIf="lastName.touched && lastName.errors?.required" class="d-block invalid-feedback">Provide your last name.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="id_Password" class="form-label">Password</label>
+            <input formControlName="password" [class.is-invalid]="password.touched && password.invalid"
+              type="password" class="form-control" id="id_Password">
+            <div *ngIf="password.touched && password.errors?.required" class="d-block invalid-feedback">
+              Provide a password.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="id_Password" class="form-label">Conformation Password</label>
+            <input formControlName="password1" [class.is-invalid]="password1.touched && password1.invalid"
+              type="password1" class="form-control" id="id_Password1">
+            <div *ngIf="password1.touched && password1.errors?.required" class="d-block invalid-feedback">Please Enter Conformation Password</div>
+          </div>
+          <div class="col-md-6 mt-4">
+            <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary px-5">Submit</button>
+            <button type="button" class="btn btn-secondary px-3 ms-2">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+ -->

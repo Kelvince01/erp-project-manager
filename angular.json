@@ -33,9 +33,20 @@
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js"],
             "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            "ngswConfigPath": "ngsw-config.json",
+            "allowedCommonJsDependencies": [
+              "path",
+              "os",
+              "fs",
+              "lodash",
+              "lodash-es",
+              "@feathersjs/authentication-client",
+              "@feathersjs/feathers",
+              "@feathersjs/socketio-client",
+              "feathers-reactive/lib"
+            ]
           },
           "configurations": {
             "production": {

@@ -16,7 +16,7 @@ import { EffectsModule } from '@ngrx/effects';
     PrimengModule,
     HttpClientModule,
     StoreModule,
-    EffectsModule,
+    EffectsModule.forRoot([]),
   ],
   exports: [
     PageNotFoundComponent,

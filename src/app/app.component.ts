@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IUser } from '@models/user.model';
+import { AuthService } from '@services/auth.service';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -8,10 +10,20 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class AppComponent implements OnInit {
   title = 'ERP-PROJECT MANAGER';
+  user?: IUser | null;
 
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private accountService: AuthService
+  ) {
+    this.accountService.user.subscribe((x) => (this.user = x));
+  }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+  }
+
+  logout() {
+    this.accountService.logout();
   }
 }

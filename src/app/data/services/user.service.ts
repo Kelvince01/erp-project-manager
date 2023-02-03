@@ -9,26 +9,26 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   get() {
-    return this.http.get<IUser[]>('http://localhost:3000/users');
+    return this.http.get<IUser[]>('http://localhost:3030/users');
   }
 
   getById(id: number) {
-    return this.http.get<IUser>(`http://localhost:3000/users/${id}`);
+    return this.http.get<IUser>(`http://localhost:3030/users/${id}`);
   }
 
   create(payload: IUser) {
-    return this.http.post<IUser>('http://localhost:3000/users', payload);
+    return this.http.post<IUser>('http://localhost:3030/users', payload);
   }
 
   update(payload: IUser) {
     return this.http.put<IUser>(
-      `http://localhost:3000/users/${payload.UsersID}`,
+      `http://localhost:3030/users/${payload.UsersID}`,
       payload
     );
   }
 
   delete(id: number) {
-    return this.http.delete(`http://localhost:3000/users/${id}`);
+    return this.http.delete(`http://localhost:3030/users/${id}`);
   }
 
   /*private USER_API_URL = 'https://randomuser.me/api/?results=';

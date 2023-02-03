@@ -1,3 +1,4 @@
+import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,6 +13,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { AdminModule } from '@admin/admin.module';
 import { MainModule } from '@main/main.module';
 import { AuthModule } from '@auth/auth.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInterceptor } from '@utils/interceptors/error.interceptor';
+import { JwtInterceptor } from '@utils/interceptors/jwt.interceptor';
+// import { FeathersService } from '@services/feathers.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,8 +25,13 @@ import { AuthModule } from '@auth/auth.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     StoreModule.forRoot({ appState: appReducer }),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     SharedModule,
+    CoreModule,
     AuthModule,
     MainModule,
     AdminModule,
@@ -32,7 +42,11 @@ import { AuthModule } from '@auth/auth.module';
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    // FeathersService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,3 +1,4 @@
+import { SharedModule } from './../../../shared/shared.module';
 import { DepartmentsEffect } from './../../../data/stores/department.effect';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,6 +18,7 @@ import { EffectsModule } from '@ngrx/effects';
     DepartmentsRoutingModule,
     StoreModule.forFeature('departments', departmentReducer),
     EffectsModule.forFeature([DepartmentsEffect]),
+    SharedModule,
   ],
 })
 export class DepartmentsModule {}
