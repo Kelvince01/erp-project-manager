@@ -8,7 +8,10 @@ import {
   invokeSaveNewDepartmentAPI,
   invokeUpdateDepartmentAPI,
 } from 'src/app/data/departments/departments.action';
-import { IDepartment } from 'src/app/data/models/department.model';
+import {
+  IDepartment,
+  IDepartmentLite,
+} from 'src/app/data/models/department.model';
 import { selectAppState } from 'src/app/data/selectors/app.selector';
 import { setAPIStatus } from 'src/app/data/stores/app.action';
 import { Appstate } from 'src/app/data/stores/appstate';
@@ -52,7 +55,7 @@ export class UpsertComponent implements OnInit {
       fetchData$.subscribe((data) => {
         if (data) {
           this.departmentForm = { ...data };
-          this.departmentForm.DepartID = data.DepartID;
+          // this.departmentForm.DepartID = data.DepartID;
         } else {
           this.router.navigate(['/admin/departments']);
         }
@@ -75,7 +78,8 @@ export class UpsertComponent implements OnInit {
     });
   }
 
-  udapte() {
+  update() {
+    // const updateForm: IDepartmentLite = { ...this.departmentForm };
     this.store.dispatch(
       invokeUpdateDepartmentAPI({
         updateDepartment: { ...this.departmentForm },

@@ -22,7 +22,7 @@
             class="btn btn-dark"
             >Edit Department</a
           >
-          <button class="btn btn-dark" (click)="openDelete()">
+          <button class="btn btn-dark" (click)="deleteDepartment(department)">
             <!-- (click)="openDelete(department.DepartID)" -->
 
             Delete
@@ -32,53 +32,6 @@
     </div>
   </div>
 </div>
-
-<p-dialog
-  [(visible)]="deleteDialog"
-  tabindex="-1"
-  [style]="{ width: '450px' }"
-  header="Product Details"
-  [modal]="true"
-  styleClass="p-fluid"
->
-  <ng-template pTemplate="content">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">Are sure to delete this item?</div>
-      </div>
-    </div>
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-    <button
-      pButton
-      pRipple
-      label="Cancel"
-      icon="pi pi-times"
-      class="p-button-text"
-      (click)="hideDialog()"
-    ></button>
-    <button
-      pButton
-      pRipple
-      label="Confirm Delete"
-      icon="pi pi-check"
-      class="p-button-text"
-      (click)="delete()"
-    ></button>
-  </ng-template>
-</p-dialog>
-
-<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 
 <!--
   <div class="p-field">

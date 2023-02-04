@@ -27,22 +27,10 @@ export class ListComponent implements OnInit {
   ) {}
 
   departments$ = this.store.pipe(select(selectDepartments));
-  deleteDialog: boolean = false;
-  idToDelete: number = 0;
 
   ngOnInit(): void {
     this.store.dispatch(invokeDepartmentsAPI());
-    console.log(this.departments$);
-  }
-
-  openDelete() {
-    // this.submitted = false;
-    this.deleteDialog = true;
-  }
-
-  hideDialog() {
-    this.deleteDialog = false;
-    // this.submitted = false;
+    // console.log(this.departments$);
   }
 
   deleteDepartment(department: IDepartment) {
@@ -53,6 +41,21 @@ export class ListComponent implements OnInit {
       accept: () => {
         // this.departments$ = this.departments$.filter(val => val.id !== department.DepartID);
         // this.product = {};
+        this.store.dispatch(
+          invokeDeleteDepartmentAPI({
+            id: department.DepartID,
+          })
+        );
+        let apiStatus$ = this.appStore.pipe(select(selectAppState));
+        apiStatus$.subscribe((apState) => {
+          if (apState.apiStatus == 'success') {
+            this.appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: '' },
+              })
+            );
+          }
+        });
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -60,22 +63,6 @@ export class ListComponent implements OnInit {
           life: 3000,
         });
       },
-    });
-  }
-
-  delete() {
-    this.store.dispatch(
-      invokeDeleteDepartmentAPI({
-        id: this.idToDelete,
-      })
-    );
-    let apiStatus$ = this.appStore.pipe(select(selectAppState));
-    apiStatus$.subscribe((apState) => {
-      if (apState.apiStatus == 'success') {
-        this.appStore.dispatch(
-          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
-        );
-      }
     });
   }
 }

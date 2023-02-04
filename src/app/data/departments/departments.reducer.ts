@@ -3,8 +3,8 @@ import { IDepartment } from '../models/department.model';
 import {
   deleteDepartmentAPISuccess,
   departmentsFetchAPISuccess,
-  saveNewDepartmentAPISucess,
-  updateDepartmentAPISucess,
+  saveNewDepartmentAPISuccess as saveNewDepartmentAPISuccess,
+  updateDepartmentAPISuccess as updateDepartmentAPISuccess,
 } from '../departments/departments.action';
 
 export const initialState: ReadonlyArray<IDepartment> = [];
@@ -15,13 +15,13 @@ export const departmentReducer = createReducer(
     return allDepartments;
   }),
 
-  on(saveNewDepartmentAPISucess, (state, { newDepartment }) => {
+  on(saveNewDepartmentAPISuccess, (state, { newDepartment }) => {
     let newState = [...state];
     newState.unshift(newDepartment);
     return newState;
   }),
 
-  on(updateDepartmentAPISucess, (state, { updateDepartment }) => {
+  on(updateDepartmentAPISuccess, (state, { updateDepartment }) => {
     let newState = state.filter((_) => _.DepartID != updateDepartment.DepartID);
     newState.unshift(updateDepartment);
     return newState;

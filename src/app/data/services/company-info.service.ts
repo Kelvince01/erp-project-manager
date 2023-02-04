@@ -28,7 +28,7 @@ export class CompanyInfoService {
   }
 
   update(payload: ICompanyInfo) {
-    return this.http.put<ICompanyInfo>(
+    return this.http.patch<ICompanyInfo>(
       `http://localhost:3030/company-info/${payload.CompanyID}`,
       payload
     );

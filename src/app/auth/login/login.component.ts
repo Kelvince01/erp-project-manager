@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { login } from '@auth-store/auth.actions';
+import {
+  selectToken,
+  selectError,
+  selectIsLoading,
+} from '@auth-store/auth.selectors';
+import { Store } from '@ngrx/store';
 import { AuthService } from '@services/auth.service';
 import { MessageService } from 'primeng/api';
 
@@ -13,14 +20,23 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
   loading = false;
   submitted = false;
+  token = '';
+  error = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AuthService,
-    private alertService: MessageService
-  ) {}
+    private alertService: MessageService,
+    private store: Store
+  ) {
+    this.store.select(selectToken).subscribe((token) => (this.token = token));
+    this.store.select(selectError).subscribe((error) => (this.error = error));
+    this.store
+      .select(selectIsLoading)
+      .subscribe((isLoading) => (this.loading = isLoading));
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -46,6 +62,12 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
+    // this.store.dispatch(
+    //   login({
+    //     Email: this.f['Email'].value,
+    //     Password: this.f['Password'].value,
+    //   })
+    // );
     this.accountService
       .logIn({
         strategy: 'local',

@@ -33,6 +33,7 @@
       "@users-store/*": ["src/app/data/users/*"],
       "@company-store/*": ["src/app/data/company-info/*"],
       "@departments-store/*": ["src/app/data/departments/*"],
+      "@auth-store/*": ["src/app/data/auth/*"],
       "@utils/*": ["src/app/utilities/*"],
       "@shared/*": ["src/app/shared/*"],
       "@envs/*": ["src/environments/*"],

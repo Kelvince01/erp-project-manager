@@ -7,6 +7,7 @@ import { FooterComponent } from './common/footer/footer.component';
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { SharedModule } from '../../shared/shared.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { SharedModule } from '../../shared/shared.module';
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
+    DashboardComponent,
   ],
-  imports: [CommonModule, AdminRoutingModule],
+  imports: [CommonModule, AdminRoutingModule, SharedModule],
 })
 export class AdminModule {}

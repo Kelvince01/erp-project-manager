@@ -10,8 +10,8 @@ import {
   invokeDepartmentsAPI,
   invokeSaveNewDepartmentAPI,
   invokeUpdateDepartmentAPI,
-  saveNewDepartmentAPISucess,
-  updateDepartmentAPISucess,
+  saveNewDepartmentAPISuccess,
+  updateDepartmentAPISuccess,
 } from './departments.action';
 import { setAPIStatus } from '../stores/app.action';
 import { Appstate } from '../stores/appstate';
@@ -41,7 +41,7 @@ export class DepartmentsEffect {
                 apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
               })
             );
-            return saveNewDepartmentAPISucess({ newDepartment: data });
+            return saveNewDepartmentAPISuccess({ newDepartment: data });
           })
         );
       })
@@ -81,7 +81,7 @@ export class DepartmentsEffect {
                 apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
               })
             );
-            return updateDepartmentAPISucess({ updateDepartment: data });
+            return updateDepartmentAPISuccess({ updateDepartment: data });
           })
         );
       })

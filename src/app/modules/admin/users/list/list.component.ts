@@ -50,6 +50,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(invokeUsersAPI());
+    // console.log(this.users$);
   }
 
   deleteUser(user: IUser) {

@@ -57,7 +57,7 @@ export class UsersEffect {
         }
         return this.usersService
           .get()
-          .pipe(map((data) => usersFetchAPISuccess({ allUsers: data })));
+          .pipe(map((data) => usersFetchAPISuccess({ allUsers: data.data })));
       })
     )
   );

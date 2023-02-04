@@ -92,7 +92,7 @@ export class AuthService {
   }
 
   update(id: number, params: any) {
-    return this.http.put(`${environment.apiUrl}/users/${id}`, params).pipe(
+    return this.http.patch(`${environment.apiUrl}/users/${id}`, params).pipe(
       map((x) => {
         // update stored user if the logged in user updated their own record
         if (id == this.userValue?.UsersID) {

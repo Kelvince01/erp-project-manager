@@ -1,3 +1,4 @@
+import { map, Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { FeathersService } from '@services/feathers.service';
 import { Injectable } from '@angular/core';
@@ -14,11 +15,12 @@ export class UserService {
     private messages: MessageService
   ) {}
 
-  get() {
+  get(): Observable<any> {
     return this.http.get<IUser[]>('http://localhost:3030/users');
+    // .pipe(map((response) => console.log(response)));
   }
 
-  users$() {
+  users$(): Observable<any> {
     // just returning the observable will query the backend on every subscription
     // using some caching mechanism would be wise in more complex applications
     return (
@@ -81,7 +83,7 @@ export class UserService {
   }
 
   update(payload: IUser) {
-    return this.http.put<IUser>(
+    return this.http.patch<IUser>(
       `http://localhost:3030/users/${payload.UsersID}`,
       payload
     );

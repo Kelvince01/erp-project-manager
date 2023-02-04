@@ -12,13 +12,13 @@ export class DepartmentsService {
 
   // get(): Observable<IDepartment[]> {
   get(): Observable<any> {
-    // return this.http.get<IDepartment[]>('http://localhost:3030/departments');
-    return (
-      (<any>this.feathers // todo: remove 'any' assertion when feathers-reactive typings are up-to-date with buzzard
-        .service('departments'))
-        // .watch()
-        .find()
-    );
+    return this.http.get<IDepartment[]>('http://localhost:3030/departments');
+    // return (
+    //   (<any>this.feathers // todo: remove 'any' assertion when feathers-reactive typings are up-to-date with buzzard
+    //     .service('departments'))
+    //     // .watch()
+    //     .find()
+    // );
   }
 
   create(payload: IDepartment) {
@@ -29,7 +29,7 @@ export class DepartmentsService {
   }
 
   update(payload: IDepartment) {
-    return this.http.put<IDepartment>(
+    return this.http.patch<IDepartment>(
       `http://localhost:3030/departments/${payload.DepartID}`,
       payload
     );

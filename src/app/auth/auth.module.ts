@@ -8,6 +8,10 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { StoreModule } from '@ngrx/store';
+import { AuthEffects } from '@auth-store/auth.effects';
+import { authReducer } from '@auth-store/auth.reducers';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -17,6 +21,12 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ForgotPasswordComponent,
     ResetPasswordComponent,
   ],
-  imports: [CommonModule, AuthRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    AuthRoutingModule,
+    SharedModule,
+    StoreModule.forFeature('auth', authReducer),
+    EffectsModule.forFeature([AuthEffects]),
+  ],
 })
 export class AuthModule {}
