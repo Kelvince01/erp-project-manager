@@ -40,13 +40,11 @@ body {
   border-radius: 1rem;
 }
 .bg-gray-100 {
-  background-color: #f8f9fa !important;
+  background-color: #f8f9fa;
 }
-body {
-  font-family: "Poppins" !important;
-}
+
 .text-primary {
-  color: #4650dd !important;
+  color: #4650dd;
 }
 h1,
 .h1,
@@ -64,14 +62,14 @@ h6,
   line-height: 1.2;
 }
 .text-muted {
-  color: #6c757d !important;
+  color: #6c757d;
 }
 .lead {
   font-size: 1.125rem;
   font-weight: 300;
 }
 .text-sm {
-  font-size: 0.7875rem !important;
+  font-size: 0.7875rem;
 }
 h3,
 .h3 {
@@ -86,7 +84,31 @@ h3,
   flex-wrap: wrap;
 }
 a {
-  color: #4650dd !important;
-  text-decoration: underline !important;
+  color: #4650dd;
+  text-decoration: underline;
   cursor: pointer;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  color: #444444;
+}
+
+a {
+  color: #1977cc;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #3291e6;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Raleway", sans-serif;
 }

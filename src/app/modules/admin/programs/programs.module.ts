@@ -1,3 +1,4 @@
+import { SharedModule } from './../../../shared/shared.module';
 import { MilestonesListComponent } from './milestones-list/milestones-list.component';
 import { ActivitiesListComponent } from './activities-list/activities-list.component';
 import { NgModule } from '@angular/core';
@@ -16,6 +17,6 @@ import { ListComponent } from './list/list.component';
     ListComponent,
     MilestonesListComponent,
   ],
-  imports: [CommonModule, ProgramsRoutingModule],
+  imports: [CommonModule, ProgramsRoutingModule, SharedModule],
 })
 export class ProgramsModule {}

@@ -1,1 +1,61 @@
-<p>upsert works!</p>
+<form>
+  <div class="p-field">
+    <label for="FirstName">First Name</label>
+    <input
+      type="text"
+      pInputText
+      id="FirstName"
+      [(ngModel)]="supplier.FirstName"
+      required
+      autofocus
+    />
+    <small class="p-invalid" *ngIf="submitted && !supplier.FirstName"
+      >Name is required.</small
+    >
+  </div>
+  <div class="p-field">
+    <label for="Surname">Last Name</label>
+    <input
+      id="Surname"
+      type="text"
+      pInputText
+      [(ngModel)]="supplier.Surname"
+      required
+    />
+  </div>
+
+  <div class="p-field">
+    <label class="p-mb-3">Category</label>
+    <div class="p-formgrid p-grid">
+      <div class="p-field-radiobutton p-col-6">
+        <p-radioButton
+          id="category1"
+          name="category"
+          value="Accessories"
+          [(ngModel)]="supplier.Male"
+        ></p-radioButton>
+        <label for="category1">Accessories</label>
+      </div>
+      <div class="p-field-radiobutton p-col-6">
+        <p-radioButton
+          id="category2"
+          name="category"
+          value="Clothing"
+          [(ngModel)]="supplier.Male"
+        ></p-radioButton>
+        <label for="category2">Clothing</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-formgrid p-grid">
+    <div class="p-field p-col">
+      <label for="price">Price</label>
+      <input id="Email" type="email" [(ngModel)]="supplier.Email" />
+    </div>
+    <div class="p-field p-col">
+      <label for="quantity">Quantity</label>
+      <input id="Mobile" type="tel" [(ngModel)]="supplier.Mobile" />
+    </div>
+  </div>
+</form>

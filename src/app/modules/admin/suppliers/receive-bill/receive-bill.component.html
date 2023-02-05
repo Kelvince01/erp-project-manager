@@ -1,1 +1,204 @@
-<p>receive-bill works!</p>
+<div class="container">
+  <div class="card mt-0">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <div class="col-12 mb-4">
+          <h4>Flight Booking</h4>
+          <span class="text-muted"
+            >Please make the payment to start enjoying all the features of our
+            premium plan as soon as possible</span
+          >
+        </div>
+        <div class="col-12">
+          <div class="form-check form-check-inline mb-3">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="Roundtrip"
+              value="option1"
+              formControlName="roundtripopt"
+              [ngClass]="{ 'is-invalid': submitted && f.roundtripopt.errors }"
+            />
+            <label class="form-check-label" for="Roundtrip">Roundtrip</label>
+            <div
+              *ngIf="submitted && f.roundtripopt.errors"
+              class="invalid-feedback mb"
+              style="
+                display: table;
+                position: absolute;
+                left: 16px;
+                top: 150px;
+                margin-bottom: 5px;
+              "
+            >
+              <div *ngIf="f.roundtripopt.errors.required">
+                Roundtrip is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="Oneway"
+              value="option2"
+              formControlName="roundtripopt"
+              [ngClass]="{ 'is-invalid': submitted && f.roundtripopt.errors }"
+            />
+            <label class="form-check-label" for="Oneway">One way</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="MultiCity"
+              value="option3"
+              formControlName="roundtripopt"
+              [ngClass]="{ 'is-invalid': submitted && f.roundtripopt.errors }"
+            />
+            <label class="form-check-label" for="MultiCity">Multi-City</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="FLYING FROM"
+              formControlName="ffrom"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.ffrom.errors }"
+            />
+            <div *ngIf="submitted && f.ffrom.errors" class="invalid-feedback">
+              <div *ngIf="f.ffrom.errors.required">
+                FLYING FROM is required.
+              </div>
+            </div>
+            <label>FLYING FROM</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="FLYING TO"
+              formControlName="fto"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.fto.errors }"
+            />
+            <div *ngIf="submitted && f.fto.errors" class="invalid-feedback">
+              <div *ngIf="f.fto.errors.required">FLYING TO is required.</div>
+            </div>
+            <label>FLYING TO</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="date"
+              placeholder="DEPARTING"
+              formControlName="dparting"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.dparting.errors }"
+            />
+            <div
+              *ngIf="submitted && f.dparting.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.dparting.errors.required">
+                DEPARTING is required.
+              </div>
+            </div>
+            <label>DEPARTING</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="date"
+              placeholder="RETURNING"
+              formControlName="returning"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.returning.errors }"
+            />
+            <div
+              *ngIf="submitted && f.returning.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.returning.errors.required">
+                RETURNING is required.
+              </div>
+            </div>
+            <label>RETURNING</label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              formControlName="adults"
+              [ngClass]="{ 'is-invalid': submitted && f.adults.errors }"
+            >
+              <option selected="" hidden="">Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+            <div *ngIf="submitted && f.adults.errors" class="invalid-feedback">
+              <div *ngIf="f.adults.errors.required">ADULTS is required.</div>
+            </div>
+            <label>ADULTS(18+)</label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              formControlName="children"
+              [ngClass]="{ 'is-invalid': submitted && f.children.errors }"
+            >
+              <option selected="" hidden="">Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+            <div
+              *ngIf="submitted && f.children.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.children.errors.required">
+                CHILDREN is required.
+              </div>
+            </div>
+            <label>CHILDREN(0-17)</label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              formControlName="travel"
+              [ngClass]="{ 'is-invalid': submitted && f.travel.errors }"
+            >
+              <option selected="" hidden="">Open this select menu</option>
+              <option value="1">Economy</option>
+              <option value="2">Premium</option>
+              <option value="3">Business</option>
+            </select>
+            <div *ngIf="submitted && f.travel.errors" class="invalid-feedback">
+              <div *ngIf="f.travel.errors.required">TRAVEL is required.</div>
+            </div>
+            <label>TRAVEL CLASS</label>
+          </div>
+        </div>
+        <div class="col-12 mt-4">
+          <button class="btn btn-primary text-uppercase" type="submit">
+            SHOWN FLIGHTS<i class="fa fa-plane ms-3"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

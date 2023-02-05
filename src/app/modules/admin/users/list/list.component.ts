@@ -1,6 +1,6 @@
 import { IUser } from './../../../../data/models/user.model';
 import { UserService } from 'src/app/data/services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { selectAppState } from 'src/app/data/selectors/app.selector';
@@ -19,6 +19,7 @@ declare var window: any;
   selector: 'app-list-users',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
   users$ = this.store.pipe(select(selectUsers));
@@ -50,7 +51,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(invokeUsersAPI());
-    // console.log(this.users$);
+    // console.log(globalThis);
   }
 
   deleteUser(user: IUser) {

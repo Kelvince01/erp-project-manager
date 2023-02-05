@@ -1,12 +1,26 @@
-<div class="card">
-  <h4 class="card-header">Login</h4>
+<div class="card surface-card border-round p-4">
+  <!-- <h4 class="card-header">Login</h4> -->
+  <div class="card-header text-center">
+    <img src="assets/images/hyper.svg" alt="Image" height="50" class="mb-3" />
+    <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+    <span class="text-600 font-medium line-height-3"
+      >Don't have an account?</span
+    >
+    <a
+      class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+      routerLink="/accounts/register"
+      class="btn btn-link"
+      >Create today!</a
+    >
+  </div>
   <div class="card-body">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="mb-3">
-        <label class="form-label">Email</label>
+        <label class="form-label block text-900 font-medium mb-2">Email</label>
         <input
           type="email"
           formControlName="Email"
+          pInputText
           class="form-control"
           [ngClass]="{ 'is-invalid': submitted && f['Email'].errors }"
         />
@@ -17,11 +31,14 @@
         </div>
       </div>
       <div class="mb-3">
-        <label class="form-label">Password</label>
+        <label class="form-label block text-900 font-medium mb-2"
+          >Password</label
+        >
         <input
           type="password"
           formControlName="Password"
           class="form-control"
+          pInputText
           [ngClass]="{ 'is-invalid': submitted && f['Password'].errors }"
         />
         <div *ngIf="submitted && f['Password'].errors" class="invalid-feedback">
@@ -30,16 +47,94 @@
           </div>
         </div>
       </div>
-      <div>
-        <button [disabled]="loading" class="btn btn-primary">
+      <div class="flex align-items-center justify-content-between mb-3">
+        <div class="flex align-items-center">
+          <p-checkbox
+            id="rememberme1"
+            [binary]="true"
+            styleClass="mr-2"
+          ></p-checkbox>
+          <label for="rememberme1" class="text-900">Remember me</label>
+        </div>
+        <a
+          class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer"
+          routerLink="/accounts/forgot-password"
+          >Forgot password?</a
+        >
+      </div>
+      <div class="card-footer px-0">
+        <button
+          [disabled]="loading"
+          pButton
+          pRipple
+          icon="pi pi-user"
+          class="btn btn-primary p-2 w-full"
+        >
           <span
             *ngIf="loading"
             class="spinner-border spinner-border-sm me-1"
           ></span>
           Login
         </button>
-        <a routerLink="/accounts/register" class="btn btn-link">Register</a>
       </div>
     </form>
   </div>
 </div>
+
+<!-- <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+  <div class="text-center mb-5">
+    <img src="assets/images/hyper.svg" alt="Image" height="50" class="mb-3" />
+    <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+    <span class="text-600 font-medium line-height-3"
+      >Don't have an account?</span
+    >
+    <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+      >Create today!</a
+    >
+  </div>
+
+  <div>
+    <label for="email1" class="block text-900 font-medium mb-2">Email</label>
+    <input
+      id="email1"
+      type="text"
+      placeholder="Email address"
+      pInputText
+      class="w-full mb-3"
+    />
+
+    <label for="password1" class="block text-900 font-medium mb-2"
+      >Password</label
+    >
+    <input
+      id="password1"
+      type="password"
+      placeholder="Password"
+      pInputText
+      class="w-full mb-3"
+    />
+
+    <div class="flex align-items-center justify-content-between mb-6">
+      <div class="flex align-items-center">
+        <p-checkbox
+          id="rememberme1"
+          [binary]="true"
+          styleClass="mr-2"
+        ></p-checkbox>
+        <label for="rememberme1" class="text-900">Remember me</label>
+      </div>
+      <a
+        class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer"
+        >Forgot password?</a
+      >
+    </div>
+
+    <button
+      pButton
+      pRipple
+      label="Sign In"
+      icon="pi pi-user"
+      class="w-full"
+    ></button>
+  </div>
+</div> -->

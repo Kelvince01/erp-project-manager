@@ -24,16 +24,24 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-              "primeng/resources/themes/bootstrap4-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "node_modules/ngx-spinner/animations/ball-spin-clockwise-fade.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeng/resources/themes/bootstrap4-light-blue/theme.css",
               "src/styles.css"
             ],
-            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js"],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery.easing/jquery.easing.min.js",
+              "node_modules/@popper.js/core/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "src/assets/js/jassa-admin.min.js",
+              "src/assets/js/chart-area-demo.js",
+              "src/assets/js/main.js"
+            ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json",
             "allowedCommonJsDependencies": [
@@ -45,7 +53,9 @@
               "@feathersjs/authentication-client",
               "@feathersjs/feathers",
               "@feathersjs/socketio-client",
-              "feathers-reactive"
+              "feathers-reactive",
+              "file-saver",
+              "jquery"
             ]
           },
           "configurations": {

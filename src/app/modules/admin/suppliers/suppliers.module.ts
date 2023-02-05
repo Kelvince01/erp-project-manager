@@ -1,3 +1,4 @@
+import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +11,6 @@ import { PayBillComponent } from './pay-bill/pay-bill.component';
 import { ReceiveDebitNoteComponent } from './receive-debit-note/receive-debit-note.component';
 import { ReceiveRefundComponent } from './receive-refund/receive-refund.component';
 
-
 @NgModule({
   declarations: [
     SuppliersComponent,
@@ -19,11 +19,8 @@ import { ReceiveRefundComponent } from './receive-refund/receive-refund.componen
     ReceiveBillComponent,
     PayBillComponent,
     ReceiveDebitNoteComponent,
-    ReceiveRefundComponent
+    ReceiveRefundComponent,
   ],
-  imports: [
-    CommonModule,
-    SuppliersRoutingModule
-  ]
+  imports: [CommonModule, SuppliersRoutingModule, SharedModule],
 })
-export class SuppliersModule { }
+export class SuppliersModule {}

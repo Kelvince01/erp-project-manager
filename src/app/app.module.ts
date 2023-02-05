@@ -21,6 +21,16 @@ import { FeathersService } from '@services/feathers.service';
 import { AuthService } from '@services/auth.service';
 import { AuthGuard } from '@utils/guards/auth.guard';
 
+export function appInitializer(accountService: AuthService) {
+  return () =>
+    new Promise((resolve) => {
+      // attempt to refresh token on app start up to auto authenticate
+      // accountService.refreshToken()
+      //     .subscribe()
+      //     .add(resolve);
+    });
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [

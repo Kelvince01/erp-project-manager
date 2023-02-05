@@ -1,0 +1,150 @@
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
+  <div class="container">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto ps-5 mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            aria-current="page"
+            routerLinkActive="active"
+            [routerLink]="['/']"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            aria-current="page"
+            routerLinkActive="active"
+            [routerLink]="['/admin/users']"
+            >Users</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link disabled"
+            href="#"
+            tabindex="-1"
+            aria-disabled="true"
+            >Disabled</a
+          >
+        </li>
+      </ul>
+      <div class="d-flex">
+        <button
+          class="btn btn-link btn-info nav-item nav-link px-3"
+          (click)="logout()"
+        >
+          Logout
+        </button>
+        <!- Button trigger modal ->
+        <button
+          type="button"
+          class="btn btn-secondary px-3"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasExample"
+        >
+          <i class="bi bi-text-left"></i> Toggle sidebar
+        </button>
+      </div>
+    </div>
+  </div>
+</nav> -->
+
+<!-- ======= Top Bar ======= -->
+<div id="topbar" class="d-flex align-items-center fixed-top">
+  <div class="container d-flex justify-content-between">
+    <div class="contact-info d-flex align-items-center">
+      <i class="fa fa-envelope"></i>
+      <a href="mailto:contact@example.com">contact@example.com</a>
+      <i class="fa fa-phone"></i> +1 1111 1111 11
+    </div>
+    <div class="d-none d-lg-flex social-links align-items-center">
+      <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+      <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+      <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+      <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+    </div>
+  </div>
+</div>
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center">
+    <h1 class="logo me-auto"><a href="#">RichLab</a></h1>
+
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul>
+        <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+        <li><a class="nav-link scrollto" href="#about">About</a></li>
+        <li><a class="nav-link scrollto" href="#services">Services</a></li>
+        <li>
+          <a class="nav-link scrollto" href="#departments">Departments</a>
+        </li>
+        <li><a class="nav-link scrollto" href="#doctors">Doctors</a></li>
+        <li class="dropdown">
+          <a href="#"
+            ><span>Drop Down</span> <i class="fa fa-chevron-down"></i
+          ></a>
+          <ul>
+            <li><a href="#">Drop Down 1</a></li>
+            <li class="dropdown">
+              <a href="#"
+                ><span>Deep Drop Down</span> <i class="fa fa-chevron-right"></i
+              ></a>
+              <ul>
+                <li><a href="#">Deep Drop Down 1</a></li>
+                <li><a href="#">Deep Drop Down 2</a></li>
+                <li><a href="#">Deep Drop Down 3</a></li>
+                <li><a href="#">Deep Drop Down 4</a></li>
+                <li><a href="#">Deep Drop Down 5</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Drop Down 2</a></li>
+            <li><a href="#">Drop Down 3</a></li>
+            <li><a href="#">Drop Down 4</a></li>
+          </ul>
+        </li>
+        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+      </ul>
+      <i class="fa fa-list mobile-nav-toggle"></i>
+    </nav>
+    <!-- .navbar -->
+    <a href="#appointment" class="appointment-btn scrollto"
+      ><span class="d-none d-md-inline">Make an</span> Appointment</a
+    >
+  </div>
+</header>
+<!-- End Header -->

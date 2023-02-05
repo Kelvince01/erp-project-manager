@@ -1,1 +1,56 @@
-<p>list works!</p>
+<div class="container" style="margin-top: 20px">
+  <!-- [value]="companyInfo$ | async" -->
+
+  <p-table
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    responsiveLayout="scroll"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>DOB</th>
+        <th>isActive</th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-companyInfo>
+      <tr [ngClass]="{ inActive: companyInfo.isActive == false }">
+        <td>{{ companyInfo.name }}</td>
+        <td>{{ companyInfo.email }}</td>
+        <td>{{ companyInfo.mobile }}</td>
+        <td>{{ companyInfo.dob | date : "d/M/yyyy" }}</td>
+        <td>{{ companyInfo.isActive }}</td>
+        <td>
+          <a
+            pButton
+            pRipple
+            type="button"
+            [routerLink]="['/organizations/edit', companyInfo.id]"
+            icon="pi pi-user-edit"
+            class="p-button-rounded"
+          ></a>
+          <a
+            pButton
+            pRipple
+            type="button"
+            (click)="remove(companyInfo.id)"
+            style="margin-left: 5px"
+            icon="pi pi-trash"
+            class="p-button-rounded"
+          ></a>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <a [routerLink]="['/organizations/add']" class="btn btn-primary"
+        >Add New</a
+      >
+    </ng-template>
+  </p-table>
+</div>

@@ -7,6 +7,10 @@ import { MainComponent } from './main.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
+import { NavbarComponent } from './common/navbar/navbar.component';
+import { FooterComponent } from './common/footer/footer.component';
+import { SidenavComponent } from './common/sidenav/sidenav.component';
+import { HeroComponent } from './common/hero/hero.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +18,10 @@ import { ContactComponent } from './contact/contact.component';
     HomeComponent,
     AboutComponent,
     ContactComponent,
+    NavbarComponent,
+    FooterComponent,
+    SidenavComponent,
+    HeroComponent,
   ],
   imports: [CommonModule, MainRoutingModule, SharedModule],
 })

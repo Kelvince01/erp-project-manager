@@ -25,15 +25,10 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'projects',
+        path: 'organizations',
         loadChildren: () =>
-          import('./projects/projects.module').then((m) => m.ProjectsModule),
-      },
-      {
-        path: 'company-info',
-        loadChildren: () =>
-          import('./company-info/company-info.module').then(
-            (m) => m.CompanyInfoModule
+          import('./organizations/organizations.module').then(
+            (m) => m.OrganizationsModule
           ),
       },
       {

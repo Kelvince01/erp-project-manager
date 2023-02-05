@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 export class AuthService {
   private userSubject: BehaviorSubject<IUser | null>;
   public user: Observable<IUser | null>;
+  baseUrl: string = '';
 
   constructor(
     private router: Router,
@@ -34,6 +35,25 @@ export class AuthService {
 
   public logIn(credentials?: any): Promise<any> {
     return this.feathers.authenticate(credentials);
+  }
+
+  verifyEmail(token: string) {
+    return this.http.post(`${this.baseUrl}/verify-email`, { token });
+  }
+
+  forgotPassword(email: string) {
+    return this.http.post(`${this.baseUrl}/forgot-password`, { email });
+  }
+
+  validateResetToken(token: string) {
+    return this.http.post(`${this.baseUrl}/validate-reset-token`, { token });
+  }
+
+  resetPassword(password: string, confirmPassword: string) {
+    return this.http.post(`${this.baseUrl}/reset-password`, {
+      password,
+      confirmPassword,
+    });
   }
 
   public logOut() {

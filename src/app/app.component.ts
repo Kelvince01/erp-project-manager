@@ -3,6 +3,10 @@ import { IUser } from '@models/user.model';
 import { AuthService } from '@services/auth.service';
 import { PrimeNGConfig } from 'primeng/api';
 
+import * as $ from 'jquery';
+
+window['$'] = window['jQuery'] = $;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,7 +20,6 @@ export class AppComponent implements OnInit {
     private primengConfig: PrimeNGConfig,
     private accountService: AuthService
   ) {
-    // this.accountService.user.subscribe((x) => (this.user = x));
     this.user = this.accountService.currentUser as any;
   }
 

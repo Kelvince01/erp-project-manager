@@ -23,6 +23,8 @@ import { RatingModule } from 'primeng/rating';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CheckboxModule } from 'primeng/checkbox';
+import { MenuModule } from 'primeng/menu';
 
 @NgModule({
   declarations: [],
@@ -50,6 +52,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,
+    CheckboxModule,
+    MenuModule,
   ],
   exports: [
     AccordionModule,
@@ -73,6 +77,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,
+    CheckboxModule,
+    MenuModule,
   ],
 })
 export class PrimengModule {}

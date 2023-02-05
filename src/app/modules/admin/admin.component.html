@@ -1,3 +1,17 @@
-<p-toast position="top-right"></p-toast>
+<div id="wrapper">
+  <app-admin-sidebar></app-admin-sidebar>
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <app-admin-navbar></app-admin-navbar>
 
-<router-outlet></router-outlet>
+      <p-toast position="top-right"></p-toast>
+
+      <router-outlet></router-outlet>
+    </div>
+    <app-admin-footer></app-admin-footer>
+  </div>
+</div>
+<!-- Scroll to top -->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
