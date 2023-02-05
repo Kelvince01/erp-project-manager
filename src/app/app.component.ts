@@ -7,6 +7,8 @@ import * as $ from 'jquery';
 
 window['$'] = window['jQuery'] = $;
 
+// "node_modules/@popperjs/core/dist/esm/popper.min.js",
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
