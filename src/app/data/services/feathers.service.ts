@@ -44,6 +44,12 @@ export class FeathersService {
     return this.socket;
   }
 
+  /*
+  _socket.on("disconnect", () => changeServerState('disconnected'));
+_socket.on("connect", () => changeServerState('connected'));
+_socket.on("connect_error", () => changeServerState('error'));
+_socket.on("connect_timeout", () => changeServerState('connect_timeout')); */
+
   // expose services
   public service(name: string) {
     return this.client.service(name);

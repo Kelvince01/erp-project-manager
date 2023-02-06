@@ -17,6 +17,25 @@ export class ListComponent implements OnInit {
       .get()
       .pipe(first())
       .subscribe((banks) => (this.banks = banks));
+
+    /*
+      getLasDropDownOptions(refresh) {
+  return this.getLasData(refresh).pipe(
+    takeUntil(this.unsubscribe),
+    map((response: any[]) => {
+      return response.map((las) => {
+        las.displayValue = las.name + " - " + las.expression;
+        if (!las.status) {
+          las.disabled = true;
+          las.category = "Calculating";
+        } else {
+          las.category = las.longterm ? "Online Range" : "Short Term";
+        }
+        return las;
+      });
+    })
+  );
+}*/
   }
 
   deleteBank(id: string) {
