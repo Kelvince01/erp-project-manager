@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@envs/environment';
 import { IUser } from '@models/user.model';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +13,8 @@ export class AuthService {
   private userSubject: BehaviorSubject<IUser | null>;
   public user: Observable<IUser | null>;
   baseUrl: string = '';
+  isLogin = false;
+  roleAs: string = '';
 
   constructor(
     private router: Router,
@@ -37,6 +39,18 @@ export class AuthService {
     return this.feathers.authenticate(credentials);
   }
 
+  isLoggedIn() {
+    const loggedIn = localStorage.getItem('STATE');
+    if (loggedIn == 'true') this.isLogin = true;
+    else this.isLogin = false;
+    return this.isLogin;
+  }
+
+  getRole() {
+    this.roleAs = localStorage.getItem('ROLE')!;
+    return this.roleAs;
+  }
+
   verifyEmail(token: string) {
     return this.http.post(`${this.baseUrl}/verify-email`, { token });
   }
@@ -58,7 +72,13 @@ export class AuthService {
 
   public logOut() {
     this.feathers.logout();
+    this.isLogin = false;
+    this.roleAs = '';
+    localStorage.setItem('STATE', 'false');
+    localStorage.setItem('ROLE', '');
+    localStorage.clear();
     this.router.navigate(['/']);
+    return of({ success: this.isLogin, role: '' });
   }
 
   getAuthToken(): string {
@@ -95,8 +115,14 @@ export class AuthService {
     // remove user from local storage and set current user to null
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    this.isLogin = false;
+    this.roleAs = '';
+    localStorage.setItem('STATE', 'false');
+    localStorage.setItem('ROLE', '');
+    localStorage.clear();
     this.userSubject.next(null);
     this.router.navigate(['/accounts/login']);
+    return of({ success: this.isLogin, role: '' });
   }
 
   register(user: IUser) {

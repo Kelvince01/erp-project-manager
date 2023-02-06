@@ -181,21 +181,21 @@ setTimeout(function () {
 
     /**
      * Initiate glightbox
-     */
+
     const glightbox = GLightbox({
       selector: ".glightbox",
-    });
+    });*/
 
     /**
      * Initiate Gallery Lightbox
-     */
+
     const galelryLightbox = GLightbox({
       selector: ".galelry-lightbox",
-    });
+    }); */
 
     /**
      * Testimonials slider
-     */
+
     new Swiper(".testimonials-slider", {
       speed: 600,
       loop: true,
@@ -220,11 +220,11 @@ setTimeout(function () {
           spaceBetween: 20,
         },
       },
-    });
+    }); */
 
     /**
      * Initiate Pure Counter
      */
-    new PureCounter();
+    // new PureCounter();
   })();
 }, 1000);

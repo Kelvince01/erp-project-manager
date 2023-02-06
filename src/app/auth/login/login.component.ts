@@ -1,3 +1,7 @@
+import { LocalService } from './../../shared/services/local.service';
+import { IRole } from '@models/role.model';
+import { RolesService } from './../../data/services/roles.service';
+import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,6 +26,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   token = '';
   error = '';
+  role = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,7 +34,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private accountService: AuthService,
     private alertService: MessageService,
-    private store: Store
+    private store: Store,
+    private localStorage: LocalStorageService,
+    private rolesService: RolesService
   ) {
     this.store.select(selectToken).subscribe((token) => (this.token = token));
     this.store.select(selectError).subscribe((error) => (this.error = error));
@@ -43,6 +50,11 @@ export class LoginComponent implements OnInit {
       Email: ['', Validators.required],
       Password: ['', Validators.required],
     });
+
+    if (this.localStorage.getItem('STATE')) {
+      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+      this.router.navigateByUrl(returnUrl);
+    }
   }
 
   // convenience getter for easy access to form fields
@@ -74,10 +86,21 @@ export class LoginComponent implements OnInit {
         Email: this.f['Email'].value,
         Password: this.f['Password'].value,
       }) // navigate to base URL on success
-      .then(() => {
-        // get return url from query parameters or default to home page
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigateByUrl(returnUrl);
+      .then((res) => {
+        this.rolesService.getById(res.user.RoleID).subscribe((resp) => {
+          this.localStorage.addItem('ROLE', resp.Role);
+          this.role = resp.Role;
+          this.localStorage.addItem('STATE', 'true');
+
+          // get return url from query parameters or default to home page
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+          if (resp.Role === 'Admin') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigateByUrl(returnUrl);
+          }
+        });
       })
       .catch((err) => {
         this.alertService.add({ severity: 'error', detail: err });

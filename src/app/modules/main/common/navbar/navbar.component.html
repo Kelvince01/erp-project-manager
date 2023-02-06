@@ -132,7 +132,21 @@
       <i class="fa fa-list mobile-nav-toggle"></i>
     </nav>
     <!-- .navbar -->
-    <a routerLink="/accounts/login" class="appointment-btn scrollto">Login</a>
+
+    <a
+      *ngIf="!loggedIn"
+      routerLink="/accounts/login"
+      class="appointment-btn scrollto"
+      >Login</a
+    >
+
+    <button
+      *ngIf="loggedIn"
+      class="btn btn-link btn-info nav-item nav-link px-3"
+      (click)="logout()"
+    >
+      Logout
+    </button>
   </div>
 </header>
 <!-- End Header -->
