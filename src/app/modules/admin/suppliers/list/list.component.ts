@@ -1,10 +1,9 @@
-import { EmployeesService } from './../../../../data/services/employees.service';
-import { FilesService } from './../../../../data/services/files.service';
-import { SuppliersService } from './../../../../data/services/suppliers.service';
 import { ISupplier } from '@models/supplier.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Paginated } from '@feathersjs/feathers';
+import { EmployeesService } from '@services/employees.service';
+import { FilesService } from '@services/files.service';
 
 @Component({
   selector: 'app-list',

@@ -1,1 +1,42 @@
-<p>list works!</p>
+<h3 class="py-3">Banks</h3>
+<a routerLink="/admin/banking/add" class="btn btn-sm btn-success mb-2"
+  >Add Bank</a
+>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th style="width: 30%">Name</th>
+      <th style="width: 30%">Email</th>
+      <th style="width: 30%">Role</th>
+      <th style="width: 10%"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let bank of banks">
+      <td>{{ bank.title }} {{ bank.firstName }} {{ bank.lastName }}</td>
+      <td>{{ bank.email }}</td>
+      <td>{{ bank.role }}</td>
+      <td style="white-space: nowrap">
+        <a routerLink="edit/{{ bank.id }}" class="btn btn-sm btn-primary me-1"
+          >Edit</a
+        >
+        <button
+          (click)="deleteBank(bank.id)"
+          class="btn btn-sm btn-danger btn-delete-bank"
+          [disabled]="bank.isDeleting"
+        >
+          <span
+            *ngIf="bank.isDeleting"
+            class="spinner-border spinner-border-sm"
+          ></span>
+          <span *ngIf="!bank.isDeleting">Delete</span>
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="!banks">
+      <td colspan="4" class="text-center">
+        <span class="spinner-border spinner-border-lg align-center"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>
