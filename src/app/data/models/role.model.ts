@@ -1,5 +1,5 @@
 export interface IRole {
-  RoleID: number;
+  RoleID?: number;
   Role: string;
   Description: string;
   LastUpdated: Date;
