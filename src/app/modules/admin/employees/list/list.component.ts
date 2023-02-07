@@ -9,20 +9,25 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
-  products: IEmployee[] = [];
-  product: IEmployee = {};
-  selectedProducts: IEmployee[] = [];
+  employees: IEmployee[] = [];
+  employee: IEmployee = {};
+  selectedEmployees: IEmployee[] = [];
   submitted: boolean = false;
   statuses: any[] = [];
 
   constructor(
-    private productService: EmployeesService,
+    private employeeService: EmployeesService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
-    this.productService.get().pipe((data: any) => (this.products = data.data));
+    this.employeeService.get().subscribe((data: any) => {
+      // console.log(data.data);
+      this.employees = data.data;
+    });
+    // .pipe((data: any) => (this.employees = data.data));
+    // console.log(this.employees);
 
     this.statuses = [
       { label: 'INSTOCK', value: 'instock' },
@@ -31,40 +36,40 @@ export class ListComponent implements OnInit {
     ];
   }
 
-  deleteSelectedProducts() {
+  deleteSelectedEmployees() {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected products?',
+      message: 'Are you sure you want to delete the selected employees?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.products = this.products.filter(
-          (val) => !this.selectedProducts.includes(val)
+        this.employees = this.employees.filter(
+          (val) => !this.selectedEmployees.includes(val)
         );
-        this.selectedProducts = {} as any;
+        this.selectedEmployees = {} as any;
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
-          detail: 'Products Deleted',
+          detail: 'Employees Deleted',
           life: 3000,
         });
       },
     });
   }
 
-  deleteProduct(product: IEmployee) {
+  deleteEmployee(employee: IEmployee) {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + product.FirstName + '?',
+      message: 'Are you sure you want to delete ' + employee.FirstName + '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.products = this.products.filter(
-          (val) => val.EmployeeID !== product.EmployeeID
+        this.employees = this.employees.filter(
+          (val) => val.EmployeeID !== employee.EmployeeID
         );
-        this.product = {};
+        this.employee = {};
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
-          detail: 'Product Deleted',
+          detail: 'Employee Deleted',
           life: 3000,
         });
       },

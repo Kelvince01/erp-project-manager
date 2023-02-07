@@ -1,60 +1,76 @@
-<h3>{{ title }}</h3>
-<div class="card">
-  <form
-    class="p-4"
-    *ngIf="!loading"
-    [formGroup]="form"
-    (ngSubmit)="saveProduct()"
-  >
-    <img
-      [src]="'assets/showcase/images/demo/product/' + product.FacePhoto"
-      [alt]="product.FacePhoto"
-      class="product-image"
-      *ngIf="product.FacePhoto"
-    />
-    <div class="field">
-      <label for="name" class="form-label">Name</label>
-      <input
-        class="form-control mb-3"
-        type="text"
-        pInputText
-        id="name"
-        [(ngModel)]="product.FirstName"
-        required
-        autofocus
-      />
-      <small class="p-error" *ngIf="submitted && !product.FirstName"
-        >Name is required.</small
-      >
-    </div>
-    <div class="field">
-      <label for="description" class="form-label">Description</label>
-      <input
-        class="form-control mb-3"
-        id="description"
-        pInputText
-        [(ngModel)]="product.Surname"
-        required
-      />
-    </div>
+<!-- <h3>{{ title }}</h3>
+<div class="card p-4">
+  <form *ngIf="!loading" #form="ngForm" (ngSubmit)="saveEmployee()"> -->
+<!-- [formGroup]="form" -->
 
-    <div class="field">
-      <label for="inventoryStatus" class="form-label">Inventory Status</label>
+<!-- <img
+      [src]="'assets/images/employees/' + employee.FacePhoto"
+      [alt]="employee.FacePhoto"
+      class="employee-image"
+      *ngIf="employee.FacePhoto"
+    /> -->
+<!--<div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="FirstName" class="form-label">First Name</label>
+        <input
+          class="mb-3"
+          type="text"
+          pInputText
+          id="FirstName"
+          name="FirstName"
+          [(ngModel)]="employee.FirstName"
+          required
+          autofocus
+        />
+        <small class="p-error" *ngIf="submitted && !employee.FirstName"
+          >First Name is required.</small
+        >
+      </div>
+      <div class="form-group col-md-4">
+        <label for="Surname" class="form-label">Surname</label>
+        <input
+          class="mb-3"
+          id="Surname"
+          name="Surname"
+          pInputText
+          [(ngModel)]="employee.Surname"
+          required
+        />
+        <small class="p-error" *ngIf="submitted && !employee.Surname"
+          >Surname is required.</small
+        >
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="MiddleName" class="form-label">Middle Name</label>
+        <input
+          class="mb-3"
+          id="MiddleName"
+          name="MiddleName"
+          pInputText
+          [(ngModel)]="employee.MiddleName"
+          required
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="DeptID" class="form-label">Department</label>
       <p-dropdown
-        [(ngModel)]="product.DeptID"
-        inputId="inventoryStatus"
+        [(ngModel)]="employee.DeptID"
+        inputId="DeptID"
+        name="DeptID"
         [options]="statuses"
         placeholder="Select"
       >
         <ng-template let-option pTemplate="item">
-          <span [class]="'product-badge status-' + option.value">{{
+          <span [class]="'employee-badge status-' + option.value">{{
             option.label
           }}</span>
         </ng-template>
       </p-dropdown>
     </div>
 
-    <div class="field">
+    <div class="col-md-6">
       <label class="mb-3" class="form-label">Category</label>
       <div class="formgrid grid">
         <div class="field-radiobutton col-6">
@@ -62,7 +78,7 @@
             id="isEmployee"
             name="isEmployee"
             value="Is Employee"
-            [(ngModel)]="product.isEmployee"
+            [(ngModel)]="employee.isEmployee"
           ></p-radioButton>
           <label for="category1">Accessories</label>
         </div>
@@ -71,34 +87,37 @@
             id="isSupplier"
             name="isSupplier"
             value="Is Supplier"
-            [(ngModel)]="product.isSupplier"
+            [(ngModel)]="employee.isSupplier"
           ></p-radioButton>
           <label for="category2">Clothing</label>
         </div>
       </div>
     </div>
 
-    <div class="formgrid grid">
+    <div class="col-md-6">
       <div class="field col">
-        <label for="price" class="form-label">Price</label>
+        <label for="IDNo" class="form-label">ID No</label>
         <p-inputNumber
           class="form-control mb-3"
-          id="price"
-          [(ngModel)]="product.IDNo"
+          id="IDNo"
+          name="IDNo"
+          [(ngModel)]="employee.IDNo"
         ></p-inputNumber>
       </div>
       <div class="field col">
-        <label for="quantity" class="form-label">Quantity</label>
+        <label for="Email" class="form-label">Email</label>
         <input
           class="form-control mb-3"
-          id="quantity"
-          [(ngModel)]="product.Email"
+          id="Email"
+          name="Email"
+          [(ngModel)]="employee.Email"
         />
       </div>
     </div>
 
-    <div class="my-3">
+    <div class="flex-container">
       <button
+        class="flex-item"
         pButton
         pRipple
         label="Cancel"
@@ -106,12 +125,13 @@
         (click)="Cancel()"
       ></button>
       <button
+        class="flex-item"
         pButton
         pRipple
         label="Save"
         icon="pi pi-check"
         class="p-button-text"
-        (click)="saveProduct()"
+        (click)="saveEmployee()"
         [disabled]="submitting"
       >
         <span
@@ -121,4 +141,69 @@
       </button>
     </div>
   </form>
-</div>
+</div> -->
+
+<!-- <form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="inputEmail4"
+        placeholder="Email"
+      />
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="inputPassword4"
+        placeholder="Password"
+      />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">Address</label>
+    <input
+      type="text"
+      class="form-control"
+      id="inputAddress"
+      placeholder="1234 Main St"
+    />
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Address 2</label>
+    <input
+      type="text"
+      class="form-control"
+      id="inputAddress2"
+      placeholder="Apartment, studio, or floor"
+    />
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputCity">City</label>
+      <input type="text" class="form-control" id="inputCity" />
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputState">State</label>
+      <select id="inputState" class="form-control">
+        <option selected>Choose...</option>
+        <option>...</option>
+      </select>
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputZip">Zip</label>
+      <input type="text" class="form-control" id="inputZip" />
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck" />
+      <label class="form-check-label" for="gridCheck"> Check me out </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Sign in</button>
+</form> -->

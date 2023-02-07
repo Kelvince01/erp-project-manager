@@ -12,7 +12,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./upsert.component.css'],
 })
 export class UpsertComponent implements OnInit {
-  product: IEmployee = {};
+  employee: IEmployee = {};
   submitted: boolean = false;
   statuses: any[] = [];
   title!: string;
@@ -25,7 +25,7 @@ export class UpsertComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private productService: EmployeesService,
+    private employeeService: EmployeesService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {}
@@ -37,16 +37,16 @@ export class UpsertComponent implements OnInit {
 
     // form with validation rules
     this.form = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      username: ['', Validators.required],
+      FirstName: ['', Validators.required],
+      Surname: ['', Validators.required],
+      MiddleName: ['', Validators.required],
     });
 
     if (this.id) {
       // edit mode
       this.title = 'Edit User';
       this.loading = true;
-      this.productService
+      this.employeeService
         .getById(Number(this.id))
         .then(first())
         .then((x) => {
@@ -56,25 +56,25 @@ export class UpsertComponent implements OnInit {
     }
   }
 
-  saveProduct() {
+  saveEmployee() {
     this.submitted = true;
 
-    if (this.product.FirstName!.trim()) {
-      if (this.product.EmployeeID) {
+    if (this.employee.FirstName!.trim()) {
+      if (this.employee.EmployeeID) {
         //
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
-          detail: 'Product Updated',
+          detail: 'Employee Updated',
           life: 3000,
         });
       } else {
-        // this.product.id = this.createId();
-        // this.product.image = 'product-placeholder.svg';
+        // this.employee.id = this.createId();
+        // this.employee.image = 'employee-placeholder.svg';
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
-          detail: 'Product Created',
+          detail: 'Employee Created',
           life: 3000,
         });
       }
