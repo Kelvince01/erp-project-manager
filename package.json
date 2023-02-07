@@ -29,6 +29,7 @@
     "@ngrx/store": "^15.2.1",
     "@ngrx/store-devtools": "^15.2.1",
     "@popperjs/core": "^2.11.6",
+    "@srexi/purecounterjs": "^1.5.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "chart.js": "^4.2.0",

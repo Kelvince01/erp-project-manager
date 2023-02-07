@@ -3,9 +3,9 @@ import { IUser } from '@models/user.model';
 import { AuthService } from '@services/auth.service';
 import { PrimeNGConfig } from 'primeng/api';
 
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
 
-window['$'] = window['jQuery'] = $;
+// window['$'] = window['jQuery'] = $;
 
 // "node_modules/@popperjs/core/dist/esm/popper.min.js",
 

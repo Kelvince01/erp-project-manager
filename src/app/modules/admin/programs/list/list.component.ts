@@ -1,30 +1,33 @@
+import { ProjectsService } from './../../../../data/services/projects.service';
 import { Component } from '@angular/core';
 import { AuthService } from '@services/auth.service';
 import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-list-programs',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent {
-  users?: any[];
+  programs?: any[];
 
-  constructor(private accountService: AuthService) {}
+  constructor(private programService: ProjectsService) {}
 
   ngOnInit() {
-    this.accountService
-      .getAll()
+    this.programService
+      .get()
       .pipe(first())
-      .subscribe((users) => (this.users = users));
+      .subscribe((users) => (this.programs = users.data));
   }
 
   deleteUser(id: number) {
-    const user = this.users!.find((x) => x.id === id);
+    const user = this.programs!.find((x) => x.id === id);
     user.isDeleting = true;
-    this.accountService
+    this.programService
       .delete(id)
       .pipe(first())
-      .subscribe(() => (this.users = this.users!.filter((x) => x.id !== id)));
+      .subscribe(
+        () => (this.programs = this.programs!.filter((x) => x.id !== id))
+      );
   }
 }

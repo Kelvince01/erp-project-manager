@@ -1,4 +1,4 @@
-import { IUser } from './../../../../data/models/user.model';
+import { IUser } from '@models/user.model';
 import { UserService } from 'src/app/data/services/user.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
@@ -22,14 +22,18 @@ declare var window: any;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
-  users$ = this.store.pipe(select(selectUsers));
+  users$ = this.store.pipe(select(selectUsers))! as any;
+  users: IUser[] = [];
   // messages$: Observable<any[]>;
   // users2$!: Observable<any[]>;
+  displayDialog: any;
+  userForDialog: any;
+  clonedUsers: { [s: string]: IUser } = {};
 
   constructor(
     private store: Store,
     private appStore: Store<Appstate>,
-    // private usersService: UserService,
+    private usersService: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {
@@ -52,7 +56,25 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(invokeUsersAPI());
     // console.log(globalThis);
+    this.usersService.get().subscribe((users) => (this.users = users.data));
   }
+
+  onUserAdd() {}
+  onRowEditInit(data: any) {
+    this.clonedUsers[data.name] = { ...data };
+  }
+  onRowEditSave(data: any) {
+    this.usersService.update(data).subscribe((data) => {
+      this.ngOnInit();
+      alert('User Updated successfully.');
+    });
+  }
+  onRowEditCancel(data: any, index: any) {
+    this.users$[index] = this.clonedUsers[data.name];
+    delete this.clonedUsers[data.name];
+  }
+
+  saveUser() {}
 
   deleteUser(user: IUser) {
     this.confirmationService.confirm({

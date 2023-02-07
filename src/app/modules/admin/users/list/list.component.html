@@ -1,4 +1,153 @@
-<span class="count"
+<p-table [value]="users" dataKey="FirstName" editMode="row">
+  <!-- [value]="users$ | async"  -->
+  <ng-template pTemplate="caption">
+    List of Users
+    <p-button class="btnAdd" label="ADD" (onClick)="onUserAdd()"></p-button>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>First Name</th>
+      <th>Surname</th>
+      <th>Email</th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-editing="editing"
+    let-ri="rowIndex"
+  >
+    <tr [pEditableRow]="rowData">
+      <td>
+        {{ rowData.FirstName }}
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input pInputText type="text" [(ngModel)]="rowData.Surname" />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ rowData.Surname }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input pInputText type="text" [(ngModel)]="rowData.Email" />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ rowData.Email }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td style="text-align: center">
+        <p-button
+          class="btnAdd"
+          icon="pi pi-trash"
+          class="ui-button-info"
+          style="margin-right: 0.5em"
+          (onClick)="deleteUser(rowData)"
+        ></p-button>
+        <button
+          *ngIf="!editing"
+          pButton
+          type="button"
+          pInitEditableRow
+          icon="pi pi-pencil"
+          class="ui-button-info"
+          (click)="onRowEditInit(rowData)"
+        ></button>
+        <button
+          *ngIf="editing"
+          pButton
+          type="button"
+          pSaveEditableRow
+          icon="pi pi-check"
+          class="ui-button-success"
+          style="margin-right: 0.5em"
+          (click)="onRowEditSave(rowData)"
+        ></button>
+        <button
+          *ngIf="editing"
+          pButton
+          type="button"
+          pCancelEditableRow
+          icon="pi pi-times"
+          class="ui-button-danger"
+          (click)="onRowEditCancel(rowData, ri)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template> </p-table
+><p-dialog
+  header="User Details"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  showEffect="fade"
+  [modal]="true"
+>
+  <form #BookForm="ngForm" novalidate>
+    <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="userForDialog">
+      <div class="ui-g ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3 ui-label">
+          <label for="fname">User Name</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <input
+            pInputText
+            id="fname"
+            name="fname"
+            required
+            [(ngModel)]="userForDialog.name"
+          />
+        </div>
+      </div>
+      <div class="ui-g ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3 ui-label">
+          <label for="lname">Author</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <input
+            pInputText
+            id="lname"
+            name="lname"
+            required
+            [(ngModel)]="userForDialog.author"
+          />
+        </div>
+      </div>
+      <div class="ui-g ui-g-12 ui-g-nopad">
+        <div class="ui-g-12 ui-md-3 ui-label">
+          <label for="prof">Price</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <input
+            pInputText
+            id="prof"
+            name="prof"
+            required
+            [(ngModel)]="userForDialog.price"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button
+        type="submit"
+        pButton
+        icon="fa-check"
+        (click)="saveUser()"
+        label="Save"
+        [disabled]="!BookForm.form.valid"
+      ></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<!-- <span class="count"
   >Number of users online: {{ (users$ | async)?.length }}</span
 >
 <div class="user thumbail" *ngFor="let user of users$ | async">
@@ -19,6 +168,6 @@
     <span><strong>Email: </strong>{{ user.Email }}</span>
   </div>
   <a class="btn btn-default">Hire {{ user.FirstName }}</a>
-</div>
+</div> -->
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

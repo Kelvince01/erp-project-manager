@@ -1,7 +1,9 @@
+import { UploadService } from './../../../../data/services/upload.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyInfoService } from '@services/company-info.service';
+import { ImageSnippet } from '@shared/models/image-snippet.model';
 
 @Component({
   selector: 'app-upsert',
@@ -11,12 +13,14 @@ import { CompanyInfoService } from '@services/company-info.service';
 export class UpsertComponent implements OnInit {
   id: number = 0;
   companyInfoform: FormGroup;
+  selectedFile!: ImageSnippet;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private companyInfoService: CompanyInfoService
+    private companyInfoService: CompanyInfoService,
+    private uploadService: UploadService
   ) {
     //**************Create Reactive Form with validation********************* */
     this.companyInfoform = this.fb.group({
@@ -51,6 +55,38 @@ export class UpsertComponent implements OnInit {
         // }
       }
     });
+  }
+
+  private onSuccess() {
+    this.selectedFile.pending = false;
+    this.selectedFile.status = 'ok';
+  }
+
+  private onError() {
+    this.selectedFile.pending = false;
+    this.selectedFile.status = 'fail';
+    this.selectedFile.src = '';
+  }
+
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+
+      this.selectedFile.pending = true;
+      this.uploadService.upload(this.selectedFile.file).subscribe(
+        (res) => {
+          this.onSuccess();
+        },
+        (err) => {
+          this.onError();
+        }
+      );
+    });
+
+    reader.readAsDataURL(file);
   }
 
   save() {

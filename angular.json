@@ -36,6 +36,7 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/jquery.easing/jquery.easing.min.js",
+              "node_modules/@srexi/purecounterjs/dist/purecounter_vanilla.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "src/assets/js/jassa-admin.min.js",
               "src/assets/js/main.js"

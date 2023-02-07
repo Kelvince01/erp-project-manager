@@ -225,6 +225,6 @@ setTimeout(function () {
     /**
      * Initiate Pure Counter
      */
-    // new PureCounter();
+    new PureCounter();
   })();
 }, 1000);

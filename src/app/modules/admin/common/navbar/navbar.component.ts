@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
 import { IUser } from '@models/user.model';
 import { AuthService } from '@services/auth.service';
 
-window['$'] = window['jQuery'] = $;
+// window['$'] = window['jQuery'] = $;
 
 @Component({
   selector: 'app-admin-navbar',

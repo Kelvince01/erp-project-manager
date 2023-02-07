@@ -1,5 +1,7 @@
-<h1>Users</h1>
-<a routerLink="add" class="btn btn-sm btn-success mb-2">Add User</a>
+<h1>Programs</h1>
+<a routerLink="/admin/programs/add" class="btn btn-sm btn-success mb-2"
+  >Add Program</a
+>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -10,28 +12,30 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users">
-      <td>{{ user.firstName }}</td>
-      <td>{{ user.lastName }}</td>
-      <td>{{ user.username }}</td>
+    <tr *ngFor="let program of programs">
+      <td>{{ program.firstName }}</td>
+      <td>{{ program.lastName }}</td>
+      <td>{{ program.username }}</td>
       <td style="white-space: nowrap">
-        <a routerLink="edit/{{ user.id }}" class="btn btn-sm btn-primary me-1"
+        <a
+          routerLink="edit/{{ program.id }}"
+          class="btn btn-sm btn-primary me-1"
           >Edit</a
         >
         <button
-          (click)="deleteUser(user.id)"
+          (click)="deleteUser(program.id)"
           class="btn btn-sm btn-danger btn-delete-user"
-          [disabled]="user.isDeleting"
+          [disabled]="program.isDeleting"
         >
           <span
-            *ngIf="user.isDeleting"
+            *ngIf="program.isDeleting"
             class="spinner-border spinner-border-sm"
           ></span>
-          <span *ngIf="!user.isDeleting">Delete</span>
+          <span *ngIf="!program.isDeleting">Delete</span>
         </button>
       </td>
     </tr>
-    <tr *ngIf="!users">
+    <tr *ngIf="!programs">
       <td colspan="4" class="text-center">
         <span class="spinner-border spinner-border-lg align-center"></span>
       </td>
