@@ -32,6 +32,7 @@
       "@services/*": ["src/app/data/services/*"],
       "@models/*": ["src/app/data/models/*"],
       "@users-store/*": ["src/app/data/users/*"],
+      "@stores/*": ["src/app/data/stores/*"],
       "@company-store/*": ["src/app/data/company-info/*"],
       "@departments-store/*": ["src/app/data/departments/*"],
       "@auth-store/*": ["src/app/data/auth/*"],

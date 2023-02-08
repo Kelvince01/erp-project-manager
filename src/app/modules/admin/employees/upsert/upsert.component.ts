@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { selectDepartments } from '@departments-store/department.selector';
+import { invokeDepartmentsAPI } from '@departments-store/departments.action';
 import { IEmployee } from '@models/employee.model';
+import { Store, select } from '@ngrx/store';
 import { EmployeesService } from '@services/employees.service';
+import { Appstate } from '@stores/appstate';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { first } from 'rxjs/operators';
 
@@ -14,14 +18,16 @@ import { first } from 'rxjs/operators';
 export class UpsertComponent implements OnInit {
   employee: IEmployee = {};
   submitted: boolean = false;
-  statuses: any[] = [];
   title!: string;
   form!: FormGroup;
   id?: string;
   loading = false;
   submitting = false;
+  departments$ = this.store.pipe(select(selectDepartments))! as any;
 
   constructor(
+    private store: Store,
+    private appStore: Store<Appstate>,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
@@ -31,6 +37,7 @@ export class UpsertComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(invokeDepartmentsAPI());
     this.title = 'Add Employee';
 
     this.id = this.route.snapshot.params['id'];

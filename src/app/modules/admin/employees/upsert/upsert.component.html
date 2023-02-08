@@ -1,15 +1,15 @@
-<!-- <h3>{{ title }}</h3>
+<h3>{{ title }}</h3>
 <div class="card p-4">
-  <form *ngIf="!loading" #form="ngForm" (ngSubmit)="saveEmployee()"> -->
-<!-- [formGroup]="form" -->
+  <form *ngIf="!loading" #form="ngForm" (ngSubmit)="saveEmployee()">
+    <!-- [formGroup]="form" -->
 
-<!-- <img
+    <!-- <img
       [src]="'assets/images/employees/' + employee.FacePhoto"
       [alt]="employee.FacePhoto"
       class="employee-image"
       *ngIf="employee.FacePhoto"
     /> -->
-<!--<div class="form-row">
+    <div class="form-row">
       <div class="form-group col-md-4">
         <label for="FirstName" class="form-label">First Name</label>
         <input
@@ -58,13 +58,13 @@
       <p-dropdown
         [(ngModel)]="employee.DeptID"
         inputId="DeptID"
-        name="DeptID"
-        [options]="statuses"
+        name="Department"
+        [options]="departments$"
         placeholder="Select"
       >
         <ng-template let-option pTemplate="item">
-          <span [class]="'employee-badge status-' + option.value">{{
-            option.label
+          <span [class]="'employee-badge status-' + option.Department">{{
+            option.Department
           }}</span>
         </ng-template>
       </p-dropdown>
@@ -141,7 +141,7 @@
       </button>
     </div>
   </form>
-</div> -->
+</div>
 
 <!-- <form>
   <div class="form-row">

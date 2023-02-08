@@ -1,39 +1,45 @@
+import { invokeDepartmentsAPI } from './../../../../data/departments/departments.action';
+import { selectDepartments } from './../../../../data/departments/department.selector';
 import { EmployeesService } from './../../../../data/services/employees.service';
 import { IEmployee } from './../../../../data/models/employee.model';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { CommonFunctionalityComponent } from '@shared/components/common-functionality/common-functionality.component';
+import { Router } from '@angular/router';
+import { Appstate } from '@stores/appstate';
+import { Store, select } from '@ngrx/store';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
 })
-export class ListComponent implements OnInit {
+export class ListComponent extends CommonFunctionalityComponent {
   employees: IEmployee[] = [];
   employee: IEmployee = {};
   selectedEmployees: IEmployee[] = [];
   submitted: boolean = false;
-  statuses: any[] = [];
+  department$ = this.store.pipe(select(selectDepartments))! as any;
 
   constructor(
+    private store: Store,
+    private appStore: Store<Appstate>,
+    public override router: Router,
     private employeeService: EmployeesService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
-  ) {}
+  ) {
+    super(router);
+  }
 
-  ngOnInit() {
+  override ngOnInit() {
+    this.store.dispatch(invokeDepartmentsAPI());
     this.employeeService.get().subscribe((data: any) => {
       // console.log(data.data);
       this.employees = data.data;
     });
     // .pipe((data: any) => (this.employees = data.data));
     // console.log(this.employees);
-
-    this.statuses = [
-      { label: 'INSTOCK', value: 'instock' },
-      { label: 'LOWSTOCK', value: 'lowstock' },
-      { label: 'OUTOFSTOCK', value: 'outofstock' },
-    ];
   }
 
   deleteSelectedEmployees() {
@@ -74,5 +80,9 @@ export class ListComponent implements OnInit {
         });
       },
     });
+  }
+
+  reloadCurrent() {
+    this.reloadComponent(true);
   }
 }
