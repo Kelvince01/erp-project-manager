@@ -63,6 +63,10 @@ export class UpsertComponent implements OnInit {
     }
   }
 
+  get f() {
+    return this.form.controls;
+  }
+
   saveEmployee() {
     this.submitted = true;
 

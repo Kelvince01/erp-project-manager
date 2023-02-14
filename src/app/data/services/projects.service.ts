@@ -13,9 +13,9 @@ export class ProjectsService {
 
   constructor(private http: HttpClient, private eh: HttpErrorHandlerService) {}
 
-  create(asset: IProject): Observable<any> {
+  create(project: IProject): Observable<any> {
     return this.http
-      .post<IProject>(this.url, {})
+      .post<IProject>(this.url, project)
       .pipe(catchError(this.eh.handleError));
   }
 
@@ -31,9 +31,9 @@ export class ProjectsService {
       .pipe(catchError(this.eh.handleError));
   }
 
-  update(id: string, asset: Partial<IProject>): Observable<any> {
+  update(id: string, project: Partial<IProject>): Observable<any> {
     return this.http
-      .patch<IProject>(`${this.url}/${id}`, asset)
+      .patch<IProject>(`${this.url}/${id}`, project)
       .pipe(catchError(this.eh.handleError));
   }
 

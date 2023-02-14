@@ -1,0 +1,41 @@
+<form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <fieldset class="scheduler-border mb-3">
+      <legend>Project Info</legend>
+      <div class="mb-2">
+        <label class="form-label" for="LeadPerson">Lead Person :</label>
+        <div>
+          <input
+            type="number"
+            class="form-control"
+            id="LeadPerson"
+            name="LeadPerson"
+            formControlName="LeadPerson"
+          />
+        </div>
+      </div>
+      <div class="mb-2">
+        <label class="form-label" for="Summary">Notes :</label>
+        <div>
+          <textarea
+            class="form-control"
+            id="Summary"
+            formControlName="Summary"
+            name="Summary"
+          ></textarea>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="mb-2">
+    <button [disabled]="submitting" class="btn btn-primary">
+      <span
+        *ngIf="submitting"
+        class="spinner-border spinner-border-sm me-1"
+      ></span>
+      Save
+    </button>
+    <a routerLink="/admin/programs" class="btn btn-link">Cancel</a>
+  </div>
+</form>

@@ -1,79 +1,236 @@
-<h1>{{ title }}</h1>
-<form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="row">
-    <div class="mb-3 col">
-      <label class="form-label">First Name</label>
-      <input
-        type="text"
-        formControlName="firstName"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['FirstName'].errors }"
-      />
-      <div *ngIf="submitted && f['FirstName'].errors" class="invalid-feedback">
-        <div *ngIf="f['FirstName'].errors['required']">
-          First Name is required
-        </div>
+<p-tabView
+  class="surface-card p-2 m-0 list-none flex overflow-x-auto select-none"
+>
+  <p-tabPanel
+    class="flex align-items-center"
+    header="Program Info"
+    leftIcon="pi pi-calendar"
+    tooltip="Program Info"
+  >
+    <h1>{{ title }}</h1>
+    <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <fieldset class="scheduler-border mb-3">
+          <legend>Project Info</legend>
+          <div class="mb-2">
+            <label class="form-label" for="ProjectName">Name :</label>
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                id="ProjectName"
+                name="ProjectName"
+                formControlName="ProjectName"
+              />
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label" for="Description">Description :</label>
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                id="Description"
+                formControlName="Description"
+                name="Description"
+              />
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label" for="ProjectCode">Project Code :</label>
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                id="ProjectCode"
+                formControlName="ProjectCode"
+                name="ProjectCode"
+              />
+            </div>
+          </div>
+        </fieldset>
       </div>
+
+      <div class="row panel panel-primary">
+        <fieldset class="scheduler-border mb-3 panel-body">
+          <legend class="text-on-pannel text-primary">Other Information</legend>
+          <div class="mb-2">
+            <label class="form-label" for="Code">Tender No :</label>
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                id="Code"
+                name="Code"
+                formControlName="Code"
+              />
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label" for="StartDate">Start Date: </label>
+            <div>
+              <!-- <input
+            type="datetime"
+            class="form-control"
+            id="StartDate"
+            formControlName="StartDate"
+            name="StartDate"
+          /> -->
+              <p-calendar
+                class="form-control"
+                id="StartDate"
+                formControlName="StartDate"
+                name="StartDate"
+                [showTime]="true"
+                [showSeconds]="true"
+                inputId="StartDate"
+              ></p-calendar>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label" for="EndDate">End Date: </label>
+            <div>
+              <!-- <input
+            type="datetime"
+            class="form-control"
+            id="EndDate"
+            formControlName="EndDate"
+            name="EndDate"
+          /> -->
+              <p-calendar
+                class="form-control col-12"
+                id="EndDate"
+                formControlName="EndDate"
+                name="EndDate"
+                [showTime]="true"
+                [showSeconds]="true"
+                inputId="EndDate"
+              ></p-calendar>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label" for="DateOfAward">Date of Award: </label>
+            <div>
+              <!-- <input
+            type="datetime"
+            class="form-control"
+            id="DateOfAward"
+            formControlName="DateOfAward"
+            name="DateOfAward"
+          /> -->
+              <p-calendar
+                class="form-control"
+                id="DateOfAward"
+                formControlName="DateOfAward"
+                name="DateOfAward"
+                [showTime]="true"
+                [showSeconds]="true"
+                inputId="DateOfAward"
+              ></p-calendar>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label" for="Country">Project Location: </label>
+            <div>
+              <input
+                type="text"
+                class="form-control"
+                id="Country"
+                name="Country"
+                formControlName="Country"
+              />
+              <!-- <i class="fa fa-clock"></i> -->
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="mb-2">
+        <button [disabled]="submitting" class="btn btn-primary">
+          <span
+            *ngIf="submitting"
+            class="spinner-border spinner-border-sm me-1"
+          ></span>
+          Save
+        </button>
+        <a routerLink="/admin/programs" class="btn btn-link">Cancel</a>
+      </div>
+    </form>
+    <div *ngIf="loading" class="text-center m-5">
+      <span class="spinner-border spinner-border-lg align-center"></span>
     </div>
-    <div class="mb-3 col">
-      <label class="form-label">Last Name</label>
-      <input
-        type="text"
-        formControlName="lastName"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['SurName'].errors }"
-      />
-      <div *ngIf="submitted && f['SurName'].errors" class="invalid-feedback">
-        <div *ngIf="f['SurName'].errors['required']">Last Name is required</div>
+  </p-tabPanel>
+  <p-tabPanel
+    header="Responsibility"
+    rightIcon="pi pi-inbox"
+    tooltip="Responsibility"
+  >
+    <app-add-project-responsibility></app-add-project-responsibility>
+  </p-tabPanel>
+  <p-tabPanel header="Documents" rightIcon="pi pi-pdf" tooltip="Documents">
+    <app-add-project-documents></app-add-project-documents>
+  </p-tabPanel>
+</p-tabView>
+
+<!-- <div class="row">
+  <div class="mb-3 col">
+    <label class="form-label">First Name</label>
+    <input
+      type="text"
+      formControlName="firstName"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f['FirstName'].errors }"
+    />
+    <div *ngIf="submitted && f['FirstName'].errors" class="invalid-feedback">
+      <div *ngIf="f['FirstName'].errors['required']">
+        First Name is required
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="mb-3 col">
-      <label class="form-label">Username</label>
-      <input
-        type="text"
-        formControlName="username"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['UserName'].errors }"
-      />
-      <div *ngIf="submitted && f['UserName'].errors" class="invalid-feedback">
-        <div *ngIf="f['UserName'].errors['required']">Username is required</div>
-      </div>
-    </div>
-    <div class="mb-3 col">
-      <label class="form-label">
-        Password
-        <em *ngIf="id">(Leave blank to keep the same password)</em>
-      </label>
-      <input
-        type="password"
-        formControlName="password"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['Password'].errors }"
-      />
-      <div *ngIf="submitted && f['Password'].errors" class="invalid-feedback">
-        <div *ngIf="f['Password'].errors['required']">Password is required</div>
-        <div *ngIf="f['Password'].errors['minlength']">
-          Password must be at least 6 characters
-        </div>
-      </div>
+  <div class="mb-3 col">
+    <label class="form-label">Last Name</label>
+    <input
+      type="text"
+      formControlName="lastName"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f['SurName'].errors }"
+    />
+    <div *ngIf="submitted && f['SurName'].errors" class="invalid-feedback">
+      <div *ngIf="f['SurName'].errors['required']">Last Name is required</div>
     </div>
   </div>
-  <div class="mb-3">
-    <button [disabled]="submitting" class="btn btn-primary">
-      <span
-        *ngIf="submitting"
-        class="spinner-border spinner-border-sm me-1"
-      ></span>
-      Save
-    </button>
-    <a routerLink="/admin/programs" class="btn btn-link">Cancel</a>
-  </div>
-</form>
-<div *ngIf="loading" class="text-center m-5">
-  <span class="spinner-border spinner-border-lg align-center"></span>
 </div>
+<div class="row">
+  <div class="mb-3 col">
+    <label class="form-label">Username</label>
+    <input
+      type="text"
+      formControlName="username"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f['UserName'].errors }"
+    />
+    <div *ngIf="submitted && f['UserName'].errors" class="invalid-feedback">
+      <div *ngIf="f['UserName'].errors['required']">Username is required</div>
+    </div>
+  </div>
+  <div class="mb-3 col">
+    <label class="form-label">
+      Password
+      <em *ngIf="id">(Leave blank to keep the same password)</em>
+    </label>
+    <input
+      type="password"
+      formControlName="password"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': submitted && f['Password'].errors }"
+    />
+    <div *ngIf="submitted && f['Password'].errors" class="invalid-feedback">
+      <div *ngIf="f['Password'].errors['required']">Password is required</div>
+      <div *ngIf="f['Password'].errors['minlength']">
+        Password must be at least 6 characters
+      </div>
+    </div>
+  </div>
+</div> -->
 
 <!-- <div class="col-lg-6 px-lg-4">
   <div class="card">

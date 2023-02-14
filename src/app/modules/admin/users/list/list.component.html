@@ -46,9 +46,10 @@
           class="btnAdd"
           icon="pi pi-trash"
           class="ui-button-info"
-          style="margin-right: 0.5em"
           (onClick)="deleteUser(rowData)"
         ></p-button>
+        <!-- style="margin-right: 0.5em" -->
+
         <button
           *ngIf="!editing"
           pButton
@@ -65,9 +66,10 @@
           pSaveEditableRow
           icon="pi pi-check"
           class="ui-button-success"
-          style="margin-right: 0.5em"
           (click)="onRowEditSave(rowData)"
         ></button>
+        <!-- style="margin-right: 0.5em" -->
+
         <button
           *ngIf="editing"
           pButton

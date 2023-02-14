@@ -5,33 +5,44 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="width: 30%">First Name</th>
-      <th style="width: 30%">Last Name</th>
-      <th style="width: 30%">Username</th>
-      <th style="width: 10%"></th>
+      <th></th>
+      <th>Title</th>
+      <th>Tender No</th>
+      <th>Location</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Duration (Months)</th>
+      <th>Closed</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let program of programs">
-      <td>{{ program.firstName }}</td>
-      <td>{{ program.lastName }}</td>
-      <td>{{ program.username }}</td>
+      <td>{{ program.ProjectID }}</td>
+      <td>{{ program.ProjectName }}</td>
+      <td>{{ program.Code }}</td>
+      <td>{{ program.Description }}</td>
+      <td>{{ program.Country }}</td>
+      <td>{{ program.StartDate }}</td>
+      <td>{{ program.EndDate }}</td>
+      <td>{{ program.Code }}</td>
+      <td>{{ program.Code }}</td>
       <td style="white-space: nowrap">
         <a
-          routerLink="edit/{{ program.id }}"
+          routerLink="/admin/programs/edit/{{ program.ProjectID }}"
           class="btn btn-sm btn-primary me-1"
           >Edit</a
         >
         <button
-          (click)="deleteUser(program.id)"
+          (click)="deleteUser(program.ProjectID!)"
           class="btn btn-sm btn-danger btn-delete-user"
-          [disabled]="program.isDeleting"
+          [disabled]="isDeleting"
         >
           <span
-            *ngIf="program.isDeleting"
+            *ngIf="isDeleting"
             class="spinner-border spinner-border-sm"
           ></span>
-          <span *ngIf="!program.isDeleting">Delete</span>
+          <span *ngIf="!isDeleting">Delete</span>
         </button>
       </td>
     </tr>

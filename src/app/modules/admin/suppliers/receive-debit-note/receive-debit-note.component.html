@@ -1,4 +1,4 @@
-<div class="p-4">
+<!-- <div class="p-4">
   <div class="card p-4">
     <h5>Advanced</h5>
     <form>
@@ -57,8 +57,8 @@
             <span
               class="p-element p-dropdown-label p-inputtext ng-star-inserted"
               id="pr_id_2_label"
-              >Option 1<!----><!----><!----></span
-            ><!----><!----><!----><!---->
+              >Option 1</span
+            >
             <div
               role="button"
               aria-label="dropdown trigger"
@@ -68,7 +68,7 @@
               <span class="p-dropdown-trigger-icon pi pi-chevron-down"></span>
             </div>
             <p-overlay class="p-element ng-tns-c45-55 ng-star-inserted"
-              ><!----></p-overlay
+              ></p-overlay
             >
           </div></p-dropdown
         >
@@ -83,5 +83,126 @@
         />
       </div>
     </form>
+  </div>
+</div> -->
+
+<div class="form-2-container section-container section-container-gray-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col form-2 section-description wow fadeIn">
+        <h2>Form 2</h2>
+        <div class="divider-1 wow fadeInUp"><span></span></div>
+        <p>
+          A form with 3 "fieldset"-s and 3 "legend"-s: "First / Last name",
+          "About" and "Preferences".
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col form-2-box wow fadeInUp">
+        <form action="" method="post">
+          <div class="row">
+            <div class="col-md-6">
+              <!-- First / Last Name -->
+              <fieldset class="form-group border p-3">
+                <legend class="w-auto px-2">First / Last Name</legend>
+                <div class="form-group">
+                  <label for="firstname">First name:</label>
+                  <input
+                    type="text"
+                    class="form-control firstname"
+                    id="firstname"
+                    placeholder="First name..."
+                    name="firstname"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="lastname">Last name:</label>
+                  <input
+                    type="text"
+                    class="form-control lastname"
+                    id="lastname"
+                    placeholder="Last name..."
+                    name="lastname"
+                  />
+                </div>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <!-- About -->
+              <fieldset class="form-group border p-3">
+                <legend class="w-auto px-2">About You</legend>
+                <div class="form-group">
+                  <label for="about">About:</label>
+                  <textarea
+                    class="form-control about"
+                    id="about"
+                    placeholder="Tell us about you..."
+                    name="about"
+                  ></textarea>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <!-- Preferences  -->
+              <fieldset class="form-group border p-3">
+                <legend class="w-auto px-2">Preferences</legend>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="john"
+                    id="john"
+                    value="john"
+                  />
+                  <label class="form-check-label" for="john"
+                    >I want to subscribe to
+                    <strong>John's</strong> newsletter</label
+                  >
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="sarah"
+                    id="sarah"
+                    value="sarah"
+                  />
+                  <label class="form-check-label" for="sarah"
+                    >I want to subscribe to
+                    <strong>Sarah's</strong> newsletter</label
+                  >
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="paolo"
+                    id="paolo"
+                    value="paolo"
+                  />
+                  <label class="form-check-label" for="paolo"
+                    >I want to subscribe to
+                    <strong>Paolo's</strong> newsletter</label
+                  >
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <!-- Submit Button  -->
+          <div class="form-group row">
+            <div class="col">
+              <button type="submit" class="btn btn-primary btn-customized">
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>

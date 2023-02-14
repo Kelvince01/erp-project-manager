@@ -1,3 +1,4 @@
+import { first } from 'rxjs';
 import { invokeDepartmentsAPI } from './../../../../data/departments/departments.action';
 import { selectDepartments } from './../../../../data/departments/department.selector';
 import { EmployeesService } from './../../../../data/services/employees.service';
@@ -8,6 +9,7 @@ import { CommonFunctionalityComponent } from '@shared/components/common-function
 import { Router } from '@angular/router';
 import { Appstate } from '@stores/appstate';
 import { Store, select } from '@ngrx/store';
+import { FilesService } from '@services/files.service';
 
 @Component({
   selector: 'app-list',
@@ -20,6 +22,8 @@ export class ListComponent extends CommonFunctionalityComponent {
   selectedEmployees: IEmployee[] = [];
   submitted: boolean = false;
   department$ = this.store.pipe(select(selectDepartments))! as any;
+  cols: any[] = [];
+  exportColumns: any[] = [];
 
   constructor(
     private store: Store,
@@ -27,19 +31,32 @@ export class ListComponent extends CommonFunctionalityComponent {
     public override router: Router,
     private employeeService: EmployeesService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private filesService: FilesService
   ) {
     super(router);
   }
 
   override ngOnInit() {
     this.store.dispatch(invokeDepartmentsAPI());
-    this.employeeService.get().subscribe((data: any) => {
-      // console.log(data.data);
-      this.employees = data.data;
-    });
-    // .pipe((data: any) => (this.employees = data.data));
-    // console.log(this.employees);
+    this.employeeService
+      .get()
+      .pipe(first())
+      .subscribe((data: any) => {
+        this.employees = data.data;
+      });
+
+    this.cols = [
+      { field: 'code', header: 'Code', customExportHeader: 'Product Code' },
+      { field: 'name', header: 'Name' },
+      { field: 'category', header: 'Category' },
+      { field: 'quantity', header: 'Quantity' },
+    ];
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
   }
 
   deleteSelectedEmployees() {
@@ -80,6 +97,18 @@ export class ListComponent extends CommonFunctionalityComponent {
         });
       },
     });
+  }
+
+  exportPdf() {
+    this.filesService.exportPdf(this.cols, this.employees, 'Suppliers List');
+  }
+
+  exportExcel() {
+    this.filesService.exportExcel(this.cols, 'Suppliers List');
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    this.filesService.saveAsExcelFile(buffer, fileName);
   }
 
   reloadCurrent() {

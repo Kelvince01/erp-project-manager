@@ -61,6 +61,12 @@ export class UpsertComponent implements OnInit {
       }
     );
 
+    // password only required in add mode
+    // password: [
+    //   '',
+    //   [Validators.minLength(6), ...(!this.id ? [Validators.required] : [])],
+    // ],
+
     if (!this.isAddMode) {
       this.userService
         .getById(Number(this.id))

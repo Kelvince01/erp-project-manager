@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '@services/auth.service';
+import { ProjectsService } from '@services/projects.service';
 import { MessageService } from 'primeng/api';
 import { first } from 'rxjs/operators';
 
@@ -22,29 +22,28 @@ export class UpsertComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: AuthService,
+    private accountService: ProjectsService,
     private alertService: MessageService
   ) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
 
-    // form with validation rules
     this.form = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      username: ['', Validators.required],
-      // password only required in add mode
-      password: [
-        '',
-        [Validators.minLength(6), ...(!this.id ? [Validators.required] : [])],
-      ],
+      ProjectName: ['', Validators.required],
+      Description: ['', Validators.required],
+      ProjectCode: ['', Validators.required],
+      Code: ['', Validators.required],
+      StartDate: ['', Validators.required],
+      EndDate: ['', Validators.required],
+      DateOfAward: ['', Validators.required],
+      Country: ['', Validators.required],
     });
 
-    this.title = 'Add User';
+    this.title = 'Add Program';
     if (this.id) {
       // edit mode
-      this.title = 'Edit User';
+      this.title = 'Edit Program';
       this.loading = true;
       this.accountService
         .getById(this.id)
@@ -66,21 +65,28 @@ export class UpsertComponent implements OnInit {
 
     // reset alerts on submit
     this.alertService.clear();
+    // console.log('not submitted');
 
     // stop here if form is invalid
     if (this.form.invalid) {
+      // console.log('error on form');
       return;
     }
+
+    console.log('submitted');
 
     this.submitting = true;
     this.saveUser()
       .pipe(first())
       .subscribe({
         next: () => {
-          this.alertService.add({ severity: 'success', detail: 'User saved' });
-          this.router.navigateByUrl('/users');
+          this.alertService.add({
+            severity: 'success',
+            detail: 'Program saved',
+          });
+          this.router.navigateByUrl('/admin/programs');
         },
-        error: (error) => {
+        error: (error: any) => {
           this.alertService.add({ severity: 'error', detail: error });
           this.submitting = false;
         },
@@ -88,9 +94,11 @@ export class UpsertComponent implements OnInit {
   }
 
   private saveUser() {
+    console.log(this.form.value);
+
     // create or update user based on id param
     return this.id
-      ? this.accountService.update(Number(this.id)!, this.form.value)
-      : this.accountService.register(this.form.value);
+      ? this.accountService.update(this.id!, this.form.value)
+      : this.accountService.create(this.form.value);
   }
 }

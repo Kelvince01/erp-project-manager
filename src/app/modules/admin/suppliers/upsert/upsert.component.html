@@ -1,4 +1,4 @@
-<form>
+<!-- <form>
   <div class="p-field">
     <label for="FirstName">First Name</label>
     <input
@@ -58,4 +58,107 @@
       <input id="Mobile" type="tel" [(ngModel)]="supplier.Mobile" />
     </div>
   </div>
-</form>
+</form> -->
+
+<div class="form-1-container section-container">
+  <div class="container">
+    <div class="row">
+      <div class="col form-1 section-description wow fadeIn">
+        <h2>Form 1</h2>
+        <div class="divider-1 wow fadeInUp"><span></span></div>
+        <p>
+          A form with 2 "fieldset"-s and 2 "legend"-s: "User's credentials" and
+          "User's preferences".
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 offset-md-1 form-1-box wow fadeInUp">
+        <form action="" method="post">
+          <!-- User's Credentials  -->
+          <fieldset class="form-group border p-3">
+            <legend class="w-auto px-2">User's Credentials</legend>
+            <div class="form-group">
+              <label for="username">Username:</label>
+              <input
+                type="text"
+                class="form-control username"
+                id="username"
+                placeholder="Username..."
+                name="username"
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                class="form-control email"
+                id="email"
+                placeholder="Email..."
+                name="email"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password:</label>
+              <input
+                type="password"
+                class="form-control password"
+                id="password"
+                placeholder="Password..."
+                name="password"
+              />
+            </div>
+          </fieldset>
+          <!-- User's Preferences  -->
+          <fieldset class="form-group border p-3">
+            <legend class="w-auto px-2">User's Preferences</legend>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="preferences"
+                id="daily"
+                value="daily"
+              />
+              <label class="form-check-label" for="daily"
+                >I want <strong>daily</strong> emails</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="preferences"
+                id="weekly"
+                value="weekly"
+              />
+              <label class="form-check-label" for="weekly"
+                >I want <strong>weekly</strong> emails</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="preferences"
+                id="monthly"
+                value="monthly"
+              />
+              <label class="form-check-label" for="monthly"
+                >I want <strong>monthly</strong> emails</label
+              >
+            </div>
+          </fieldset>
+          <!-- Submit Button  -->
+          <div class="form-group row text-right">
+            <div class="col">
+              <button type="submit" class="btn btn-primary btn-customized">
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

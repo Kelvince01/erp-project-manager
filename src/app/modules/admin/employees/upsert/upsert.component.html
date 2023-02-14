@@ -1,147 +1,213 @@
-<h3>{{ title }}</h3>
-<div class="card p-4">
-  <form *ngIf="!loading" #form="ngForm" (ngSubmit)="saveEmployee()">
-    <!-- [formGroup]="form" -->
+<p-tabView
+  class="surface-card p-2 m-0 list-none flex overflow-x-auto select-none"
+>
+  <p-tabPanel
+    class="flex align-items-center"
+    header="Employee Details"
+    leftIcon="pi pi-calendar"
+    tooltip="Employee Details"
+  >
+    <h3>{{ title }}</h3>
+    <div class="card p-4">
+      <form *ngIf="!loading" #form="ngForm" (ngSubmit)="saveEmployee()">
+        <p-fieldset legend="Header">
+          <div class="row">
+            <div class="col-7 mb-2">
+              <label class="form-label">Email</label>
+              <input
+                type="text"
+                formControlName="email"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['email'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['email'].errors['required']">
+                  Email is required
+                </div>
+                <div *ngIf="f['email'].errors['email']">
+                  Email must be a valid email address
+                </div>
+              </div>
+            </div>
+            <div class="col mb-2">
+              <label class="form-label">Role</label>
+              <select
+                formControlName="role"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['role'].errors }"
+              >
+                <option value=""></option>
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+              </select>
+              <div
+                *ngIf="submitted && f['role'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['role'].errors['required']">Role is required</div>
+              </div>
+            </div>
+          </div>
+        </p-fieldset>
+        <!-- [formGroup]="form" -->
 
-    <!-- <img
+        <!-- <img
       [src]="'assets/images/employees/' + employee.FacePhoto"
       [alt]="employee.FacePhoto"
       class="employee-image"
       *ngIf="employee.FacePhoto"
     /> -->
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="FirstName" class="form-label">First Name</label>
-        <input
-          class="mb-3"
-          type="text"
-          pInputText
-          id="FirstName"
-          name="FirstName"
-          [(ngModel)]="employee.FirstName"
-          required
-          autofocus
-        />
-        <small class="p-error" *ngIf="submitted && !employee.FirstName"
-          >First Name is required.</small
-        >
-      </div>
-      <div class="form-group col-md-4">
-        <label for="Surname" class="form-label">Surname</label>
-        <input
-          class="mb-3"
-          id="Surname"
-          name="Surname"
-          pInputText
-          [(ngModel)]="employee.Surname"
-          required
-        />
-        <small class="p-error" *ngIf="submitted && !employee.Surname"
-          >Surname is required.</small
-        >
-      </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="FirstName" class="form-label">First Name</label>
+            <input
+              class="mb-3"
+              type="text"
+              pInputText
+              id="FirstName"
+              name="FirstName"
+              [(ngModel)]="employee.FirstName"
+              required
+              autofocus
+            />
+            <small class="p-error" *ngIf="submitted && !employee.FirstName"
+              >First Name is required.</small
+            >
+          </div>
+          <div class="form-group col-md-4">
+            <label for="Surname" class="form-label">Surname</label>
+            <input
+              class="mb-3"
+              id="Surname"
+              name="Surname"
+              pInputText
+              [(ngModel)]="employee.Surname"
+              required
+            />
+            <small class="p-error" *ngIf="submitted && !employee.Surname"
+              >Surname is required.</small
+            >
+          </div>
 
-      <div class="form-group col-md-4">
-        <label for="MiddleName" class="form-label">Middle Name</label>
-        <input
-          class="mb-3"
-          id="MiddleName"
-          name="MiddleName"
-          pInputText
-          [(ngModel)]="employee.MiddleName"
-          required
-        />
-      </div>
-    </div>
-    <div class="col-md-6">
-      <label for="DeptID" class="form-label">Department</label>
-      <p-dropdown
-        [(ngModel)]="employee.DeptID"
-        inputId="DeptID"
-        name="Department"
-        [options]="departments$"
-        placeholder="Select"
-      >
-        <ng-template let-option pTemplate="item">
-          <span [class]="'employee-badge status-' + option.Department">{{
-            option.Department
-          }}</span>
-        </ng-template>
-      </p-dropdown>
-    </div>
-
-    <div class="col-md-6">
-      <label class="mb-3" class="form-label">Category</label>
-      <div class="formgrid grid">
-        <div class="field-radiobutton col-6">
-          <p-radioButton
-            id="isEmployee"
-            name="isEmployee"
-            value="Is Employee"
-            [(ngModel)]="employee.isEmployee"
-          ></p-radioButton>
-          <label for="category1">Accessories</label>
+          <div class="form-group col-md-4">
+            <label for="MiddleName" class="form-label">Middle Name</label>
+            <input
+              class="mb-3"
+              id="MiddleName"
+              name="MiddleName"
+              pInputText
+              [(ngModel)]="employee.MiddleName"
+              required
+            />
+          </div>
         </div>
-        <div class="field-radiobutton col-6">
-          <p-radioButton
-            id="isSupplier"
-            name="isSupplier"
-            value="Is Supplier"
-            [(ngModel)]="employee.isSupplier"
-          ></p-radioButton>
-          <label for="category2">Clothing</label>
+        <div class="col-md-6">
+          <label for="DeptID" class="form-label">Department</label>
+          <p-dropdown
+            [(ngModel)]="employee.DeptID"
+            inputId="DeptID"
+            name="Department"
+            [options]="departments$"
+            placeholder="Select"
+          >
+            <ng-template let-option pTemplate="item">
+              <span [class]="'employee-badge status-' + option.Department">{{
+                option.Department
+              }}</span>
+            </ng-template>
+          </p-dropdown>
         </div>
-      </div>
-    </div>
 
-    <div class="col-md-6">
-      <div class="field col">
-        <label for="IDNo" class="form-label">ID No</label>
-        <p-inputNumber
-          class="form-control mb-3"
-          id="IDNo"
-          name="IDNo"
-          [(ngModel)]="employee.IDNo"
-        ></p-inputNumber>
-      </div>
-      <div class="field col">
-        <label for="Email" class="form-label">Email</label>
-        <input
-          class="form-control mb-3"
-          id="Email"
-          name="Email"
-          [(ngModel)]="employee.Email"
-        />
-      </div>
-    </div>
+        <div class="col-md-6">
+          <label class="mb-3" class="form-label">Category</label>
+          <div class="formgrid grid">
+            <div class="field-radiobutton col-6">
+              <p-radioButton
+                id="isEmployee"
+                name="isEmployee"
+                value="Is Employee"
+                [(ngModel)]="employee.isEmployee"
+              ></p-radioButton>
+              <label for="category1">Accessories</label>
+            </div>
+            <div class="field-radiobutton col-6">
+              <p-radioButton
+                id="isSupplier"
+                name="isSupplier"
+                value="Is Supplier"
+                [(ngModel)]="employee.isSupplier"
+              ></p-radioButton>
+              <label for="category2">Clothing</label>
+            </div>
+          </div>
+        </div>
 
-    <div class="flex-container">
-      <button
-        class="flex-item"
-        pButton
-        pRipple
-        label="Cancel"
-        icon="pi pi-times"
-        (click)="Cancel()"
-      ></button>
-      <button
-        class="flex-item"
-        pButton
-        pRipple
-        label="Save"
-        icon="pi pi-check"
-        class="p-button-text"
-        (click)="saveEmployee()"
-        [disabled]="submitting"
-      >
-        <span
-          *ngIf="submitting"
-          class="spinner-border spinner-border-sm me-1"
-        ></span>
-      </button>
+        <div class="col-md-6">
+          <div class="field col">
+            <label for="IDNo" class="form-label">ID No</label>
+            <p-inputNumber
+              class="form-control mb-3"
+              id="IDNo"
+              name="IDNo"
+              [(ngModel)]="employee.IDNo"
+            ></p-inputNumber>
+          </div>
+          <div class="field col">
+            <label for="Email" class="form-label">Email</label>
+            <input
+              class="form-control mb-3"
+              id="Email"
+              name="Email"
+              [(ngModel)]="employee.Email"
+            />
+          </div>
+        </div>
+
+        <div class="flex-container">
+          <button
+            class="flex-item"
+            pButton
+            pRipple
+            label="Cancel"
+            icon="pi pi-times"
+            (click)="Cancel()"
+          ></button>
+          <button
+            class="flex-item"
+            pButton
+            pRipple
+            label="Save"
+            icon="pi pi-check"
+            class="p-button-text"
+            (click)="saveEmployee()"
+            [disabled]="submitting"
+          >
+            <span
+              *ngIf="submitting"
+              class="spinner-border spinner-border-sm me-1"
+            ></span>
+          </button>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
+  </p-tabPanel>
+  <p-tabPanel
+    header="Payroll Info"
+    rightIcon="pi pi-inbox"
+    tooltip="Payroll Info"
+  >
+    <app-add-employee-payroll-info></app-add-employee-payroll-info>
+  </p-tabPanel>
+  <p-tabPanel header="Dependants" rightIcon="pi pi-pdf" tooltip="Dependants">
+    <app-add-employee-payroll-dependants></app-add-employee-payroll-dependants>
+  </p-tabPanel>
+  <p-tabPanel header="Documents" rightIcon="pi pi-pdf" tooltip="Documents">
+    <app-add-employee-documents></app-add-employee-documents>
+  </p-tabPanel>
+</p-tabView>
 
 <!-- <form>
   <div class="form-row">

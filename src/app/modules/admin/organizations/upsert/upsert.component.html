@@ -1,37 +1,160 @@
-<div class="container">
-  <form [formGroup]="companyInfoform" autocomplete="off">
-    <div class="mb-1">
-      <label class="image-upload-container btn btn-bwm">
-        <span>Select Image</span>
-        <input
-          #imageInput
-          type="file"
-          accept="image/*"
-          (change)="processFile(imageInput)"
-        />
-      </label>
-
-      <div *ngIf="selectedFile" class="img-preview-container">
-        <div
-          class="img-preview{{
-            selectedFile.status === 'fail' ? '-error' : ''
-          }}"
-          [ngStyle]="{ 'background-image': 'url(' + selectedFile.src + ')' }"
-        ></div>
-
-        <div *ngIf="selectedFile.pending" class="img-loading-overlay">
-          <div class="img-spinning-circle"></div>
-        </div>
-
-        <div *ngIf="selectedFile.status === 'ok'" class="alert alert-success">
-          Image Uploaded Succesfuly!
-        </div>
-        <div *ngIf="selectedFile.status === 'fail'" class="alert alert-danger">
-          Image Upload Failed!
-        </div>
-      </div>
+<div
+  class="container form-3-container section-container section-container-image-bg"
+>
+  <div class="row">
+    <div class="col form-3 section-description wow fadeIn">
+      <h2>Form 3</h2>
+      <div class="divider-1 wow fadeInUp"><span></span></div>
+      <p>
+        A form with 3 "fieldset"-s and 3 "legend"-s: "Current occupation", "Your
+        address" and "Job preferences".
+      </p>
     </div>
-    <div class="mb-1">
+  </div>
+  <div class="row">
+    <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
+      <form [formGroup]="companyInfoform" autocomplete="off">
+        <div class="mb-1">
+          <label class="image-upload-container btn btn-bwm">
+            <span>Select Image</span>
+            <input
+              #imageInput
+              type="file"
+              accept="image/*"
+              (change)="processFile(imageInput)"
+            />
+          </label>
+
+          <div *ngIf="selectedFile" class="img-preview-container">
+            <div
+              class="img-preview{{
+                selectedFile.status === 'fail' ? '-error' : ''
+              }}"
+              [ngStyle]="{
+                'background-image': 'url(' + selectedFile.src + ')'
+              }"
+            ></div>
+
+            <div *ngIf="selectedFile.pending" class="img-loading-overlay">
+              <div class="img-spinning-circle"></div>
+            </div>
+
+            <div
+              *ngIf="selectedFile.status === 'ok'"
+              class="alert alert-success"
+            >
+              Image Uploaded Succesfuly!
+            </div>
+            <div
+              *ngIf="selectedFile.status === 'fail'"
+              class="alert alert-danger"
+            >
+              Image Upload Failed!
+            </div>
+          </div>
+        </div>
+
+        <fieldset class="form-group p-3">
+          <legend class="w-auto px-2">Current Occupation</legend>
+          <div class="form-group text-left">
+            <label for="job-title">Job title:</label>
+            <input
+              type="text"
+              class="form-control job-title"
+              id="job-title"
+              placeholder="Job title..."
+              name="job-title"
+            />
+          </div>
+          <div class="form-group text-left">
+            <label for="job-description">Job description:</label>
+            <textarea
+              class="form-control job-description"
+              id="job-description"
+              placeholder="Job description..."
+              name="job-description"
+            ></textarea>
+          </div>
+          <div class="form-group text-left">
+            <label for="salary">Salary:</label>
+            <input
+              type="text"
+              class="form-control salary"
+              id="salary"
+              placeholder="Salary..."
+              name="salary"
+            />
+          </div>
+        </fieldset>
+        <!-- Your Address  -->
+        <fieldset class="form-group p-3">
+          <legend class="w-auto px-2">Your Address</legend>
+          <div class="form-group text-left">
+            <label for="address">Address:</label>
+            <input
+              type="text"
+              class="form-control address"
+              id="address"
+              placeholder="Address..."
+              name="address"
+            />
+          </div>
+          <div class="form-group text-left">
+            <label for="zip-code">ZIP code:</label>
+            <input
+              type="text"
+              class="form-control zip-code"
+              id="zip-code"
+              placeholder="ZIP code..."
+              name="zip-code"
+            />
+          </div>
+          <div class="form-group text-left">
+            <label for="city">City:</label>
+            <input
+              type="text"
+              class="form-control city"
+              id="city"
+              placeholder="City..."
+              name="city"
+            />
+          </div>
+          <div class="form-group text-left">
+            <label for="state">State:</label>
+            <input
+              type="text"
+              class="form-control state"
+              id="state"
+              placeholder="State..."
+              name="state"
+            />
+          </div>
+        </fieldset>
+        <!-- Job Preferences  -->
+        <fieldset class="form-group p-3">
+          <legend class="w-auto px-2">Job Preferences</legend>
+          <div class="form-group text-left">
+            <label for="preferences">Preferences:</label>
+            <textarea
+              class="form-control preferences"
+              id="preferences"
+              placeholder="Preferences..."
+              name="preferences"
+            ></textarea>
+          </div>
+          <div class="form-group text-left">
+            <label for="new-salary">New salary:</label>
+            <input
+              type="text"
+              class="form-control new-salary"
+              id="new-salary"
+              placeholder="New salary..."
+              name="new-salary"
+            />
+          </div>
+        </fieldset>
+
+        <!-- <div class="mb-1">
       <label for="name" class="form-label">Name</label>
       <div class="input-group has-validation">
         <input
@@ -200,27 +323,28 @@
         />
         <label class="form-check-label" for="isActive">Is Active</label>
       </div>
-    </div>
-    <div class="mb-1">
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <button
-          (click)="save()"
-          [disabled]="companyInfoform.invalid"
-          class="btn btn-primary"
-          type="button"
-        >
-          {{ id == 0 || id == null ? "Save" : "Update" }}
-        </button>
-        <button class="btn btn-secondary" type="button">Reset</button>
-      </div>
-    </div>
+    </div> -->
+        <div class="mb-1 form-group row">
+          <div class="btn-group col" role="group" aria-label="Basic example">
+            <button
+              (click)="save()"
+              [disabled]="companyInfoform.invalid"
+              class="btn btn-primary btn-customized"
+              type="button"
+            >
+              {{ id == 0 || id == null ? "Save" : "Update" }}
+            </button>
+            <button class="btn btn-secondary" type="button">Reset</button>
+          </div>
+        </div>
 
-    <div class="mb-1">
-      {{ companyInfoform.value | json }}
+        <div class="mb-1">
+          {{ companyInfoform.value | json }}
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
-
 <!-- <div class="container">
   <div class="row">
     <div class="card">

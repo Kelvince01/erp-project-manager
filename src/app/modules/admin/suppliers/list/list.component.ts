@@ -6,7 +6,7 @@ import { EmployeesService } from '@services/employees.service';
 import { FilesService } from '@services/files.service';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-list-suppliers',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
 })

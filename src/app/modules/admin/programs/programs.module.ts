@@ -8,6 +8,8 @@ import { ProgramsRoutingModule } from './programs-routing.module';
 import { ProgramsComponent } from './programs.component';
 import { UpsertComponent } from './upsert/upsert.component';
 import { ListComponent } from './list/list.component';
+import { AddProjectResponsibilityComponent } from './upsert/add-project-responsibility/add-project-responsibility.component';
+import { AddProjectDocumentsComponent } from './upsert/add-project-documents/add-project-documents.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { ListComponent } from './list/list.component';
     UpsertComponent,
     ListComponent,
     MilestonesListComponent,
+    AddProjectResponsibilityComponent,
+    AddProjectDocumentsComponent,
   ],
   imports: [CommonModule, ProgramsRoutingModule, SharedModule],
 })

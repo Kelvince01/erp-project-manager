@@ -1,3 +1,4 @@
+import { IAccount } from './../../../../data/models/account.model';
 import { first } from 'rxjs';
 import { BankingService } from './../../../../data/services/banking.service';
 import { Component, OnInit } from '@angular/core';
@@ -8,13 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
-  banks?: any[];
+  banks: IAccount[] = [];
+  isDeleting = false;
 
   constructor(private bankService: BankingService) {}
 
   ngOnInit() {
     this.bankService
-      .get()
+      .getAccounts()
       .pipe(first())
       .subscribe((banks) => (this.banks = banks));
 
@@ -38,12 +40,15 @@ export class ListComponent implements OnInit {
 }*/
   }
 
-  deleteBank(id: string) {
-    const bank = this.banks!.find((x) => x.id === id);
-    bank.isDeleting = true;
+  deleteBank(id: number) {
+    const bank = this.banks!.find((x) => x.AccountID === id);
+    this.isDeleting = true;
     this.bankService
-      .delete(id)
+      .deleteAccount(id)
       .pipe(first())
-      .subscribe(() => (this.banks = this.banks!.filter((x) => x.id !== id)));
+      .subscribe(
+        () => (this.banks = this.banks!.filter((x) => x.AccountID !== id))
+      );
+    this.isDeleting = true;
   }
 }

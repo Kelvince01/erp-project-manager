@@ -25,6 +25,20 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MenuModule } from 'primeng/menu';
+import { TabViewModule } from 'primeng/tabview';
+import { SidebarModule } from 'primeng/sidebar';
+import { AutoFocusModule } from 'primeng/autofocus';
+import { DividerModule } from 'primeng/divider';
+import { RippleModule } from 'primeng/ripple';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ChartModule } from 'primeng/chart';
+import { StyleClassModule } from 'primeng/styleclass';
+import { PanelMenuModule } from 'primeng/panelmenu';
+// import { EditorModule } from 'primeng/editor';
+import { StepsModule } from 'primeng/steps';
+import { BadgeModule } from 'primeng/badge';
+import { FieldsetModule } from 'primeng/fieldset';
 
 @NgModule({
   declarations: [],
@@ -54,6 +68,20 @@ import { MenuModule } from 'primeng/menu';
     InputTextareaModule,
     CheckboxModule,
     MenuModule,
+    TabViewModule,
+    SidebarModule,
+    AutoFocusModule,
+    DividerModule,
+    RippleModule,
+    InputSwitchModule,
+    AutoCompleteModule,
+    ChartModule,
+    StyleClassModule,
+    PanelMenuModule,
+    // EditorModule,
+    StepsModule,
+    BadgeModule,
+    FieldsetModule,
   ],
   exports: [
     AccordionModule,
@@ -79,6 +107,20 @@ import { MenuModule } from 'primeng/menu';
     InputTextareaModule,
     CheckboxModule,
     MenuModule,
+    TabViewModule,
+    SidebarModule,
+    AutoFocusModule,
+    DividerModule,
+    RippleModule,
+    InputSwitchModule,
+    AutoCompleteModule,
+    ChartModule,
+    StyleClassModule,
+    PanelMenuModule,
+    // EditorModule,
+    StepsModule,
+    BadgeModule,
+    FieldsetModule,
   ],
 })
 export class PrimengModule {}

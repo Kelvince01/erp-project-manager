@@ -5,31 +5,38 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="width: 30%">Name</th>
-      <th style="width: 30%">Email</th>
-      <th style="width: 30%">Role</th>
-      <th style="width: 10%"></th>
+      <th>Account Name</th>
+      <th>Description</th>
+      <th>Account Type</th>
+      <th>Tax</th>
+      <th>Current Balance</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let bank of banks">
-      <td>{{ bank.title }} {{ bank.firstName }} {{ bank.lastName }}</td>
-      <td>{{ bank.email }}</td>
-      <td>{{ bank.role }}</td>
+      <!-- <td>{{ bank.title }} {{ bank.firstName }} {{ bank.lastName }}</td> -->
+      <td>{{ bank.Account }}</td>
+      <td>{{ bank.Description }}</td>
+      <td>{{ bank.AccountTypeID }}</td>
+      <td>{{ bank.TaxID }}</td>
+      <td>{{ bank.OpeningBal }}</td>
       <td style="white-space: nowrap">
-        <a routerLink="edit/{{ bank.id }}" class="btn btn-sm btn-primary me-1"
+        <a
+          routerLink="/admin/banking/edit/{{ bank.AccountID }}"
+          class="btn btn-sm btn-primary me-1"
           >Edit</a
         >
         <button
-          (click)="deleteBank(bank.id)"
+          (click)="deleteBank(bank.AccountID!)"
           class="btn btn-sm btn-danger btn-delete-bank"
-          [disabled]="bank.isDeleting"
+          [disabled]="isDeleting"
         >
           <span
-            *ngIf="bank.isDeleting"
+            *ngIf="isDeleting"
             class="spinner-border spinner-border-sm"
           ></span>
-          <span *ngIf="!bank.isDeleting">Delete</span>
+          <span *ngIf="!isDeleting">Delete</span>
         </button>
       </td>
     </tr>

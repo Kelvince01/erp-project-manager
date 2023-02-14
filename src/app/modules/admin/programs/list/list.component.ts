@@ -1,6 +1,7 @@
-import { ProjectsService } from './../../../../data/services/projects.service';
 import { Component } from '@angular/core';
+import { IProject } from '@models/project.model';
 import { AuthService } from '@services/auth.service';
+import { ProjectsService } from '@services/projects.service';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -9,7 +10,8 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent {
-  programs?: any[];
+  programs: IProject[] = [];
+  isDeleting = false;
 
   constructor(private programService: ProjectsService) {}
 
@@ -17,17 +19,18 @@ export class ListComponent {
     this.programService
       .get()
       .pipe(first())
-      .subscribe((users) => (this.programs = users.data));
+      .subscribe((programs) => (this.programs = programs.data));
   }
 
   deleteUser(id: number) {
-    const user = this.programs!.find((x) => x.id === id);
-    user.isDeleting = true;
+    const program = this.programs!.find((x) => x.ProjectID === id);
+    this.isDeleting = true;
     this.programService
       .delete(id)
       .pipe(first())
       .subscribe(
-        () => (this.programs = this.programs!.filter((x) => x.id !== id))
+        () => (this.programs = this.programs!.filter((x) => x.ProjectID !== id))
       );
+    this.isDeleting = false;
   }
 }
