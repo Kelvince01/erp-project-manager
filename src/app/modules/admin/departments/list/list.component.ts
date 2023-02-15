@@ -30,7 +30,6 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(invokeDepartmentsAPI());
-    // console.log(this.departments$);
   }
 
   deleteDepartment(department: IDepartment) {
@@ -39,8 +38,6 @@ export class ListComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        // this.departments$ = this.departments$.filter(val => val.id !== department.DepartID);
-        // this.product = {};
         this.store.dispatch(
           invokeDeleteDepartmentAPI({
             id: department.DepartID,

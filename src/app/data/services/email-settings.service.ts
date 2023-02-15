@@ -1,0 +1,57 @@
+import { Injectable } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { FeathersService } from './feathers.service';
+import { Observable } from 'rxjs';
+import { IEmailSetting } from '@models/email-setting.model';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EmailSettingsService {
+  constructor(
+    private feathers: FeathersService,
+    private messages: MessageService
+  ) {}
+
+  get(): Observable<any> {
+    // just returning the observable will query the backend on every subscription
+    // using some caching mechanism would be wise in more complex applications
+    return <any>this.feathers // todo: remove 'any' assertion when feathers-reactive typings are up-to-date with buzzard
+      .service('email-settings')
+      // .watch()
+      .find({
+        query: {
+          $limit: 25,
+        },
+      });
+  }
+
+  getById(id: number) {
+    return this.feathers.service('email-settings').get(id);
+  }
+
+  create(payload: IEmailSetting): any {
+    return this.feathers
+      .service('email-settings')
+      .create({
+        ...payload,
+      })
+      .then(() =>
+        this.messages.add({ severity: 'success', detail: 'User created.' })
+      )
+      .catch((err) =>
+        this.messages.add({
+          severity: 'error',
+          detail: 'Could not create user!',
+        })
+      );
+  }
+
+  update(payload: IEmailSetting) {
+    return this.feathers.service('email-settings').update(payload.ID!, payload);
+  }
+
+  delete(id: number) {
+    return this.feathers.service('email-settings').remove(id);
+  }
+}

@@ -1,411 +1,325 @@
-<div
-  class="container form-3-container section-container section-container-image-bg"
+<p-tabView
+  class="surface-card p-2 m-0 list-none flex overflow-x-auto select-none"
 >
-  <div class="row">
-    <div class="col form-3 section-description wow fadeIn">
-      <h2>Form 3</h2>
-      <div class="divider-1 wow fadeInUp"><span></span></div>
-      <p>
-        A form with 3 "fieldset"-s and 3 "legend"-s: "Current occupation", "Your
-        address" and "Job preferences".
-      </p>
+  <p-tabPanel
+    class="flex align-items-center"
+    header="Organization Info"
+    leftIcon="pi pi-calendar"
+    tooltip="Organization Info"
+  >
+    <h1>{{ title }}</h1>
+    <form *ngIf="!loading" [formGroup]="companyInfoForm" (ngSubmit)="save()">
+      <fieldset class="scheduler-border mb-3">
+        <legend>Identity</legend>
+        <div class="row g-3">
+          <label for="" class="form-label">Company Logo</label>
+          <p-fileUpload
+            name="CompanyLogo"
+            formControlName="CompanyLogo"
+            (onUpload)="onUpload($event)"
+            [multiple]="false"
+            #fileUpload
+            [customUpload]="true"
+            accept="image/*"
+            [maxFileSize]="1000000"
+          >
+            <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">
+                  {{ file.name }} - {{ file.size }} bytes
+                </li>
+              </ul>
+            </ng-template>
+          </p-fileUpload>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="ProjectID" class="form-label">Project Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="ProjectID"
+              id="ProjectID"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="FYEnd" class="form-label">Financial Year</label>
+            <input
+              type="text"
+              class="form-control"
+              id="FYEnd"
+              formControlName="FYEnd"
+            />
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-12">
+            <label for="CompanyName" class="form-label">Company Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="CompanyName"
+              formControlName="CompanyName"
+            />
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="LegalName" class="form-label">Legal Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="LegalName"
+              formControlName="LegalName"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="CompanyInitials" class="form-label"
+              >Organization Init</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="CompanyInitials"
+              formControlName="CompanyInitials"
+            />
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="NSSFNo" class="form-label">NSSF No</label>
+            <input
+              type="text"
+              class="form-control"
+              id="NSSFNo"
+              formControlName="NSSFNo"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="NHIFNo" class="form-label">NHIF No</label>
+            <input
+              type="text"
+              class="form-control"
+              id="NHIFNo"
+              formControlName="NHIFNo"
+            />
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="PINNo" class="form-label">PIN No</label>
+            <input
+              type="text"
+              class="form-control"
+              id="PINNo"
+              formControlName="PINNo"
+            />
+          </div>
+          <div class="col-md-6 p-4">
+            <p-checkbox
+              class="mr-3"
+              formControlName="isOrgRegistered"
+              [binary]="true"
+              inputId="isOrgRegistered"
+            ></p-checkbox>
+            <!-- <input
+              type="checkbox"
+              class="form-control"
+              id="isOrgRegistered"
+              formControlName="isOrgRegistered"
+            /> -->
+            <label for="isOrgRegistered" align="center" class="pl-3 ml-3 mt-2"
+              >Is Organization registered for VAT?</label
+            >
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label for="DateID" class="form-label">FY Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="DateID"
+              formControlName="DateID"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="MonthID" class="form-label">FY Month</label>
+            <input
+              type="month"
+              class="form-control"
+              id="MonthID"
+              formControlName="MonthID"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="VATNo" class="form-label">VAT No</label>
+            <input
+              type="text"
+              class="form-control"
+              id="VATNo"
+              formControlName="VATNo"
+            />
+          </div>
+        </div>
+      </fieldset>
+      <div class="row">
+        <div class="col-md-6">
+          <fieldset class="scheduler-border mb-3">
+            <legend>Physical Address</legend>
+            <div class="form-group">
+              <label>Building</label>
+              <input
+                class="form-control"
+                formControlName="Building"
+                type="text"
+              />
+            </div>
+            <div class="form-group">
+              <label>Road</label>
+              <input class="form-control" formControlName="Road" type="text" />
+            </div>
+            <div class="form-group">
+              <label>P.O Box</label>
+              <input class="form-control" formControlName="POBox" type="text" />
+            </div>
+            <div class="form-group">
+              <label>Postal Code</label>
+              <input
+                class="form-control"
+                formControlName="PostalCode"
+                type="number"
+              />
+            </div>
+            <div class="form-group">
+              <label>Town</label>
+              <input class="form-control" formControlName="Town" type="text" />
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="scheduler-border mb-3">
+            <legend>Telephones</legend>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input
+                class="form-control"
+                id="EmailAddress"
+                formControlName="EmailAddress"
+                type="email"
+              />
+            </div>
+            <div class="form-group">
+              <label>Website</label>
+              <input
+                class="form-control"
+                id="Website"
+                formControlName="Website"
+                type="url"
+              />
+            </div>
+            <div class="form-group">
+              <label>Set Email</label>
+              <button
+                pButton
+                class="form-control"
+                type="button"
+                (click)="emailSettings()"
+                pButton
+                icon="pi pi-info-circle"
+                label="Email Settings"
+              ></button>
+            </div>
+            <div class="form-group">
+              <label>Telephone</label>
+              <input class="form-control" formControlName="Tel1" type="tel" />
+            </div>
+            <div class="form-group">
+              <label>Mobile</label>
+              <input
+                class="form-control"
+                formControlName="Mobile1"
+                type="tel"
+              />
+            </div>
+            <div class="form-group">
+              <label>Other Tel</label>
+              <input class="form-control" formControlName="Tel2" type="tel" />
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="row">
+        <div class="mb-2">
+          <button [disabled]="submitting" class="btn btn-primary">
+            <span
+              *ngIf="submitting"
+              class="spinner-border spinner-border-sm me-1"
+            ></span>
+            Save
+          </button>
+          <a routerLink="/admin/programs" class="btn btn-link">Cancel</a>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="loading" class="text-center m-5">
+      <span class="spinner-border spinner-border-lg align-center"></span>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="HR" rightIcon="pi pi-inbox" tooltip="HR"> </p-tabPanel>
+  <p-tabPanel header="Settings" rightIcon="pi pi-pdf" tooltip="Settings">
+  </p-tabPanel>
+</p-tabView>
+
+<!-- <form class="row g-3">
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Email</label>
+    <input type="email" class="form-control" id="inputEmail4" />
+  </div>
+  <div class="col-md-6">
+    <label for="inputPassword4" class="form-label">Password</label>
+    <input type="password" class="form-control" id="inputPassword4" />
+  </div>
+  <div class="col-12">
+    <label for="inputAddress" class="form-label">Address</label>
+    <input
+      type="text"
+      class="form-control"
+      id="inputAddress"
+      placeholder="1234 Main St"
+    />
+  </div>
+  <div class="col-12">
+    <label for="inputAddress2" class="form-label">Address 2</label>
+    <input
+      type="text"
+      class="form-control"
+      id="inputAddress2"
+      placeholder="Apartment, studio, or floor"
+    />
+  </div>
+  <div class="col-md-6">
+    <label for="inputCity" class="form-label">City</label>
+    <input type="text" class="form-control" id="inputCity" />
+  </div>
+  <div class="col-md-4">
+    <label for="inputState" class="form-label">State</label>
+    <select id="inputState" class="form-select">
+      <option selected>Choose...</option>
+      <option>...</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <label for="inputZip" class="form-label">Zip</label>
+    <input type="text" class="form-control" id="inputZip" />
+  </div>
+  <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck" />
+      <label class="form-check-label" for="gridCheck"> Check me out </label>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
-      <form [formGroup]="companyInfoform" autocomplete="off">
-        <div class="mb-1">
-          <label class="image-upload-container btn btn-bwm">
-            <span>Select Image</span>
-            <input
-              #imageInput
-              type="file"
-              accept="image/*"
-              (change)="processFile(imageInput)"
-            />
-          </label>
-
-          <div *ngIf="selectedFile" class="img-preview-container">
-            <div
-              class="img-preview{{
-                selectedFile.status === 'fail' ? '-error' : ''
-              }}"
-              [ngStyle]="{
-                'background-image': 'url(' + selectedFile.src + ')'
-              }"
-            ></div>
-
-            <div *ngIf="selectedFile.pending" class="img-loading-overlay">
-              <div class="img-spinning-circle"></div>
-            </div>
-
-            <div
-              *ngIf="selectedFile.status === 'ok'"
-              class="alert alert-success"
-            >
-              Image Uploaded Succesfuly!
-            </div>
-            <div
-              *ngIf="selectedFile.status === 'fail'"
-              class="alert alert-danger"
-            >
-              Image Upload Failed!
-            </div>
-          </div>
-        </div>
-
-        <fieldset class="form-group p-3">
-          <legend class="w-auto px-2">Current Occupation</legend>
-          <div class="form-group text-left">
-            <label for="job-title">Job title:</label>
-            <input
-              type="text"
-              class="form-control job-title"
-              id="job-title"
-              placeholder="Job title..."
-              name="job-title"
-            />
-          </div>
-          <div class="form-group text-left">
-            <label for="job-description">Job description:</label>
-            <textarea
-              class="form-control job-description"
-              id="job-description"
-              placeholder="Job description..."
-              name="job-description"
-            ></textarea>
-          </div>
-          <div class="form-group text-left">
-            <label for="salary">Salary:</label>
-            <input
-              type="text"
-              class="form-control salary"
-              id="salary"
-              placeholder="Salary..."
-              name="salary"
-            />
-          </div>
-        </fieldset>
-        <!-- Your Address  -->
-        <fieldset class="form-group p-3">
-          <legend class="w-auto px-2">Your Address</legend>
-          <div class="form-group text-left">
-            <label for="address">Address:</label>
-            <input
-              type="text"
-              class="form-control address"
-              id="address"
-              placeholder="Address..."
-              name="address"
-            />
-          </div>
-          <div class="form-group text-left">
-            <label for="zip-code">ZIP code:</label>
-            <input
-              type="text"
-              class="form-control zip-code"
-              id="zip-code"
-              placeholder="ZIP code..."
-              name="zip-code"
-            />
-          </div>
-          <div class="form-group text-left">
-            <label for="city">City:</label>
-            <input
-              type="text"
-              class="form-control city"
-              id="city"
-              placeholder="City..."
-              name="city"
-            />
-          </div>
-          <div class="form-group text-left">
-            <label for="state">State:</label>
-            <input
-              type="text"
-              class="form-control state"
-              id="state"
-              placeholder="State..."
-              name="state"
-            />
-          </div>
-        </fieldset>
-        <!-- Job Preferences  -->
-        <fieldset class="form-group p-3">
-          <legend class="w-auto px-2">Job Preferences</legend>
-          <div class="form-group text-left">
-            <label for="preferences">Preferences:</label>
-            <textarea
-              class="form-control preferences"
-              id="preferences"
-              placeholder="Preferences..."
-              name="preferences"
-            ></textarea>
-          </div>
-          <div class="form-group text-left">
-            <label for="new-salary">New salary:</label>
-            <input
-              type="text"
-              class="form-control new-salary"
-              id="new-salary"
-              placeholder="New salary..."
-              name="new-salary"
-            />
-          </div>
-        </fieldset>
-
-        <!-- <div class="mb-1">
-      <label for="name" class="form-label">Name</label>
-      <div class="input-group has-validation">
-        <input
-          type="text"
-          #name
-          [ngClass]="{
-            'form-control': true,
-            'is-invalid':
-              companyInfoform.get('name')?.invalid &&
-              (companyInfoform.get('name')?.dirty ||
-                companyInfoform.get('name')?.touched)
-          }"
-          id="name"
-          name="name"
-          formControlName="name"
-          placeholder="Name"
-        />
-        <div class="invalid-feedback">This field is required.</div>
-      </div>
-    </div>
-    <div class="mb-1">
-      <label for="mobile" class="form-label">Mobile</label>
-      <div class="input-group has-validation">
-        <input
-          type="number"
-          maxlength="10"
-          pattern="/^(0|91)?[6-9][0-9]{9}$/"
-          [ngClass]="{
-            'form-control': true,
-            'is-invalid':
-              companyInfoform.get('mobile')?.invalid &&
-              (companyInfoform.get('mobile')?.dirty ||
-                companyInfoform.get('mobile')?.touched)
-          }"
-          id="mobile"
-          name="mobile"
-          formControlName="mobile"
-          placeholder="Mobile"
-        />
-        <div class="invalid-feedback">This field is required.</div>
-      </div>
-    </div>
-    <div class="mb-1">
-      <label for="range" class="form-label">Range</label>
-      <div class="input-group has-validation">
-        <p-slider
-          formControlName="range"
-          [ngClass]="{
-            'form-control': true,
-            'is-invalid':
-              companyInfoform.get('range')?.invalid &&
-              (companyInfoform.get('range')?.dirty ||
-                companyInfoform.get('range')?.touched)
-          }"
-          [range]="true"
-        ></p-slider>
-        <div class="invalid-feedback">This field is required.</div>
-      </div>
-    </div>
-    <div class="mb-1">
-      <label for="email" class="form-label">Email</label>
-      <div class="input-group has-validation">
-        <input
-          type="email"
-          [ngClass]="{
-            'form-control': true,
-            'is-invalid':
-              companyInfoform.get('email')?.invalid &&
-              (companyInfoform.get('email')?.dirty ||
-                companyInfoform.get('email')?.touched)
-          }"
-          id="email"
-          name="email"
-          formControlName="email"
-          placeholder="xyz@gmail.com"
-        />
-        <div class="invalid-feedback">
-          {{
-            companyInfoform.get("email")?.hasError("required")
-              ? "This field is required."
-              : "Invalid Email"
-          }}
-        </div>
-      </div>
-    </div>
-    <div class="mb-1">
-      <label for="DOB" class="form-label">DOB</label>
-      <p-calendar
-        [showIcon]="true"
-        inputId="icon"
-        formControlName="dob"
-        [ngClass]="{
-          'form-control': true,
-          'is-invalid':
-            companyInfoform.get('dob')?.invalid &&
-            (companyInfoform.get('dob')?.dirty ||
-              companyInfoform.get('dob')?.touched)
-        }"
-      ></p-calendar>
-    </div>
-    <div class="mb-1">
-      <label for="email" class="form-label"
-        >Gender {{ companyInfoform.get("gender")?.value }}
-      </label>
-      <div class="input-group has-validation">
-        <select
-          [ngClass]="{
-            'form-select': true,
-            'is-invalid':
-              companyInfoform.get('gender')?.invalid &&
-              (companyInfoform.get('gender')?.dirty ||
-                companyInfoform.get('gender')?.touched)
-          }"
-          aria-label="Default select example"
-          formControlName="gender"
-        >
-          <option value="">--Select--</option>
-          <option
-            value="Male"
-            selected="companyInfoform.get('gender')?.value=='Male'"
-          >
-            Male
-          </option>
-          <option
-            value="Female"
-            selected="companyInfoform.get('gender')?.value=='Female'"
-          >
-            Female
-          </option>
-        </select>
-        <div class="invalid-feedback">This field is required.</div>
-      </div>
-    </div>
-    <div class="mb-1">
-      <label for="name" class="form-label">User Type</label>
-      <div class="input-group has-validation">
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            formControlName="userType"
-            type="radio"
-            id="User"
-            value="User"
-          />
-          <label class="form-check-label" for="User">User</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            formControlName="userType"
-            type="radio"
-            id="Admin"
-            value="Admin"
-          />
-          <label class="form-check-label" for="Admin">Admin</label>
-        </div>
-      </div>
-    </div>
-    <div class="mb-1">
-      <div class="form-check form-switch">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          formControlName="isActive"
-          id="isActive"
-        />
-        <label class="form-check-label" for="isActive">Is Active</label>
-      </div>
-    </div> -->
-        <div class="mb-1 form-group row">
-          <div class="btn-group col" role="group" aria-label="Basic example">
-            <button
-              (click)="save()"
-              [disabled]="companyInfoform.invalid"
-              class="btn btn-primary btn-customized"
-              type="button"
-            >
-              {{ id == 0 || id == null ? "Save" : "Update" }}
-            </button>
-            <button class="btn btn-secondary" type="button">Reset</button>
-          </div>
-        </div>
-
-        <div class="mb-1">
-          {{ companyInfoform.value | json }}
-        </div>
-      </form>
-    </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Sign in</button>
   </div>
-</div>
-<!-- <div class="container">
-  <div class="row">
-    <div class="card">
-      <h5>Add Organization</h5>
-      <div class="formgrid grid">
-        <div class="field col-12 md:col-6">
-          <label for="firstname6">Firstname</label>
-          <input
-            id="firstname6"
-            type="text"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          />
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="lastname6">Lastname</label>
-          <input
-            id="lastname6"
-            type="text"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          />
-        </div>
-        <div class="field col-12">
-          <label for="address">Address</label>
-          <textarea
-            id="address"
-            type="text"
-            rows="4"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          ></textarea>
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="city">City</label>
-          <input
-            id="city"
-            type="text"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          />
-        </div>
-        <div class="field col-12 md:col-3">
-          <label for="state">State</label>
-          <select
-            id="state"
-            class="w-full text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary"
-            style="appearance: auto"
-          >
-            <option>Arizona</option>
-            <option>California</option>
-            <option>Florida</option>
-            <option>Ohio</option>
-            <option>Washington</option>
-          </select>
-        </div>
-        <div class="field col-12 md:col-3">
-          <label for="zip">Zip</label>
-          <input
-            id="zip"
-            type="text"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
+</form> -->

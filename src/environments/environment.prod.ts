@@ -1,5 +1,4 @@
 export const environment = {
-  production: false,
+  production: true,
   apiUrl: 'http://localhost:3030',
-  configUrl: '/localdata/config.json',
 };

@@ -1,7 +1,8 @@
+// import { PageNotFoundComponent } from '@shared/components/page-not-found';
 import { NgModule } from '@angular/core';
+// import { PageNotFoundComponent } from './../app/core/components/page-not-found/page-not-found.component';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@utils/guards/auth.guard';
-// import { PageNotFoundComponent } from '@shared/components/page-not-found';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       preloadingStrategy: PreloadAllModules,
+      initialNavigation: 'enabledBlocking',
     }),
   ],
   exports: [RouterModule],

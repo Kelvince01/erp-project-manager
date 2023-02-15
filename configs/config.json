@@ -1,0 +1,7 @@
+{
+  "isServed": true,
+  "API": {
+    "apiRoot": "http://localhost:3030"
+  },
+  "MyKey": "MyValue"
+}

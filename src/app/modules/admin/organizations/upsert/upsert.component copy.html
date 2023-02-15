@@ -1,0 +1,536 @@
+<div class="row">
+  <fieldset class="scheduler-border mb-3">
+    <legend>Project Info</legend>
+    <div class="mb-2">
+      <label class="form-label" for="ProjectName">Name :</label>
+      <div>
+        <input
+          type="text"
+          class="form-control"
+          id="ProjectName"
+          name="ProjectName"
+          formControlName="ProjectName"
+        />
+      </div>
+    </div>
+    <div class="mb-2">
+      <label class="form-label" for="Description">Description :</label>
+      <div>
+        <input
+          type="text"
+          class="form-control"
+          id="Description"
+          formControlName="Description"
+          name="Description"
+        />
+      </div>
+    </div>
+    <div class="mb-2">
+      <label class="form-label" for="ProjectCode">Project Code :</label>
+      <div>
+        <input
+          type="text"
+          class="form-control"
+          id="ProjectCode"
+          formControlName="ProjectCode"
+          name="ProjectCode"
+        />
+      </div>
+    </div>
+  </fieldset>
+</div>
+
+<div class="row panel panel-primary">
+  <fieldset class="scheduler-border mb-3 panel-body">
+    <legend class="text-on-pannel text-primary">Other Information</legend>
+    <div class="mb-2">
+      <label class="form-label" for="Code">Tender No :</label>
+      <div>
+        <input
+          type="text"
+          class="form-control"
+          id="Code"
+          name="Code"
+          formControlName="Code"
+        />
+      </div>
+    </div>
+    <div class="mb-2">
+      <label class="form-label" for="StartDate">Start Date: </label>
+      <div>
+        <!-- <input
+      type="datetime"
+      class="form-control"
+      id="StartDate"
+      formControlName="StartDate"
+      name="StartDate"
+    /> -->
+        <p-calendar
+          class="form-control"
+          id="StartDate"
+          formControlName="StartDate"
+          name="StartDate"
+          [showTime]="true"
+          [showSeconds]="true"
+          inputId="StartDate"
+        ></p-calendar>
+      </div>
+    </div>
+    <div class="mb-2">
+      <label class="form-label" for="EndDate">End Date: </label>
+      <div>
+        <p-calendar
+          class="form-control col-12"
+          id="EndDate"
+          formControlName="EndDate"
+          name="EndDate"
+          [showTime]="true"
+          [showSeconds]="true"
+          inputId="EndDate"
+        ></p-calendar>
+      </div>
+    </div>
+    <div class="mb-2">
+      <label class="form-label" for="DateOfAward">Date of Award: </label>
+      <div>
+        <p-calendar
+          class="form-control"
+          id="DateOfAward"
+          formControlName="DateOfAward"
+          name="DateOfAward"
+          [showTime]="true"
+          [showSeconds]="true"
+          inputId="DateOfAward"
+        ></p-calendar>
+      </div>
+    </div>
+    <div class="mb-2">
+      <label class="form-label" for="Country">Project Location: </label>
+      <div>
+        <input
+          type="text"
+          class="form-control"
+          id="Country"
+          name="Country"
+          formControlName="Country"
+        />
+        <!-- <i class="fa fa-clock"></i> -->
+      </div>
+    </div>
+  </fieldset>
+</div>
+<div class="mb-2">
+  <button [disabled]="submitting" class="btn btn-primary">
+    <span
+      *ngIf="submitting"
+      class="spinner-border spinner-border-sm me-1"
+    ></span>
+    Save
+  </button>
+  <a routerLink="/admin/programs" class="btn btn-link">Cancel</a>
+</div>
+
+<div
+  class="container form-3-container section-container section-container-image-bg"
+>
+  <div class="row">
+    <div class="col form-3 section-description wow fadeIn">
+      <h2>Form 3</h2>
+      <div class="divider-1 wow fadeInUp"><span></span></div>
+      <p>
+        A form with 3 "fieldset"-s and 3 "legend"-s: "Current occupation", "Your
+        address" and "Job preferences".
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
+      <form [formGroup]="companyInfoform" autocomplete="off">
+        <div class="mb-1">
+          <label class="image-upload-container btn btn-bwm">
+            <span>Select Image</span>
+            <input
+              #imageInput
+              type="file"
+              accept="image/*"
+              (change)="processFile(imageInput)"
+            />
+          </label>
+
+          <div *ngIf="selectedFile" class="img-preview-container">
+            <div
+              class="img-preview{{
+                selectedFile.status === 'fail' ? '-error' : ''
+              }}"
+              [ngStyle]="{
+                'background-image': 'url(' + selectedFile.src + ')'
+              }"
+            ></div>
+
+            <div *ngIf="selectedFile.pending" class="img-loading-overlay">
+              <div class="img-spinning-circle"></div>
+            </div>
+
+            <div
+              *ngIf="selectedFile.status === 'ok'"
+              class="alert alert-success"
+            >
+              Image Uploaded Succesfuly!
+            </div>
+            <div
+              *ngIf="selectedFile.status === 'fail'"
+              class="alert alert-danger"
+            >
+              Image Upload Failed!
+            </div>
+          </div>
+        </div>
+
+        <!-- <fieldset class="form-group p-3">
+          <legend class="w-auto px-2">Current Occupation</legend>
+          <div class="form-group text-left">
+            <label for="job-title">Job title:</label>
+            <input
+              type="text"
+              class="form-control job-title"
+              id="job-title"
+              placeholder="Job title..."
+              name="job-title"
+            />
+          </div>
+          <div class="form-group text-left">
+            <label for="job-description">Job description:</label>
+            <textarea
+              class="form-control job-description"
+              id="job-description"
+              placeholder="Job description..."
+              name="job-description"
+            ></textarea>
+          </div>
+          <div class="form-group text-left">
+            <label for="salary">Salary:</label>
+            <input
+              type="text"
+              class="form-control salary"
+              id="salary"
+              placeholder="Salary..."
+              name="salary"
+            />
+          </div>
+        </fieldset>
+        <fieldset class="form-group p-3">
+          <legend class="w-auto px-2">Your Address</legend>
+          <div class="form-group text-left">
+            <label for="address">Address:</label>
+            <input
+              type="text"
+              class="form-control address"
+              id="address"
+              placeholder="Address..."
+              name="address"
+            />
+          </div>
+          <div class="form-group text-left">
+            <label for="zip-code">ZIP code:</label>
+            <input
+              type="text"
+              class="form-control zip-code"
+              id="zip-code"
+              placeholder="ZIP code..."
+              name="zip-code"
+            />
+          </div>
+          <div class="form-group text-left">
+            <label for="city">City:</label>
+            <input
+              type="text"
+              class="form-control city"
+              id="city"
+              placeholder="City..."
+              name="city"
+            />
+          </div>
+          <div class="form-group text-left">
+            <label for="state">State:</label>
+            <input
+              type="text"
+              class="form-control state"
+              id="state"
+              placeholder="State..."
+              name="state"
+            />
+          </div>
+        </fieldset>
+        <fieldset class="form-group p-3">
+          <legend class="w-auto px-2">Job Preferences</legend>
+          <div class="form-group text-left">
+            <label for="preferences">Preferences:</label>
+            <textarea
+              class="form-control preferences"
+              id="preferences"
+              placeholder="Preferences..."
+              name="preferences"
+            ></textarea>
+          </div>
+          <div class="form-group text-left">
+            <label for="new-salary">New salary:</label>
+            <input
+              type="text"
+              class="form-control new-salary"
+              id="new-salary"
+              placeholder="New salary..."
+              name="new-salary"
+            />
+          </div>
+        </fieldset> -->
+
+        <div class="mb-1">
+          <label for="name" class="form-label">Name</label>
+          <div class="input-group has-validation">
+            <input
+              type="text"
+              #name
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid':
+                  companyInfoform.get('name')?.invalid &&
+                  (companyInfoform.get('name')?.dirty ||
+                    companyInfoform.get('name')?.touched)
+              }"
+              id="name"
+              name="name"
+              formControlName="name"
+              placeholder="Name"
+            />
+            <div class="invalid-feedback">This field is required.</div>
+          </div>
+        </div>
+        <div class="mb-1">
+          <label for="mobile" class="form-label">Mobile</label>
+          <div class="input-group has-validation">
+            <input
+              type="number"
+              maxlength="10"
+              pattern="/^(0|91)?[6-9][0-9]{9}$/"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid':
+                  companyInfoform.get('mobile')?.invalid &&
+                  (companyInfoform.get('mobile')?.dirty ||
+                    companyInfoform.get('mobile')?.touched)
+              }"
+              id="mobile"
+              name="mobile"
+              formControlName="mobile"
+              placeholder="Mobile"
+            />
+            <div class="invalid-feedback">This field is required.</div>
+          </div>
+        </div>
+        <div class="mb-1">
+          <label for="range" class="form-label">Range</label>
+          <div class="input-group has-validation">
+            <p-slider
+              formControlName="range"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid':
+                  companyInfoform.get('range')?.invalid &&
+                  (companyInfoform.get('range')?.dirty ||
+                    companyInfoform.get('range')?.touched)
+              }"
+              [range]="true"
+            ></p-slider>
+            <div class="invalid-feedback">This field is required.</div>
+          </div>
+        </div>
+        <div class="mb-1">
+          <label for="email" class="form-label">Email</label>
+          <div class="input-group has-validation">
+            <input
+              type="email"
+              [ngClass]="{
+                'form-control': true,
+                'is-invalid':
+                  companyInfoform.get('email')?.invalid &&
+                  (companyInfoform.get('email')?.dirty ||
+                    companyInfoform.get('email')?.touched)
+              }"
+              id="email"
+              name="email"
+              formControlName="email"
+              placeholder="xyz@gmail.com"
+            />
+            <div class="invalid-feedback">
+              {{ companyInfoform.get("email")?.hasError("required") ? "This
+              field is required." : "Invalid Email" }}
+            </div>
+          </div>
+        </div>
+        <div class="mb-1">
+          <label for="DOB" class="form-label">DOB</label>
+          <p-calendar
+            [showIcon]="true"
+            inputId="icon"
+            formControlName="dob"
+            [ngClass]="{
+              'form-control': true,
+              'is-invalid':
+                companyInfoform.get('dob')?.invalid &&
+                (companyInfoform.get('dob')?.dirty ||
+                  companyInfoform.get('dob')?.touched)
+            }"
+          ></p-calendar>
+        </div>
+        <div class="mb-1">
+          <label for="email" class="form-label"
+            >Gender {{ companyInfoform.get("gender")?.value }}
+          </label>
+          <div class="input-group has-validation">
+            <select
+              [ngClass]="{
+                'form-select': true,
+                'is-invalid':
+                  companyInfoform.get('gender')?.invalid &&
+                  (companyInfoform.get('gender')?.dirty ||
+                    companyInfoform.get('gender')?.touched)
+              }"
+              aria-label="Default select example"
+              formControlName="gender"
+            >
+              <option value="">--Select--</option>
+              <option
+                value="Male"
+                selected="companyInfoform.get('gender')?.value=='Male'"
+              >
+                Male
+              </option>
+              <option
+                value="Female"
+                selected="companyInfoform.get('gender')?.value=='Female'"
+              >
+                Female
+              </option>
+            </select>
+            <div class="invalid-feedback">This field is required.</div>
+          </div>
+        </div>
+        <div class="mb-1">
+          <label for="name" class="form-label">User Type</label>
+          <div class="input-group has-validation">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="userType"
+                type="radio"
+                id="User"
+                value="User"
+              />
+              <label class="form-check-label" for="User">User</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                formControlName="userType"
+                type="radio"
+                id="Admin"
+                value="Admin"
+              />
+              <label class="form-check-label" for="Admin">Admin</label>
+            </div>
+          </div>
+        </div>
+        <div class="mb-1">
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="isActive"
+              id="isActive"
+            />
+            <label class="form-check-label" for="isActive">Is Active</label>
+          </div>
+        </div>
+        <div class="mb-1 form-group row">
+          <div class="btn-group col" role="group" aria-label="Basic example">
+            <button
+              (click)="save()"
+              [disabled]="companyInfoform.invalid"
+              class="btn btn-primary btn-customized"
+              type="button"
+            >
+              {{ id == 0 || id == null ? "Save" : "Update" }}
+            </button>
+            <button class="btn btn-secondary" type="button">Reset</button>
+          </div>
+        </div>
+
+        <div class="mb-1">{{ companyInfoform.value | json }}</div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- <div class="container">
+  <div class="row">
+    <div class="card">
+      <h5>Add Organization</h5>
+      <div class="formgrid grid">
+        <div class="field col-12 md:col-6">
+          <label for="firstname6">Firstname</label>
+          <input
+            id="firstname6"
+            type="text"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+        <div class="field col-12 md:col-6">
+          <label for="lastname6">Lastname</label>
+          <input
+            id="lastname6"
+            type="text"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+        <div class="field col-12">
+          <label for="address">Address</label>
+          <textarea
+            id="address"
+            type="text"
+            rows="4"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          ></textarea>
+        </div>
+        <div class="field col-12 md:col-6">
+          <label for="city">City</label>
+          <input
+            id="city"
+            type="text"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="state">State</label>
+          <select
+            id="state"
+            class="w-full text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary"
+            style="appearance: auto"
+          >
+            <option>Arizona</option>
+            <option>California</option>
+            <option>Florida</option>
+            <option>Ohio</option>
+            <option>Washington</option>
+          </select>
+        </div>
+        <div class="field col-12 md:col-3">
+          <label for="zip">Zip</label>
+          <input
+            id="zip"
+            type="text"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

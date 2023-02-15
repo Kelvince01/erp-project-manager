@@ -36,6 +36,7 @@
       "@company-store/*": ["src/app/data/company-info/*"],
       "@departments-store/*": ["src/app/data/departments/*"],
       "@auth-store/*": ["src/app/data/auth/*"],
+      "@email-setting-store/*": ["src/app/data/email-settings/*"],
       "@utils/*": ["src/app/utilities/*"],
       "@shared/*": ["src/app/shared/*"],
       "@envs/*": ["src/environments/*"],
