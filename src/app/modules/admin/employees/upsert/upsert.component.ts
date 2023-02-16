@@ -56,7 +56,7 @@ export class UpsertComponent implements OnInit {
       this.employeeService
         .getById(Number(this.id))
         .then(first())
-        .then((x) => {
+        .then((x: any) => {
           this.form.patchValue(x);
           this.loading = false;
         });

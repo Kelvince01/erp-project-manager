@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import io from 'socket.io-client';
-import { feathers } from '@feathersjs/feathers';
+import * as io from 'socket.io-client';
+import feathers from '@feathersjs/feathers';
 import socketio from '@feathersjs/socketio-client';
-import { environment } from 'src/environments/environment';
+// import feathersSocketIOClient from '@feathersjs/socketio-client';
 import { Observable } from 'rxjs';
-import authentication, {
-  AuthenticationClient,
-} from '@feathersjs/authentication-client';
-import * as rx from 'feathers-reactive';
+// import * as rx from 'feathers-reactive';
+import feathersAuthClient2 from '@feathersjs/authentication-client';
+import { environment } from '@envs/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,23 +14,18 @@ import * as rx from 'feathers-reactive';
 export class FeathersService {
   private _socket = io(environment.apiUrl, { transports: ['websocket'] });
   private client = feathers();
+  private feathersAuthClient = require('@feathersjs/authentication-client')
+    .default;
 
   constructor() {
-    const options = {
-      storage: window.localStorage, // The storage to store the access token
-      path: '/authentication', // The path of the authentication service
-      locationKey: 'access_token', // The name of the window hash parameter to parse for an access token from the window.location. Usually used by the oAuth flow.
-      locationErrorKey: 'error', // The name of the window hash parameter to parse for authentication errors. Usually used by the oAuth flow.
-      jwtStrategy: 'jwt', // The access token authentication strategy
-      storageKey: 'access_token', // Key for storing the token in e.g. localStorage
-      header: 'Authorization', // Name of the accessToken header
-      scheme: 'Bearer', // The HTTP header scheme
-      Authentication: AuthenticationClient, // Allows to provide a customized authentication client class
-    };
-
     this.client
       .configure(socketio(this._socket)) // add socket.io plugin
-      .configure(authentication(options));
+      .configure(
+        this.feathersAuthClient({
+          // add authentication plugin
+          storage: window.localStorage,
+        })
+      );
     // .configure(
     //   rx({
     //     // add feathers-reactive plugin

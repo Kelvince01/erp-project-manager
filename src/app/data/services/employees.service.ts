@@ -59,7 +59,7 @@ export class EmployeesService {
       .then(() =>
         this.messages.add({ severity: 'success', detail: 'User created.' })
       )
-      .catch((err) =>
+      .catch((err: any) =>
         this.messages.add({
           severity: 'error',
           detail: 'Could not create user!',
