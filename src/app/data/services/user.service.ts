@@ -1,7 +1,7 @@
 import { map, Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { FeathersService } from '@services/feathers.service';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '@models/user.model';
 
@@ -12,7 +12,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private feathers: FeathersService,
-    private messages: MessageService
+    @Inject(MessageService) private messages: MessageService
   ) {}
 
   get(): Observable<any> {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, map, mergeMap, retry, switchMap, withLatestFrom } from 'rxjs';
@@ -21,10 +21,10 @@ import { Paginated } from '@feathersjs/feathers';
 @Injectable()
 export class DepartmentsEffect {
   constructor(
-    private actions$: Actions,
+    @Inject(Actions) private actions$: Actions,
     private departmentsService: DepartmentsService,
-    private store: Store,
-    private appStore: Store<Appstate>
+    @Inject(Store) private store: Store,
+    @Inject(Store<Appstate>) private appStore: Store<Appstate>
   ) {}
 
   saveNewDepartment$ = createEffect(() => {

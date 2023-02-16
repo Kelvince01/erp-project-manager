@@ -54,7 +54,8 @@
               "@feathersjs/socketio-client",
               "feathers-reactive",
               "file-saver",
-              "jquery"
+              "jquery",
+              "socket.io-client"
             ]
           },
           "configurations": {

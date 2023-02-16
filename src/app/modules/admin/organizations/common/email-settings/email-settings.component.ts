@@ -1,8 +1,7 @@
-import { getEmailSetting } from './../../../../../data/email-settings/email-setting.reducer';
+import { selectEmailSettings } from './../../../../../data/email-settings/email-setting.selector';
 import { IEmailSetting } from '@models/email-setting.model';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EmailSettingState } from '@email-setting-store/email-setting.state';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -22,11 +21,11 @@ export class EmailSettingsComponent {
   emailSetting?: Observable<IEmailSetting>;
 
   constructor(
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
-    private fb: FormBuilder,
-    public messageService: MessageService,
-    private store: Store<EmailSettingState>
+    @Inject(DynamicDialogRef) public ref: DynamicDialogRef,
+    @Inject(DynamicDialogConfig) public config: DynamicDialogConfig,
+    @Inject(FormBuilder) private fb: FormBuilder,
+    @Inject(MessageService) public messageService: MessageService,
+    @Inject(Store) private store: Store
   ) {
     this.emailSettingsForm = this.fb.group({
       Group: ['', [Validators.required]],
@@ -47,9 +46,8 @@ export class EmailSettingsComponent {
   }
 
   ngOnInit(): void {
-    this.emailSetting = this.store.select(
-      getEmailSetting
-    ) as Observable<IEmailSetting>;
+    this.emailSetting = this.store.select(selectEmailSettings);
+    // ) as Observable<IEmailSetting>;
   }
 
   save() {

@@ -1,5 +1,5 @@
 import { IDepartment } from './../../../../data/models/department.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { selectDepartments } from 'src/app/data/departments/department.selector';
@@ -20,9 +20,10 @@ declare var window: any;
 })
 export class ListComponent implements OnInit {
   constructor(
-    private store: Store,
-    private appStore: Store<Appstate>,
-    private messageService: MessageService,
+    @Inject(Store) private store: Store,
+    @Inject(Store<Appstate>) private appStore: Store<Appstate>,
+    @Inject(MessageService) private messageService: MessageService,
+    @Inject(ConfirmationService)
     private confirmationService: ConfirmationService
   ) {}
 

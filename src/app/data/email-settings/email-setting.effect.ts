@@ -1,74 +1,111 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as emailSettingActions from './email-setting.action';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { EmailSettingsService } from '@services/email-settings.service';
-import { IEmailSetting } from '@models/email-setting.model';
+import { select, Store } from '@ngrx/store';
+import { EMPTY, map, mergeMap, retry, switchMap, withLatestFrom } from 'rxjs';
+import { EmailSettingsService } from '../services/email-settings.service';
+import {
+  deleteEmailSettingAPISuccess,
+  emailSettingsFetchAPISuccess,
+  invokeDeleteEmailSettingAPI,
+  invokeEmailSettingsAPI,
+  invokeSaveNewEmailSettingAPI,
+  invokeUpdateEmailSettingAPI,
+  saveNewEmailSettingAPISuccess,
+  updateEmailSettingAPISuccess,
+} from './email-setting.action';
+import { setAPIStatus } from '../stores/app.action';
+import { Appstate } from '../stores/appstate';
+import { selectEmailSettings } from './email-setting.selector';
+import { Paginated } from '@feathersjs/feathers';
 
 @Injectable()
-export class EmailSettingEffects {
-  constructor(private actions$: Actions, private svc: EmailSettingsService) {}
+export class EmailSettingsEffect {
+  constructor(
+    @Inject(Actions) private actions$: Actions,
+    private emailSettingsService: EmailSettingsService,
+    private store: Store,
+    private appStore: Store<Appstate>
+  ) {}
 
-  getAllEmailSettings$ = createEffect(() => {
+  saveNewEmailSetting$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(emailSettingActions.GET_EMAIL_SETTINGS),
-      switchMap(() => this.svc.get()),
-      map(
-        (heroes) => new emailSettingActions.GetAllEmailSettingsSuccess(heroes)
-      ),
-      catchError((err) => [
-        new emailSettingActions.GetAllEmailSettingsError(err),
-      ])
+      ofType(invokeSaveNewEmailSettingAPI),
+      switchMap((action) => {
+        this.appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this.emailSettingsService.create(action.newEmailSetting).pipe(
+          map((data) => {
+            this.appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+              })
+            );
+            return saveNewEmailSettingAPISuccess({ newEmailSetting: data });
+          })
+        );
+      })
     );
   });
 
-  getEmailSetting$ = createEffect(() => {
+  loadAllEmailSettings$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(invokeEmailSettingsAPI),
+      withLatestFrom(this.store.pipe(select(selectEmailSettings))),
+      mergeMap(([, emailSettingformStore]) => {
+        if (emailSettingformStore.length > 0) {
+          return EMPTY;
+        }
+        return this.emailSettingsService.get().pipe(
+          retry(2),
+          // map((response: Paginated<any>) => response.data)
+          map((data: Paginated<any>) =>
+            emailSettingsFetchAPISuccess({ allEmailSettings: data.data })
+          )
+        );
+      })
+    )
+  );
+
+  updateEmailSettingAPI$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(emailSettingActions.GET_EMAIL_SETTING),
-      map((action: emailSettingActions.GetEmailSetting) => action.payload),
-      switchMap((id) => this.svc.getById(id)),
-      map((hero) => new emailSettingActions.GetEmailSettingSuccess(hero)),
-      catchError((err) => [new emailSettingActions.GetEmailSettingError(err)])
+      ofType(invokeUpdateEmailSettingAPI),
+      switchMap((action) => {
+        this.appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this.emailSettingsService.update(action.updateEmailSetting).pipe(
+          map((data) => {
+            this.appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+              })
+            );
+            return updateEmailSettingAPISuccess({ updateEmailSetting: data });
+          })
+        );
+      })
     );
   });
 
-  updateEmailSetting$ = createEffect(() => {
+  deleteEmailSettingsAPI$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(emailSettingActions.UPDATE_EMAIL_SETTING),
-      map((action: emailSettingActions.UpdateEmailSetting) => action.payload),
-      switchMap((game) => this.svc.update(game)),
-      map(() => new emailSettingActions.UpdateEmailSettingSuccess()),
-      catchError((err) => [
-        new emailSettingActions.UpdateEmailSettingError(err),
-      ])
-    );
-  });
-
-  createEmailSetting$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(emailSettingActions.CREATE_EMAIL_SETTING),
-      map((action: emailSettingActions.AddEmailSetting) => action.payload),
-      switchMap((newEmailSetting) => this.svc.create(newEmailSetting)),
-      map(
-        (response: any) =>
-          new emailSettingActions.AddEmailSettingSuccess(response.ID)
-      ),
-      catchError((err) => [new emailSettingActions.AddEmailSettingError(err)])
-    );
-  });
-
-  removeEmailSetting$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(emailSettingActions.DELETE_EMAIL_SETTING),
-      map((action: emailSettingActions.RemoveEmailSetting) => action.payload),
-      switchMap((id) => this.svc.delete(id)),
-      map(
-        (hero: IEmailSetting) =>
-          new emailSettingActions.RemoveEmailSettingSuccess(hero)
-      ),
-      catchError((err) => [
-        new emailSettingActions.RemoveEmailSettingError(err),
-      ])
+      ofType(invokeDeleteEmailSettingAPI),
+      switchMap((actions) => {
+        this.appStore.dispatch(
+          setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
+        );
+        return this.emailSettingsService.delete(actions.id).pipe(
+          map(() => {
+            this.appStore.dispatch(
+              setAPIStatus({
+                apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
+              })
+            );
+            return deleteEmailSettingAPISuccess({ id: actions.id });
+          })
+        );
+      })
     );
   });
 }

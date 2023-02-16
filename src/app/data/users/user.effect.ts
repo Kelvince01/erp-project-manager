@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, map, mergeMap, switchMap, withLatestFrom } from 'rxjs';
@@ -9,8 +9,8 @@ import {
   invokeUsersAPI,
   invokeSaveNewUserAPI,
   invokeUpdateUserAPI,
-  saveNewUserAPISucess,
-  updateUserAPISucess,
+  saveNewUserAPISuccess,
+  updateUserAPISuccess,
 } from './users.action';
 import { UserService } from '@services/user.service';
 import { setAPIStatus } from '../stores/app.action';
@@ -20,10 +20,10 @@ import { selectUsers } from './user.selector';
 @Injectable()
 export class UsersEffect {
   constructor(
-    private actions$: Actions,
+    @Inject(Actions) private actions$: Actions,
     private usersService: UserService,
-    private store: Store,
-    private appStore: Store<Appstate>
+    @Inject(Store) private store: Store,
+    @Inject(Store<Appstate>) private appStore: Store<Appstate>
   ) {}
 
   saveNewUser$ = createEffect(() => {
@@ -40,7 +40,7 @@ export class UsersEffect {
                 apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
               })
             );
-            return saveNewUserAPISucess({ newUser: data });
+            return saveNewUserAPISuccess({ newUser: data });
           })
         );
       })
@@ -76,7 +76,7 @@ export class UsersEffect {
                 apiStatus: { apiResponseMessage: '', apiStatus: 'success' },
               })
             );
-            return updateUserAPISucess({ updateUser: data });
+            return updateUserAPISuccess({ updateUser: data });
           })
         );
       })

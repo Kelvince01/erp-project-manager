@@ -1,5 +1,3 @@
-import { EmailSettingEffects } from './../../../data/email-settings/email-setting.effect';
-import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -12,10 +10,12 @@ import { companyInfoReducer } from '@company-store/company-info.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CompanyInfosEffect } from '@company-store/company-info.effect';
 import { EmailSettingsComponent } from './common/email-settings/email-settings.component';
-import * as emailSettingReducer from '@email-setting-store/email-setting.reducer';
+import { emailSettingReducer } from '@email-setting-store/email-setting.reducer';
+import { SharedModule } from '@shared/shared.module';
+import { EmailSettingsEffect } from '@email-setting-store/email-setting.effect';
 
 export const reducers: ActionReducerMap<any> = {
-  emailSettings: emailSettingReducer.reducer,
+  emailSettings: emailSettingReducer,
   companyInfo: companyInfoReducer,
 };
 
@@ -31,7 +31,7 @@ export const reducers: ActionReducerMap<any> = {
     OrganizationsRoutingModule,
     SharedModule,
     StoreModule.forFeature('company-info', reducers),
-    EffectsModule.forFeature([CompanyInfosEffect, EmailSettingEffects]),
+    EffectsModule.forFeature([CompanyInfosEffect, EmailSettingsEffect]),
   ],
 })
 export class OrganizationsModule {}

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FeathersService } from './feathers.service';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { IEmailSetting } from '@models/email-setting.model';
 export class EmailSettingsService {
   constructor(
     private feathers: FeathersService,
-    private messages: MessageService
+    @Inject(MessageService) private messages: MessageService
   ) {}
 
   get(): Observable<any> {
@@ -30,7 +30,7 @@ export class EmailSettingsService {
     return this.feathers.service('email-settings').get(id);
   }
 
-  create(payload: IEmailSetting): any {
+  create(payload: IEmailSetting): Observable<any> {
     return this.feathers
       .service('email-settings')
       .create({
@@ -47,11 +47,11 @@ export class EmailSettingsService {
       );
   }
 
-  update(payload: IEmailSetting) {
+  update(payload: IEmailSetting): Observable<any> {
     return this.feathers.service('email-settings').update(payload.ID!, payload);
   }
 
-  delete(id: number) {
+  delete(id: number): Observable<any> {
     return this.feathers.service('email-settings').remove(id);
   }
 }
