@@ -14,6 +14,7 @@ import { ImageSnippet } from '@shared/models/image-snippet.model';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-upsert',
@@ -22,10 +23,10 @@ import { FileUpload } from 'primeng/fileupload';
 })
 export class UpsertComponent implements OnInit {
   id: number = 0;
-  companyInfoForm: FormGroup;
+  companyInfoForm!: FormGroup;
   selectedFile!: ImageSnippet;
   uploadedFiles: any[] = [];
-  @ViewChild('fileUpload') fileUpload?: FileUpload;
+  // @ViewChild('fileUpload') fileUpload?: FileUpload;
   title!: string;
   loading = false;
   submitting = false;
@@ -39,8 +40,13 @@ export class UpsertComponent implements OnInit {
     private uploadService: UploadService,
     public messageService: MessageService,
     public dialogService: DialogService
-  ) {
-    //**************Create Reactive Form with validation********************* */
+  ) {}
+
+  ref: DynamicDialogRef = new DynamicDialogRef();
+
+  ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
+
     this.companyInfoForm = this.fb.group({
       ProjectID: ['', [Validators.required]],
       FYEnd: ['', [Validators.required]],
@@ -74,22 +80,25 @@ export class UpsertComponent implements OnInit {
       Tel2: ['', [Validators.required]],
       Mobile1: ['', [Validators.required]],
     });
+
+    this.title = 'Add Program';
+    if (this.id) {
+      // edit mode
+      this.title = 'Edit Program';
+      this.loading = true;
+      this.companyInfoService
+        .getById(this.id)
+        .pipe(first())
+        .subscribe((x) => {
+          this.companyInfoForm.patchValue(x);
+          this.loading = false;
+        });
+    }
   }
 
-  ref: DynamicDialogRef = new DynamicDialogRef();
-
-  ngOnInit(): void {
-    //**************Get CompanyInfo ID On Edit********************* */
-    this.route.params.subscribe((params) => {
-      this.id = params['id'];
-      if (params['id'] != null) {
-        this.companyInfoForm.get('Id')?.setValue(params['id']);
-        // const data = this.companyInfoService.getCompanyInfosByID(this.id);
-        // if (data) {
-        //   this.companyInfoform.setValue(data);
-        // }
-      }
-    });
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.companyInfoForm.controls;
   }
 
   emailSettings() {
@@ -117,6 +126,15 @@ export class UpsertComponent implements OnInit {
 
       this.companyInfoForm.patchValue({ CompanyLogo: file });
       this.companyInfoForm.get('CompanyLogo')?.updateValueAndValidity();
+
+      this.uploadService.upload(this.selectedFile.file).subscribe(
+        (res) => {
+          this.onSuccess();
+        },
+        (err) => {
+          this.onError();
+        }
+      );
     }
 
     this.messageService.add({
@@ -145,6 +163,10 @@ export class UpsertComponent implements OnInit {
       this.selectedFile = new ImageSnippet(event.target.result, file);
 
       this.selectedFile.pending = true;
+      this.companyInfoForm.patchValue({
+        CompanyLogo: this.selectedFile.file.name,
+      });
+      this.companyInfoForm.get('CompanyLogo')?.updateValueAndValidity();
       this.uploadService.upload(this.selectedFile.file).subscribe(
         (res) => {
           this.onSuccess();
@@ -159,20 +181,39 @@ export class UpsertComponent implements OnInit {
   }
 
   save() {
-    if (this.companyInfoForm.invalid)
-      // true if any form validation fail
-      return;
+    this.submitted = true;
 
-    if (this.companyInfoForm.get('id')?.value === 0) {
-      // on Create New CompanyInfo
-      // this.companyInfoService.addCompanyInfo(this.companyInfoform.value);
-    } else {
-      // on Update CompanyInfo info
-      // this.companyInfoService.updateCompanyInfo(this.companyInfoform.value);
+    // reset alerts on submit
+    this.messageService.clear();
+
+    // stop here if form is invalid
+    if (this.companyInfoForm.invalid) {
+      return;
     }
 
-    //Redirecting to companyInfo List page after save or update
-    // this.router.navigate(['/companyInfo']);
+    this.submitting = true;
+    this.saveProject()
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            detail: 'Company saved',
+          });
+          this.router.navigateByUrl('/admin/organizations');
+        },
+        error: (error: any) => {
+          this.messageService.add({ severity: 'error', detail: error });
+          this.submitting = false;
+        },
+      });
+  }
+
+  private saveProject() {
+    // create or update user based on id param
+    return this.id
+      ? this.companyInfoService.update(this.companyInfoForm.value)
+      : this.companyInfoService.create(this.companyInfoForm.value);
   }
 
   ngOnDestroy() {

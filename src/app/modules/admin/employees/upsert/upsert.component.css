@@ -1,5 +1,13 @@
-:host ::ng-deep .p-dialog .product-image {
+:host ::ng-deep .p-dialog .employee-image {
   width: 150px;
   margin: 0 auto 2rem auto;
   display: block;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 10px;
 }

@@ -52,8 +52,8 @@ export class EmailSettingsEffect {
     this.actions$.pipe(
       ofType(invokeEmailSettingsAPI),
       withLatestFrom(this.store.pipe(select(selectEmailSettings))),
-      mergeMap(([, emailSettingformStore]) => {
-        if (emailSettingformStore.length > 0) {
+      mergeMap(([, emailSettingFormStore]) => {
+        if (emailSettingFormStore.length > 0) {
           return EMPTY;
         }
         return this.emailSettingsService.get().pipe(

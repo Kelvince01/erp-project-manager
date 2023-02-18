@@ -51,12 +51,12 @@ export class CompanyInfosEffect {
     this.actions$.pipe(
       ofType(invokeCompanyInfosAPI),
       withLatestFrom(this.store.pipe(select(selectCompanyInfos))),
-      mergeMap(([, companyInfoformStore]) => {
-        if (companyInfoformStore.length > 0) {
+      mergeMap(([, companyInfoFormStore]) => {
+        if (companyInfoFormStore.length > 0) {
           return EMPTY;
         }
         return this.companyInfosService
-          .get()
+          .companies$()
           .pipe(
             map((data) =>
               companyInfosFetchAPISuccess({ allCompanyInfos: data.data })

@@ -19,10 +19,13 @@
         <div class="card-footer">
           <a
             [routerLink]="['/admin/departments/edit', department.DepartID]"
-            class="btn btn-dark"
+            class="btn btn-dark m-2 ml-0"
             >Edit Department</a
           >
-          <button class="btn btn-dark" (click)="deleteDepartment(department)">
+          <button
+            class="btn btn-dark m-2"
+            (click)="deleteDepartment(department)"
+          >
             Delete
           </button>
         </div>

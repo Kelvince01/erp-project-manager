@@ -1,59 +1,59 @@
 import { from, Observable } from 'rxjs';
 import { FeathersService } from '@services/feathers.service';
 import { Injectable } from '@angular/core';
-import { ICompanyInfo } from '@models/company-info.model';
 import { MessageService } from 'primeng/api';
+import { ICountry } from '@models/country.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CompanyInfoService {
+export class CountriesService {
   constructor(
     private feathers: FeathersService,
     private messages: MessageService
   ) {}
 
-  create(payload: ICompanyInfo): Observable<any> {
+  create(payload: ICountry): Observable<any> {
     return from(
       this.feathers
-        .service('companies')
+        .service('countries')
         .create({
           ...payload,
         })
         .then(() =>
           this.messages.add({
             severity: 'success',
-            detail: 'Company Info created.',
+            detail: 'Country created.',
           })
         )
         .catch((err: any) =>
           this.messages.add({
             severity: 'error',
-            detail: 'Could not create company!',
+            detail: 'Could not create country!',
           })
         )
     );
   }
 
-  getById(id: number): Observable<any> {
-    return from(this.feathers.service('companies').get(id));
+  getById(id: string): Observable<any> {
+    return from(this.feathers.service('countries').get(id));
   }
 
-  companies$(query?: any): Observable<any> {
+  countries$(query?: any): Observable<any> {
     return from(
       this.feathers
-        .service('companies')
+        .service('countries')
         .find({ query: { $limit: 1, ...query } })
     );
   }
 
-  update(payload: Partial<ICompanyInfo>): Observable<any> {
+  update(payload: Partial<ICountry>): Observable<any> {
     return from(
-      this.feathers.service('companies').update(payload.CompanyID!, payload)
+      this.feathers.service('countries').update(payload.CountryID!, payload)
     );
   }
 
   delete(id: number): Observable<any> {
-    return from(this.feathers.service('companies').remove(id));
+    return from(this.feathers.service('countries').remove(id));
   }
 }

@@ -30,7 +30,9 @@ export const reducers: ActionReducerMap<any> = {
     CommonModule,
     OrganizationsRoutingModule,
     SharedModule,
-    StoreModule.forFeature('company-info', reducers),
+    // StoreModule.forFeature('company-info', reducers),
+    StoreModule.forFeature('company-info', companyInfoReducer),
+    StoreModule.forFeature('email-settings', emailSettingReducer),
     EffectsModule.forFeature([CompanyInfosEffect, EmailSettingsEffect]),
   ],
 })

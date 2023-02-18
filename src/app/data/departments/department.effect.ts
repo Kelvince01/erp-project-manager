@@ -52,11 +52,11 @@ export class DepartmentsEffect {
     this.actions$.pipe(
       ofType(invokeDepartmentsAPI),
       withLatestFrom(this.store.pipe(select(selectDepartments))),
-      mergeMap(([, departmentformStore]) => {
-        if (departmentformStore.length > 0) {
+      mergeMap(([, departmentFormStore]) => {
+        if (departmentFormStore.length > 0) {
           return EMPTY;
         }
-        return this.departmentsService.get().pipe(
+        return this.departmentsService.departments$().pipe(
           retry(2),
           // map((response: Paginated<any>) => response.data)
           map((data: Paginated<any>) =>

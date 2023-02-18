@@ -25,16 +25,20 @@ export class ListComponent implements OnInit {
   exportColumns: any[] = [];
 
   ngOnInit() {
-    this.suppliersService.getSuppliers().pipe(
+    this.suppliersService.suppliers$().pipe(
       map((m: Paginated<any>) => (this.suppliers = m.data)),
       map((m: Array<any>) => m.reverse())
     );
 
     this.cols = [
-      { field: 'code', header: 'Code', customExportHeader: 'Product Code' },
-      { field: 'name', header: 'Name' },
-      { field: 'category', header: 'Category' },
-      { field: 'quantity', header: 'Quantity' },
+      {
+        field: 'FirstName',
+        header: 'FirstName',
+        customExportHeader: 'First Name',
+      },
+      { field: 'Surname', header: 'Surname' },
+      { field: 'IDNo', header: 'IDNo' },
+      { field: 'Town', header: 'Town' },
     ];
 
     this.exportColumns = this.cols.map((col) => ({

@@ -5,7 +5,7 @@ export interface IAccount {
   Account?: string;
   Description?: string;
   ReservedAc?: boolean;
-  AccountTypeID?: boolean;
+  AccountTypeID?: number;
   SubAccount?: boolean;
   MainAccount?: number;
   Active?: boolean;

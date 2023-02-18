@@ -22,7 +22,7 @@ export class UpsertComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: ProjectsService,
+    private projectsService: ProjectsService,
     private alertService: MessageService
   ) {}
 
@@ -45,7 +45,7 @@ export class UpsertComponent implements OnInit {
       // edit mode
       this.title = 'Edit Program';
       this.loading = true;
-      this.accountService
+      this.projectsService
         .getById(this.id)
         .pipe(first())
         .subscribe((x) => {
@@ -65,18 +65,14 @@ export class UpsertComponent implements OnInit {
 
     // reset alerts on submit
     this.alertService.clear();
-    // console.log('not submitted');
 
     // stop here if form is invalid
     if (this.form.invalid) {
-      // console.log('error on form');
       return;
     }
 
-    console.log('submitted');
-
     this.submitting = true;
-    this.saveUser()
+    this.saveProject()
       .pipe(first())
       .subscribe({
         next: () => {
@@ -93,12 +89,10 @@ export class UpsertComponent implements OnInit {
       });
   }
 
-  private saveUser() {
-    console.log(this.form.value);
-
+  private saveProject() {
     // create or update user based on id param
     return this.id
-      ? this.accountService.update(this.id!, this.form.value)
-      : this.accountService.create(this.form.value);
+      ? this.projectsService.update(this.id!, this.form.value)
+      : this.projectsService.create(this.form.value);
   }
 }

@@ -1,3 +1,4 @@
+import { IAccountType } from './../../../../data/models/account-type.model';
 import { BankingService } from './../../../../data/services/banking.service';
 import { MessageService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
@@ -18,6 +19,7 @@ export class UpsertComponent implements OnInit {
   loading = false;
   submitting = false;
   submitted = false;
+  accountTypes: IAccountType[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,29 +32,25 @@ export class UpsertComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
 
-    this.form = this.formBuilder.group(
-      {
-        title: ['', Validators.required],
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        role: ['', Validators.required],
-        // password and confirm password only required in add mode
-        password: [
-          '',
-          [Validators.minLength(6), ...(!this.id ? [Validators.required] : [])],
-        ],
-        confirmPassword: ['', [...(!this.id ? [Validators.required] : [])]],
-      },
-      {
-        validators: MustMatch('password', 'confirmPassword'),
-      }
-    );
+    this.form = this.formBuilder.group({
+      AccountNo: ['', Validators.required],
+      Account: ['', Validators.required],
+      Description: ['', Validators.required],
+      AccountTypeID: [1],
+      SubAccount: [true],
+      MainAccount: ['', Validators.required],
+      Active: [true],
+      OpeningBal: ['', Validators.required],
+      BalDate: ['', Validators.required],
+      Notes: ['', Validators.required],
+      Foreign: [''],
+      CurrencyID: ['', Validators.required],
+    });
 
-    this.title = 'Add Bank';
+    this.title = 'Add Bank Account';
     if (this.id) {
       // edit mode
-      this.title = 'Edit Bank';
+      this.title = 'Edit Bank Account';
       this.loading = true;
       this.bankService
         .getById(this.id)
@@ -62,6 +60,13 @@ export class UpsertComponent implements OnInit {
           this.loading = false;
         });
     }
+  }
+
+  getAccountTypes() {
+    this.bankService
+      .accountTypes$()
+      .pipe(first())
+      .subscribe((banks) => (this.accountTypes = banks.data));
   }
 
   // convenience getter for easy access to form fields
@@ -98,7 +103,7 @@ export class UpsertComponent implements OnInit {
   private saveBank() {
     // create or update bank based on id param
     return this.id
-      ? this.bankService.update(this.id!, this.form.value)
+      ? this.bankService.update(this.form.value)
       : this.bankService.create(this.form.value);
   }
 }

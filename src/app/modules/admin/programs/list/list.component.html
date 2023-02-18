@@ -5,7 +5,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th></th>
+      <th>#</th>
       <th>Title</th>
       <th>Tender No</th>
       <th>Location</th>
@@ -21,10 +21,10 @@
       <td>{{ program.ProjectID }}</td>
       <td>{{ program.ProjectName }}</td>
       <td>{{ program.Code }}</td>
-      <td>{{ program.Description }}</td>
+      <!-- <td>{{ program.Description }}</td> -->
       <td>{{ program.Country }}</td>
-      <td>{{ program.StartDate }}</td>
-      <td>{{ program.EndDate }}</td>
+      <td>{{ program.StartDate | date : "fullDate" }}</td>
+      <td>{{ program.EndDate | date : "fullDate" }}</td>
       <td>{{ program.Code }}</td>
       <td>{{ program.Code }}</td>
       <td style="white-space: nowrap">
@@ -34,7 +34,7 @@
           >Edit</a
         >
         <button
-          (click)="deleteUser(program.ProjectID!)"
+          (click)="deleteProject(program)"
           class="btn btn-sm btn-danger btn-delete-user"
           [disabled]="isDeleting"
         >
@@ -53,3 +53,5 @@
     </tr>
   </tbody>
 </table>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

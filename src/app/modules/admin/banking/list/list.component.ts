@@ -1,7 +1,8 @@
-import { IAccount } from './../../../../data/models/account.model';
+import { IBank } from '@models/bank.model';
 import { first } from 'rxjs';
-import { BankingService } from './../../../../data/services/banking.service';
 import { Component, OnInit } from '@angular/core';
+import { BankingService } from '@services/banking.service';
+import { IAccount } from '@models/account.model';
 
 @Component({
   selector: 'app-list',
@@ -15,10 +16,7 @@ export class ListComponent implements OnInit {
   constructor(private bankService: BankingService) {}
 
   ngOnInit() {
-    this.bankService
-      .getAccounts()
-      .pipe(first())
-      .subscribe((banks) => (this.banks = banks));
+    this.getBanks();
 
     /*
       getLasDropDownOptions(refresh) {
@@ -40,14 +38,30 @@ export class ListComponent implements OnInit {
 }*/
   }
 
-  deleteBank(id: number) {
-    const bank = this.banks!.find((x) => x.AccountID === id);
+  getBanks() {
+    this.bankService
+      .accounts$()
+      .pipe(first())
+      .subscribe((banks) => (this.banks = banks.data));
+  }
+
+  getAccountTypes() {
+    this.bankService
+      .accountTypes$()
+      .pipe(first())
+      .subscribe((banks) => (this.banks = banks.data));
+  }
+
+  deleteBank(bank: IAccount) {
     this.isDeleting = true;
     this.bankService
-      .deleteAccount(id)
+      .deleteAccount(bank.AccountID!)
       .pipe(first())
       .subscribe(
-        () => (this.banks = this.banks!.filter((x) => x.AccountID !== id))
+        () =>
+          (this.banks = this.banks!.filter(
+            (x) => x.AccountID !== bank.AccountID
+          ))
       );
     this.isDeleting = true;
   }

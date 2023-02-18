@@ -7,52 +7,294 @@
     leftIcon="pi pi-calendar"
     tooltip="Employee Details"
   >
-    <h3>{{ title }}</h3>
+    <!-- <h3>{{ title }}</h3> -->
     <div class="card p-4">
-      <form *ngIf="!loading" #form="ngForm" (ngSubmit)="saveEmployee()">
-        <p-fieldset legend="Header">
+      <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="save()">
+        <p-fieldset legend="Personal Details">
           <div class="row">
-            <div class="col-7 mb-2">
-              <label class="form-label">Email</label>
+            <div class="col-md-6">
+              <label for="Surname" class="form-label">Surname</label>
               <input
                 type="text"
-                formControlName="email"
                 class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+                formControlName="Surname"
               />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Title</label>
+              <select
+                formControlName="TitleID"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['TitleID'].errors }"
+              >
+                <option [ngValue]="null" disabled>Select Title</option>
+                <option *ngFor="let title of titles" [ngValue]="title.TitleID">
+                  {{ title.Title }}
+                </option>
+              </select>
               <div
-                *ngIf="submitted && f['email'].errors"
+                *ngIf="submitted && f['TitleID'].errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="f['email'].errors['required']">
+                <div *ngIf="f['TitleID'].errors['required']">
+                  Title is required
+                </div>
+              </div>
+              <!-- <p-dropdown
+                [options]="titles"
+                [(ngModel)]="selectedTitle"
+                placeholder="Select a Title"
+                optionLabel="Title"
+                [showClear]="true"
+                class="form-control"
+              ></p-dropdown> -->
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="FirstName" class="form-label">First Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="FirstName"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="MiddleName" class="form-label">Other Names</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="MiddleName"
+              />
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="IDNo" class="form-label">ID No</label>
+              <input type="text" class="form-control" formControlName="IDNo" />
+            </div>
+            <div class="col-md-6">
+              <label for="PINNo" class="form-label">PIN No</label>
+              <input type="text" class="form-control" formControlName="PINNo" />
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="isForeign" class="form-label"
+                >Is International?</label
+              >
+              <input
+                type="checkbox"
+                id="isForeign"
+                name="isForeign"
+                class="form-control"
+                formControlName="isForeign"
+              />
+            </div>
+            <div class="col-md-4">
+              <label for="Male" class="form-label">Is Male?</label>
+              <input
+                type="checkbox"
+                id="Male"
+                name="Male"
+                class="form-control"
+                formControlName="Male"
+              />
+            </div>
+            <div class="col-md-4">
+              <label for="CountryID" class="form-label">Country</label>
+              <select formControlName="CountryID" class="form-control">
+                <option [ngValue]="null" disabled>Select Country</option>
+                <option
+                  *ngFor="let country of countries"
+                  [ngValue]="country.CountryID"
+                >
+                  {{ country.Country }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="Bank" class="form-label">Bank Name</label>
+              <select formControlName="Bank" class="form-control">
+                <option [ngValue]="null" disabled>Select Bank</option>
+                <option *ngFor="let bank of banks" [ngValue]="bank.BankName">
+                  {{ bank.BankName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="BankAcNo" class="form-label">Bank Ac No.</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="BankAcNo"
+              />
+            </div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="BranchID" class="form-label">Branch</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="BranchID"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="BankCode" class="form-label">Bank Code</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="BankCode"
+              />
+            </div>
+          </div>
+        </p-fieldset>
+
+        <p-fieldset legend="HRM Details">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="DateEmployed" class="form-label">Date Employed</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="DateEmployed"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="SubCompanyID" class="form-label">Sub-County</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="SubCompanyID"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="EndDateChecked" class="form-label">Date Ending</label>
+              <input
+                type="checkbox"
+                class="form-control"
+                formControlName="EndDateChecked"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="DeptID" class="form-label">Section</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="DeptID"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="Retired" class="form-label">Retire</label>
+              <input
+                type="checkbox"
+                class="form-control"
+                formControlName="Retired"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="" class="form-label">Branch</label>
+              <input type="number" class="form-control" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="PayGradeID" class="form-label">Pay Grade</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="PayGradeID"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="DesignationID" class="form-label">Designations</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="DesignationID"
+              />
+            </div>
+          </div>
+        </p-fieldset>
+
+        <p-fieldset legend="Other Info">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="DateOfBirth" class="form-label">Date of Birth</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="DateOfBirth"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="VacancyAppStatusID" class="form-label"
+                >Employment Status</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                formControlName="VacancyAppStatusID"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="NextofKin" class="form-label">Next of Kin(s)</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="NextofKin"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="NextPhone" class="form-label">Kin's Tel No(s)</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="NextPhone"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="NextEmail" class="form-label">Kin's Email</label>
+              <input
+                type="email"
+                class="form-control"
+                formControlName="NextEmail"
+                [ngClass]="{ 'is-invalid': submitted && f['NextEmail'].errors }"
+              />
+              <div
+                *ngIf="submitted && f['NextEmail'].errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f['NextEmail'].errors['required']">
                   Email is required
                 </div>
-                <div *ngIf="f['email'].errors['email']">
+                <div *ngIf="f['NextEmail'].errors['email']">
                   Email must be a valid email address
                 </div>
               </div>
             </div>
-            <div class="col mb-2">
-              <label class="form-label">Role</label>
-              <select
-                formControlName="role"
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="Residence" class="form-label">Residence</label>
+              <textarea
                 class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f['role'].errors }"
-              >
-                <option value=""></option>
-                <option value="User">User</option>
-                <option value="Admin">Admin</option>
-              </select>
-              <div
-                *ngIf="submitted && f['role'].errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f['role'].errors['required']">Role is required</div>
-              </div>
+                formControlName="Residence"
+              ></textarea>
             </div>
           </div>
         </p-fieldset>
-        <!-- [formGroup]="form" -->
 
         <!-- <img
       [src]="'assets/images/employees/' + employee.FacePhoto"
@@ -60,130 +302,25 @@
       class="employee-image"
       *ngIf="employee.FacePhoto"
     /> -->
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label for="FirstName" class="form-label">First Name</label>
-            <input
-              class="mb-3"
-              type="text"
-              pInputText
-              id="FirstName"
-              name="FirstName"
-              [(ngModel)]="employee.FirstName"
-              required
-              autofocus
-            />
-            <small class="p-error" *ngIf="submitted && !employee.FirstName"
-              >First Name is required.</small
-            >
-          </div>
-          <div class="form-group col-md-4">
-            <label for="Surname" class="form-label">Surname</label>
-            <input
-              class="mb-3"
-              id="Surname"
-              name="Surname"
-              pInputText
-              [(ngModel)]="employee.Surname"
-              required
-            />
-            <small class="p-error" *ngIf="submitted && !employee.Surname"
-              >Surname is required.</small
-            >
-          </div>
 
-          <div class="form-group col-md-4">
-            <label for="MiddleName" class="form-label">Middle Name</label>
-            <input
-              class="mb-3"
-              id="MiddleName"
-              name="MiddleName"
-              pInputText
-              [(ngModel)]="employee.MiddleName"
-              required
-            />
-          </div>
-        </div>
-        <div class="col-md-6">
-          <label for="DeptID" class="form-label">Department</label>
-          <p-dropdown
-            [(ngModel)]="employee.DeptID"
-            inputId="DeptID"
-            name="Department"
-            [options]="departments$"
-            placeholder="Select"
-          >
-            <ng-template let-option pTemplate="item">
-              <span [class]="'employee-badge status-' + option.Department">{{
-                option.Department
-              }}</span>
-            </ng-template>
-          </p-dropdown>
-        </div>
-
-        <div class="col-md-6">
-          <label class="mb-3" class="form-label">Category</label>
-          <div class="formgrid grid">
-            <div class="field-radiobutton col-6">
-              <p-radioButton
-                id="isEmployee"
-                name="isEmployee"
-                value="Is Employee"
-                [(ngModel)]="employee.isEmployee"
-              ></p-radioButton>
-              <label for="category1">Accessories</label>
-            </div>
-            <div class="field-radiobutton col-6">
-              <p-radioButton
-                id="isSupplier"
-                name="isSupplier"
-                value="Is Supplier"
-                [(ngModel)]="employee.isSupplier"
-              ></p-radioButton>
-              <label for="category2">Clothing</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="field col">
-            <label for="IDNo" class="form-label">ID No</label>
-            <p-inputNumber
-              class="form-control mb-3"
-              id="IDNo"
-              name="IDNo"
-              [(ngModel)]="employee.IDNo"
-            ></p-inputNumber>
-          </div>
-          <div class="field col">
-            <label for="Email" class="form-label">Email</label>
-            <input
-              class="form-control mb-3"
-              id="Email"
-              name="Email"
-              [(ngModel)]="employee.Email"
-            />
-          </div>
-        </div>
-
-        <div class="flex-container">
+        <div class="row flex-container">
+          <button
+            class="flex-item"
+            pButton
+            pRipple
+            label="{{ title }}"
+            icon="pi pi-check"
+            (click)="save()"
+            [disabled]="submitting"
+          ></button>
           <button
             class="flex-item"
             pButton
             pRipple
             label="Cancel"
             icon="pi pi-times"
-            (click)="Cancel()"
-          ></button>
-          <button
-            class="flex-item"
-            pButton
-            pRipple
-            label="Save"
-            icon="pi pi-check"
             class="p-button-text"
-            (click)="saveEmployee()"
-            [disabled]="submitting"
+            (click)="Cancel()"
           >
             <span
               *ngIf="submitting"
@@ -208,68 +345,3 @@
     <app-add-employee-documents></app-add-employee-documents>
   </p-tabPanel>
 </p-tabView>
-
-<!-- <form>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Email</label>
-      <input
-        type="email"
-        class="form-control"
-        id="inputEmail4"
-        placeholder="Email"
-      />
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="inputPassword4"
-        placeholder="Password"
-      />
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputAddress">Address</label>
-    <input
-      type="text"
-      class="form-control"
-      id="inputAddress"
-      placeholder="1234 Main St"
-    />
-  </div>
-  <div class="form-group">
-    <label for="inputAddress2">Address 2</label>
-    <input
-      type="text"
-      class="form-control"
-      id="inputAddress2"
-      placeholder="Apartment, studio, or floor"
-    />
-  </div>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputCity">City</label>
-      <input type="text" class="form-control" id="inputCity" />
-    </div>
-    <div class="form-group col-md-4">
-      <label for="inputState">State</label>
-      <select id="inputState" class="form-control">
-        <option selected>Choose...</option>
-        <option>...</option>
-      </select>
-    </div>
-    <div class="form-group col-md-2">
-      <label for="inputZip">Zip</label>
-      <input type="text" class="form-control" id="inputZip" />
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck" />
-      <label class="form-check-label" for="gridCheck"> Check me out </label>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary">Sign in</button>
-</form> -->

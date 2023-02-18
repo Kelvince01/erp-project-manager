@@ -33,7 +33,7 @@ export class UsersEffect {
         this.appStore.dispatch(
           setAPIStatus({ apiStatus: { apiResponseMessage: '', apiStatus: '' } })
         );
-        return this.usersService.create(action.newUser).pipe(
+        return this.usersService.signup(action.newUser).pipe(
           map((data) => {
             this.appStore.dispatch(
               setAPIStatus({
@@ -56,7 +56,7 @@ export class UsersEffect {
           return EMPTY;
         }
         return this.usersService
-          .get()
+          .users$()
           .pipe(map((data) => usersFetchAPISuccess({ allUsers: data.data })));
       })
     )

@@ -56,7 +56,7 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(invokeUsersAPI());
     // console.log(globalThis);
-    this.usersService.get().subscribe((users) => (this.users = users.data));
+    this.usersService.users$().subscribe((users) => (this.users = users.data));
   }
 
   onUserAdd() {}

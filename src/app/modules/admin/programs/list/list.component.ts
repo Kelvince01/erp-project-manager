@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { IProject } from '@models/project.model';
-import { AuthService } from '@services/auth.service';
 import { ProjectsService } from '@services/projects.service';
-import { first } from 'rxjs/operators';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-programs',
@@ -10,27 +11,49 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent {
-  programs: IProject[] = [];
+  // programs!: Observable<IProject[]>;
+  programs!: IProject[];
   isDeleting = false;
 
-  constructor(private programService: ProjectsService) {}
+  constructor(
+    private programService: ProjectsService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit() {
-    this.programService
-      .get()
-      .pipe(first())
-      .subscribe((programs) => (this.programs = programs.data));
+    this.getPrograms();
   }
 
-  deleteUser(id: number) {
-    const program = this.programs!.find((x) => x.ProjectID === id);
-    this.isDeleting = true;
-    this.programService
-      .delete(id)
+  getPrograms() {
+    return this.programService
+      .projects$()
       .pipe(first())
-      .subscribe(
-        () => (this.programs = this.programs!.filter((x) => x.ProjectID !== id))
-      );
-    this.isDeleting = false;
+      .subscribe((programs: any) => (this.programs = programs.data));
+  }
+
+  deleteProject(project: IProject) {
+    this.confirmationService.confirm({
+      message:
+        'Are you sure you want to delete ' + project.ProjectName + ' project ?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.isDeleting = true;
+        this.programService
+          .delete(project.ProjectID!)
+          .pipe(first())
+          .subscribe();
+        this.isDeleting = false;
+        this.getPrograms();
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'Project Deleted',
+          life: 3000,
+        });
+      },
+    });
   }
 }

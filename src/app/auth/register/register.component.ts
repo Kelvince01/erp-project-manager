@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { AuthService } from '@services/auth.service';
 import { MessageService } from 'primeng/api';
+import { UserService } from '@services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: AuthService,
+    private usersService: UserService,
     private toastr: MessageService
   ) {}
 
@@ -50,8 +50,8 @@ export class RegisterComponent implements OnInit {
     }
 
     this.loading = true;
-    this.accountService
-      .register(this.form.value)
+    this.usersService
+      .signup(this.form.value)
       .pipe(first())
       .subscribe({
         next: () => {

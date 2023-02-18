@@ -101,7 +101,7 @@ export class UpsertComponent implements OnInit {
 
   private createUser() {
     this.userService
-      .create(this.form.value)
+      .signup(this.form.value)
       .pipe(first())
       .subscribe({
         next: () => {

@@ -67,7 +67,14 @@ export class AuthGuard
     //     return false;
     //   });
 
-    return this.checkUserLogin(route, url);
+    // return this.checkUserLogin(route, url);
+    return this.auth
+      .logIn()
+      .then(() => true)
+      .catch(() => {
+        this.router.navigate(['/accounts/login']);
+        return false;
+      });
 
     /*const user = this.auth.userValue;
     if (user) {

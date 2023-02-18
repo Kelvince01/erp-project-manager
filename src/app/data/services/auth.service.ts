@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@envs/environment';
 import { IUser } from '@models/user.model';
-import { BehaviorSubject, Observable, map, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable, map, of } from 'rxjs';
 export class AuthService {
   private userSubject: BehaviorSubject<IUser | null>;
   public user: Observable<IUser | null>;
+  public user$!: IUser;
   baseUrl: string = '';
   isLogin = false;
   roleAs: string = '';
@@ -25,6 +26,17 @@ export class AuthService {
       JSON.parse(localStorage.getItem('user')!)
     );
     this.user = this.userSubject.asObservable();
+    // console.log(
+    //   'userValue',
+    //   this.feathers.getCurrentUser().then(() => {})
+    // );
+    this.currentUser$().subscribe((res) => {
+      this.user$ = res;
+      console.log('res', res);
+    });
+    console.log('user$', this.user$);
+
+    // console.log('currentUser', this.feathers.user());
   }
 
   public get userValue() {
@@ -33,6 +45,14 @@ export class AuthService {
 
   public currentUser() {
     return Promise.resolve(this.feathers.getCurrentUser());
+    // return this.feathers.getCurrentUser();
+  }
+
+  public currentUser$(): Observable<any> {
+    return from(Promise.resolve(this.feathers.getCurrentUser()));
+    // return this.feathers.user().subscribe((res) => {
+    //   this.user$ = res;
+    // });
   }
 
   public logIn(credentials?: any): Promise<any> {
@@ -123,46 +143,5 @@ export class AuthService {
     this.userSubject.next(null);
     this.router.navigate(['/accounts/login']);
     return of({ success: this.isLogin, role: '' });
-  }
-
-  register(user: IUser) {
-    return this.http.post(`${environment.apiUrl}/users`, user);
-  }
-
-  getAll() {
-    return this.http.get<IUser[]>(`${environment.apiUrl}/users`);
-  }
-
-  getById(id: string) {
-    return this.http.get<IUser>(`${environment.apiUrl}/users/${id}`);
-  }
-
-  update(id: number, params: any) {
-    return this.http.patch(`${environment.apiUrl}/users/${id}`, params).pipe(
-      map((x) => {
-        // update stored user if the logged in user updated their own record
-        if (id == this.userValue?.UsersID) {
-          // update local storage
-          const user = { ...this.userValue, ...params };
-          localStorage.setItem('user', JSON.stringify(user));
-
-          // publish updated user to subscribers
-          this.userSubject.next(user);
-        }
-        return x;
-      })
-    );
-  }
-
-  delete(id: number) {
-    return this.http.delete(`${environment.apiUrl}/users/${id}`).pipe(
-      map((x) => {
-        // auto logout if the logged in user deleted their own record
-        if (id == this.userValue?.UsersID) {
-          this.logout();
-        }
-        return x;
-      })
-    );
   }
 }

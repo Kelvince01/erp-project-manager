@@ -1,51 +1,54 @@
 <h1>{{ title }}</h1>
 <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="row">
-    <div class="col mb-2">
+    <div class="col-md-4 mb-2">
       <label class="form-label">Account Type</label>
       <select
-        formControlName="title"
+        formControlName="AccountTypeID"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['title'].errors }"
+        [ngClass]="{ 'is-invalid': submitted && f['AccountTypeID'].errors }"
       >
-        <option value=""></option>
-        <option value="Mr">Mr</option>
-        <option value="Mrs">Mrs</option>
-        <option value="Miss">Miss</option>
-        <option value="Ms">Ms</option>
+        <option [ngValue]="null" disabled>Select Account type</option>
+        <option
+          *ngFor="let accountType of accountTypes"
+          [ngValue]="accountType.AccountTypeID"
+        >
+          {{ accountType.AccountType }}
+        </option>
       </select>
-      <div *ngIf="submitted && f['title'].errors" class="invalid-feedback">
-        <div *ngIf="f['title'].errors['required']">
+      <div
+        *ngIf="submitted && f['AccountTypeID'].errors"
+        class="invalid-feedback"
+      >
+        <div *ngIf="f['AccountTypeID'].errors['required']">
           Account Type is required
         </div>
       </div>
     </div>
-    <div class="col mb-2">
+    <div class="col-md-6 mb-2">
       <label class="form-label">Account No</label>
       <input
         type="text"
-        formControlName="firstName"
+        formControlName="AccountNo"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }"
+        [ngClass]="{ 'is-invalid': submitted && f['AccountNo'].errors }"
       />
-      <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
-        <div *ngIf="f['firstName'].errors['required']">
+      <div *ngIf="submitted && f['AccountNo'].errors" class="invalid-feedback">
+        <div *ngIf="f['AccountNo'].errors['required']">
           Account Number is required
         </div>
       </div>
     </div>
-    <div class="col mb-2">
+    <div class="col-md-2 mb-2">
       <label class="form-label">Active</label>
       <input
         type="checkbox"
-        formControlName="lastName"
+        formControlName="Active"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }"
+        [ngClass]="{ 'is-invalid': submitted && f['Active'].errors }"
       />
-      <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
-        <div *ngIf="f['lastName'].errors['required']">
-          Last Name is required
-        </div>
+      <div *ngIf="submitted && f['Active'].errors" class="invalid-feedback">
+        <div *ngIf="f['Active'].errors['required']">Status is required</div>
       </div>
     </div>
   </div>
@@ -53,147 +56,96 @@
     <div class="col mb-2">
       <label class="form-label">Account</label>
       <input
-        type="date"
-        name="dob"
-        ngModel
-        #dob="ngModel"
+        type="text"
+        formControlName="Account"
         class="form-control"
-        [ngClass]="{ 'is-invalid': f['submitted'] && dob.invalid }"
+        required
+        [ngClass]="{ 'is-invalid': submitted && f['Account'].errors }"
+      />
+      <div *ngIf="submitted && f['Account'].errors" class="invalid-feedback">
+        <div *ngIf="f['Account'].errors['required']">Account is required</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label"></label>
+      <input
+        type="checkbox"
+        formControlName="SubAccount"
+        class="form-control"
+      />
+    </div>
+    <div class="col mb-2">
+      <label class="form-label">Sub Account of: </label>
+      <input type="number" formControlName="MainAccount" class="form-control" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label">Description</label>
+      <textarea
+        formControlName="Description"
+        class="form-control"
+        required
+      ></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label"></label>
+      <input type="checkbox" formControlName="Foreign" class="form-control" />
+    </div>
+    <div class="col mb-2">
+      <label class="form-label">Foreign Currency</label>
+      <input type="number" formControlName="CurrencyID" class="form-control" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label">Programme</label>
+      <!-- <input type="text" name="email" class="form-control" required /> -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label">Total opening Bal</label>
+      <input
+        type="text"
+        formControlName="OpeningBal"
+        class="form-control"
+        required
+      />
+    </div>
+    <div class="col mb-2">
+      <label class="form-label">as of: </label>
+      <input
+        type="date"
+        formControlName="BalDate"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['BalDate'].errors }"
         required
         pattern="^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$"
       />
-      <div *ngIf="f['submitted'] && dob.errors" class="invalid-feedback">
-        <div *ngIf="dob.errors['required']">Date of Birth is required</div>
-        <div *ngIf="dob.errors['pattern']">
-          Date of Birth must be a valid date in the format YYYY-MM-DD
+      <div *ngIf="submitted && f['BalDate'].errors" class="invalid-feedback">
+        <div *ngIf="f['BalDate'].errors['required']">
+          Balance Date is required
+        </div>
+        <div *ngIf="f['BalDate'].errors['pattern']">
+          Balance Date must be a valid date in the format YYYY-MM-DD
         </div>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col mb-2">
-      <label class="form-label">Email</label>
-      <input
+      <label class="form-label">Notes</label>
+      <textarea
         type="text"
-        name="email"
-        ngModel
-        #email="ngModel"
+        formControlName="Notes"
         class="form-control"
-        [ngClass]="{ 'is-invalid': f['submitted'] && email.invalid }"
         required
-        email
-      />
-      <div *ngIf="f['submitted'] && email.errors" class="invalid-feedback">
-        <div *ngIf="email.errors['required']">Email is required</div>
-        <div *ngIf="email.errors['email']">
-          Email must be a valid email address
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col mb-2">
-      <label class="form-label">Email</label>
-      <input
-        type="text"
-        name="email"
-        ngModel
-        #email="ngModel"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': f['submitted'] && email.invalid }"
-        required
-        email
-      />
-      <div *ngIf="f['submitted'] && email.errors" class="invalid-feedback">
-        <div *ngIf="email.errors['required']">Email is required</div>
-        <div *ngIf="email.errors['email']">
-          Email must be a valid email address
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col mb-2">
-      <label class="form-label">Email</label>
-      <input
-        type="text"
-        name="email"
-        ngModel
-        #email="ngModel"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': f['submitted'] && email.invalid }"
-        required
-        email
-      />
-      <div *ngIf="f['submitted'] && email.errors" class="invalid-feedback">
-        <div *ngIf="email.errors['required']">Email is required</div>
-        <div *ngIf="email.errors['email']">
-          Email must be a valid email address
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col mb-2">
-      <label class="form-label">Email</label>
-      <input
-        type="text"
-        name="email"
-        ngModel
-        #email="ngModel"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': f['submitted'] && email.invalid }"
-        required
-        email
-      />
-      <div *ngIf="f['submitted'] && email.errors" class="invalid-feedback">
-        <div *ngIf="email.errors['required']">Email is required</div>
-        <div *ngIf="email.errors['email']">
-          Email must be a valid email address
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col mb-2">
-      <label class="form-label">Email</label>
-      <input
-        type="text"
-        name="email"
-        ngModel
-        #email="ngModel"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': f['submitted'] && email.invalid }"
-        required
-        email
-      />
-      <div *ngIf="f['submitted'] && email.errors" class="invalid-feedback">
-        <div *ngIf="email.errors['required']">Email is required</div>
-        <div *ngIf="email.errors['email']">
-          Email must be a valid email address
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col mb-2">
-      <label class="form-label">Email</label>
-      <input
-        type="text"
-        name="email"
-        ngModel
-        #email="ngModel"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': f['submitted'] && email.invalid }"
-        required
-        email
-      />
-      <div *ngIf="f['submitted'] && email.errors" class="invalid-feedback">
-        <div *ngIf="email.errors['required']">Email is required</div>
-        <div *ngIf="email.errors['email']">
-          Email must be a valid email address
-        </div>
-      </div>
+      ></textarea>
     </div>
   </div>
   <div class="form-group">

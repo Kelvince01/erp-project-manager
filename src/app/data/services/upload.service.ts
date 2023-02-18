@@ -1,15 +1,12 @@
-import { environment } from './../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { FeathersService } from '@services/feathers.service';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadService {
-  private url: string = `${environment.apiUrl}/uploads`;
-
-  constructor(private http: HttpClient) {}
+  constructor(private feathers: FeathersService) {}
 
   // Returns an observable
   upload(file: any): Observable<any> {
@@ -21,6 +18,6 @@ export class UploadService {
 
     // Make http post request over api
     // with formData as req
-    return this.http.post(this.url, formData);
+    return from(this.feathers.service('uploads').create(formData));
   }
 }

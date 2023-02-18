@@ -24,6 +24,7 @@ export class ListComponent extends CommonFunctionalityComponent {
   department$ = this.store.pipe(select(selectDepartments))! as any;
   cols: any[] = [];
   exportColumns: any[] = [];
+  isDeleting = false;
 
   constructor(
     private store: Store,
@@ -39,18 +40,17 @@ export class ListComponent extends CommonFunctionalityComponent {
 
   override ngOnInit() {
     this.store.dispatch(invokeDepartmentsAPI());
-    this.employeeService
-      .get()
-      .pipe(first())
-      .subscribe((data: any) => {
-        this.employees = data.data;
-      });
+    this.getEmployees();
 
     this.cols = [
-      { field: 'code', header: 'Code', customExportHeader: 'Product Code' },
-      { field: 'name', header: 'Name' },
-      { field: 'category', header: 'Category' },
-      { field: 'quantity', header: 'Quantity' },
+      {
+        field: 'FirstName',
+        header: 'FirstName',
+        customExportHeader: 'First Name',
+      },
+      { field: 'Surname', header: 'Surname' },
+      { field: 'IDNo', header: 'IDNo' },
+      { field: 'Town', header: 'Town' },
     ];
 
     this.exportColumns = this.cols.map((col) => ({
@@ -59,16 +59,30 @@ export class ListComponent extends CommonFunctionalityComponent {
     }));
   }
 
+  getEmployees() {
+    this.employeeService
+      .employees$()
+      .pipe(first())
+      .subscribe((data: any) => {
+        this.employees = data.data;
+      });
+  }
+
   deleteSelectedEmployees() {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete the selected employees?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.employees = this.employees.filter(
-          (val) => !this.selectedEmployees.includes(val)
-        );
-        this.selectedEmployees = {} as any;
+        this.selectedEmployees.forEach((employee: IEmployee) => {
+          this.isDeleting = true;
+          this.employeeService
+            .delete(employee.EmployeeID!)
+            .pipe(first())
+            .subscribe();
+          this.isDeleting = false;
+          this.getEmployees();
+        });
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -85,10 +99,14 @@ export class ListComponent extends CommonFunctionalityComponent {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.employees = this.employees.filter(
-          (val) => val.EmployeeID !== employee.EmployeeID
-        );
-        this.employee = {};
+        this.isDeleting = true;
+        this.employeeService
+          .delete(employee.EmployeeID!)
+          .pipe(first())
+          .subscribe();
+        this.isDeleting = false;
+        this.getEmployees();
+
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',

@@ -1,45 +1,55 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '@envs/environment';
 import { IBudget } from '@models/budget.model';
-import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
-import { Observable, catchError } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { Observable, from } from 'rxjs';
+import { FeathersService } from './feathers.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BudgetsService {
-  private url: string = `${environment.apiUrl}/budgets`;
+  constructor(
+    private feathers: FeathersService,
+    private messages: MessageService
+  ) {}
 
-  constructor(private http: HttpClient, private eh: HttpErrorHandlerService) {}
-
-  create(asset: IBudget): Observable<any> {
-    return this.http
-      .post<IBudget>(this.url, {})
-      .pipe(catchError(this.eh.handleError));
+  create(payload: IBudget): Observable<any> {
+    return from(
+      this.feathers
+        .service('budgets')
+        .create({
+          ...payload,
+        })
+        .then(() =>
+          this.messages.add({ severity: 'success', detail: 'Budget created.' })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create budget!',
+          })
+        )
+    );
   }
 
   getById(id: string): Observable<any> {
-    return this.http
-      .get<IBudget>(`${this.url}/${id}`)
-      .pipe(catchError(this.eh.handleError));
+    return from(this.feathers.service('budgets').get(id));
   }
 
-  get(): Observable<any> {
-    return this.http
-      .get<IBudget[]>(`${this.url}`)
-      .pipe(catchError(this.eh.handleError));
+  budgets$(query?: any): Observable<any> {
+    // get(query?: any) {
+    return from(
+      this.feathers.service('budgets').find({ query: { $limit: 1, ...query } })
+    );
   }
 
-  update(id: string, asset: Partial<IBudget>): Observable<any> {
-    return this.http
-      .patch<IBudget>(`${this.url}/${id}`, asset)
-      .pipe(catchError(this.eh.handleError));
+  update(id: string, payload: Partial<IBudget>): Observable<any> {
+    return from(
+      this.feathers.service('budgets').update(payload.BudgetID!, payload)
+    );
   }
 
-  delete(id: string): Observable<any> {
-    return this.http
-      .delete<IBudget>(`${this.url}/${id}`)
-      .pipe(catchError(this.eh.handleError));
+  delete(id: number): Observable<any> {
+    return from(this.feathers.service('budgets').remove(id));
   }
 }

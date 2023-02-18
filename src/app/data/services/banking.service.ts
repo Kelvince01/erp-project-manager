@@ -1,77 +1,136 @@
 import { IAccount } from './../models/account.model';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '@envs/environment';
 import { IBank } from '@models/bank.model';
-import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
-import { Observable, catchError } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { FeathersService } from './feathers.service';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BankingService {
-  private url: string = `${environment.apiUrl}/banks`;
-  private urlAccount: string = `${environment.apiUrl}/accounts`;
+  constructor(
+    private feathers: FeathersService,
+    private messages: MessageService
+  ) {}
 
-  constructor(private http: HttpClient, private eh: HttpErrorHandlerService) {}
-
-  create(asset: IBank): Observable<any> {
-    return this.http
-      .post<IBank>(this.url, {})
-      .pipe(catchError(this.eh.handleError));
+  create(payload: IBank): Observable<any> {
+    return from(
+      this.feathers
+        .service('banks')
+        .create({
+          ...payload,
+        })
+        .then(() =>
+          this.messages.add({ severity: 'success', detail: 'Bank created.' })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create bank!',
+          })
+        )
+    );
   }
 
   getById(id: string): Observable<any> {
-    return this.http
-      .get<IBank>(`${this.url}/${id}`)
-      .pipe(catchError(this.eh.handleError));
+    return from(this.feathers.service('banks').get(id));
   }
 
-  get(): Observable<any> {
-    return this.http
-      .get<IBank[]>(`${this.url}`)
-      .pipe(catchError(this.eh.handleError));
+  banks$(query?: any): Observable<any> {
+    // get(query?: any) {
+    return from(
+      this.feathers.service('banks').find({ query: { $limit: 1, ...query } })
+    );
   }
 
-  update(id: string, asset: Partial<IBank>): Observable<any> {
-    return this.http
-      .patch<IBank>(`${this.url}/${id}`, asset)
-      .pipe(catchError(this.eh.handleError));
+  update(payload: Partial<IBank>): Observable<any> {
+    return from(
+      this.feathers.service('banks').update(payload.BankID!, payload)
+    );
   }
 
   delete(id: number): Observable<any> {
-    return this.http
-      .delete<IBank>(`${this.url}/${id}`)
-      .pipe(catchError(this.eh.handleError));
+    return from(this.feathers.service('banks').remove(id));
   }
 
-  createAccount(asset: IAccount): Observable<any> {
-    return this.http
-      .post<IAccount>(this.urlAccount, {})
-      .pipe(catchError(this.eh.handleError));
+  createAccount(payload: IAccount): Observable<any> {
+    return from(
+      this.feathers
+        .service('accounts')
+        .create({
+          ...payload,
+        })
+        .then(() =>
+          this.messages.add({ severity: 'success', detail: 'Account created.' })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create account!',
+          })
+        )
+    );
   }
 
   getAccountById(id: string): Observable<any> {
-    return this.http
-      .get<IAccount>(`${this.urlAccount}/${id}`)
-      .pipe(catchError(this.eh.handleError));
+    return from(this.feathers.service('accounts').get(id));
   }
 
-  getAccounts(): Observable<any> {
-    return this.http
-      .get<IAccount[]>(`${this.urlAccount}`)
-      .pipe(catchError(this.eh.handleError));
+  accounts$(query?: any): Observable<any> {
+    return from(
+      this.feathers.service('accounts').find({ query: { $limit: 1, ...query } })
+    );
   }
 
-  updateAccount(id: string, asset: Partial<IAccount>): Observable<any> {
-    return this.http
-      .patch<IAccount>(`${this.urlAccount}/${id}`, asset)
-      .pipe(catchError(this.eh.handleError));
+  updateAccount(id: string, payload: Partial<IAccount>): Observable<any> {
+    return from(
+      this.feathers.service('accounts').update(payload.ProjectID!, payload)
+    );
   }
 
   deleteAccount(id: number): Observable<any> {
-    return this.http
-      .delete<IAccount>(`${this.urlAccount}/${id}`)
-      .pipe(catchError(this.eh.handleError));
+    return from(this.feathers.service('accounts').remove(id));
+  }
+
+  createAccountType(payload: IAccount): Observable<any> {
+    return from(
+      this.feathers
+        .service('account-types')
+        .create({
+          ...payload,
+        })
+        .then(() =>
+          this.messages.add({ severity: 'success', detail: 'Account created.' })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create account!',
+          })
+        )
+    );
+  }
+
+  getAccountTypeById(id: string): Observable<any> {
+    return from(this.feathers.service('account-types').get(id));
+  }
+
+  accountTypes$(query?: any): Observable<any> {
+    return from(
+      this.feathers
+        .service('account-types')
+        .find({ query: { $limit: 1, ...query } })
+    );
+  }
+
+  updateAccountType(id: string, payload: Partial<IAccount>): Observable<any> {
+    return from(
+      this.feathers.service('account-types').update(payload.ProjectID!, payload)
+    );
+  }
+
+  deleteAccountType(id: number): Observable<any> {
+    return from(this.feathers.service('account-types').remove(id));
   }
 }
