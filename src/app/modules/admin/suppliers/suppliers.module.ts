@@ -10,6 +10,7 @@ import { ReceiveBillComponent } from './receive-bill/receive-bill.component';
 import { PayBillComponent } from './pay-bill/pay-bill.component';
 import { ReceiveDebitNoteComponent } from './receive-debit-note/receive-debit-note.component';
 import { ReceiveRefundComponent } from './receive-refund/receive-refund.component';
+import { CreateExpenseComponent } from './create-expense/create-expense.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ReceiveRefundComponent } from './receive-refund/receive-refund.componen
     PayBillComponent,
     ReceiveDebitNoteComponent,
     ReceiveRefundComponent,
+    CreateExpenseComponent,
   ],
   imports: [CommonModule, SuppliersRoutingModule, SharedModule],
 })

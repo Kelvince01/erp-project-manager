@@ -4,6 +4,7 @@ import { IBank } from '@models/bank.model';
 import { Observable, from } from 'rxjs';
 import { FeathersService } from './feathers.service';
 import { MessageService } from 'primeng/api';
+import { IMainAccount } from '@models/main-account.model';
 
 @Injectable({
   providedIn: 'root',
@@ -83,14 +84,58 @@ export class BankingService {
     );
   }
 
-  updateAccount(id: string, payload: Partial<IAccount>): Observable<any> {
+  updateAccount(payload: Partial<IAccount>): Observable<any> {
     return from(
-      this.feathers.service('accounts').update(payload.ProjectID!, payload)
+      this.feathers.service('accounts').update(payload.AccountID!, payload)
     );
   }
 
   deleteAccount(id: number): Observable<any> {
     return from(this.feathers.service('accounts').remove(id));
+  }
+
+  createMainAccount(payload: IMainAccount): Observable<any> {
+    return from(
+      this.feathers
+        .service('main-accounts')
+        .create({
+          ...payload,
+        })
+        .then(() =>
+          this.messages.add({ severity: 'success', detail: 'Account created.' })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create account!',
+          })
+        )
+    );
+  }
+
+  getAccountMainById(id: string): Observable<any> {
+    return from(this.feathers.service('main-accounts').get(id));
+  }
+
+  mainAccounts$(query?: any): Observable<any> {
+    return from(
+      this.feathers
+        .service('main-accounts')
+        .find({ query: { $limit: 1, ...query } })
+    );
+  }
+
+  updateMainAccount(
+    id: string,
+    payload: Partial<IMainAccount>
+  ): Observable<any> {
+    return from(
+      this.feathers.service('main-accounts').update(payload.AccountID!, payload)
+    );
+  }
+
+  deleteMainAccount(id: number): Observable<any> {
+    return from(this.feathers.service('main-accounts').remove(id));
   }
 
   createAccountType(payload: IAccount): Observable<any> {

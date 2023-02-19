@@ -40,15 +40,18 @@
       </div>
     </div>
     <div class="col-md-2 mb-2">
-      <label class="form-label">Active</label>
-      <input
-        type="checkbox"
-        formControlName="Active"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['Active'].errors }"
-      />
-      <div *ngIf="submitted && f['Active'].errors" class="invalid-feedback">
-        <div *ngIf="f['Active'].errors['required']">Status is required</div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="Active"
+          formControlName="Active"
+          [ngClass]="{ 'is-invalid': submitted && f['Active'].errors }"
+        />
+        <div *ngIf="submitted && f['Active'].errors" class="invalid-feedback">
+          <div *ngIf="f['Active'].errors['required']">Status is required</div>
+        </div>
+        <label class="form-check-label" for="Active">Active </label>
       </div>
     </div>
   </div>
@@ -68,17 +71,35 @@
     </div>
   </div>
   <div class="row">
-    <div class="col mb-2">
-      <label class="form-label"></label>
-      <input
-        type="checkbox"
-        formControlName="SubAccount"
-        class="form-control"
-      />
+    <div class="col-md-4 mb-2">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="SubAccount"
+          formControlName="SubAccount"
+        />
+        <label class="form-check-label" for="SubAccount"
+          >Sub Account of:
+        </label>
+      </div>
     </div>
     <div class="col mb-2">
-      <label class="form-label">Sub Account of: </label>
-      <input type="number" formControlName="MainAccount" class="form-control" />
+      <!-- <label class="form-label"></label> -->
+      <!-- <input type="number" formControlName="MainAccount" class="form-control" /> -->
+      <select
+        formControlName="MainAccount"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['MainAccount'].errors }"
+      >
+        <option [ngValue]="null" disabled>Select Main Account</option>
+        <option
+          *ngFor="let mainAccount of mainAccounts"
+          [ngValue]="mainAccount.AccountID"
+        >
+          {{ mainAccount.Account }}
+        </option>
+      </select>
     </div>
   </div>
   <div class="row">
@@ -92,13 +113,31 @@
     </div>
   </div>
   <div class="row">
-    <div class="col mb-2">
-      <label class="form-label"></label>
-      <input type="checkbox" formControlName="Foreign" class="form-control" />
+    <div class="col-md-4 mb-2">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="Foreign"
+          formControlName="Foreign"
+        />
+        <label class="form-check-label" for="Foreign">Foreign Currency </label>
+      </div>
     </div>
     <div class="col mb-2">
-      <label class="form-label">Foreign Currency</label>
-      <input type="number" formControlName="CurrencyID" class="form-control" />
+      <select
+        formControlName="CurrencyID"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['CurrencyID'].errors }"
+      >
+        <option [ngValue]="null" disabled>Select currency type</option>
+        <option
+          *ngFor="let currency of currencies"
+          [ngValue]="currency.CurrencyID"
+        >
+          {{ currency.Currency }}
+        </option>
+      </select>
     </div>
   </div>
   <div class="row">

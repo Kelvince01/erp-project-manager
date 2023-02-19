@@ -1,3 +1,5 @@
+import { IMainAccount } from './../../../../data/models/main-account.model';
+import { ICurrency } from '@models/currency.model';
 import { IAccountType } from './../../../../data/models/account-type.model';
 import { BankingService } from './../../../../data/services/banking.service';
 import { MessageService } from 'primeng/api';
@@ -6,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MustMatch } from '@utils/must-match.validator';
 import { first } from 'rxjs';
+import { CurrenciesService } from '@services/currencies.service';
 
 @Component({
   selector: 'app-upsert',
@@ -20,17 +23,23 @@ export class UpsertComponent implements OnInit {
   submitting = false;
   submitted = false;
   accountTypes: IAccountType[] = [];
+  mainAccounts: IMainAccount[] = [];
+  currencies: ICurrency[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private bankService: BankingService,
+    private currencyService: CurrenciesService,
     private alertService: MessageService
   ) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
+    this.getAccountTypes();
+    this.getCurrencies();
+    this.getMainAccounts();
 
     this.form = this.formBuilder.group({
       AccountNo: ['', Validators.required],
@@ -38,7 +47,8 @@ export class UpsertComponent implements OnInit {
       Description: ['', Validators.required],
       AccountTypeID: [1],
       SubAccount: [true],
-      MainAccount: ['', Validators.required],
+      // MainAccount: ['', Validators.required],
+      MainAccount: [1],
       Active: [true],
       OpeningBal: ['', Validators.required],
       BalDate: ['', Validators.required],
@@ -67,6 +77,20 @@ export class UpsertComponent implements OnInit {
       .accountTypes$()
       .pipe(first())
       .subscribe((banks) => (this.accountTypes = banks.data));
+  }
+
+  getMainAccounts() {
+    this.bankService
+      .mainAccounts$()
+      .pipe(first())
+      .subscribe((mainAccounts) => (this.mainAccounts = mainAccounts.data));
+  }
+
+  getCurrencies() {
+    this.currencyService
+      .currencies$()
+      .pipe(first())
+      .subscribe((currencies) => (this.currencies = currencies.data));
   }
 
   // convenience getter for easy access to form fields
@@ -103,7 +127,7 @@ export class UpsertComponent implements OnInit {
   private saveBank() {
     // create or update bank based on id param
     return this.id
-      ? this.bankService.update(this.form.value)
-      : this.bankService.create(this.form.value);
+      ? this.bankService.updateAccount(this.form.value)
+      : this.bankService.createAccount(this.form.value);
   }
 }
