@@ -1,3 +1,4 @@
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -7,6 +8,10 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     children: [
+      {
+        path: '',
+        component: DashboardComponent,
+      },
       {
         path: 'users',
         loadChildren: () =>
@@ -18,6 +23,43 @@ const routes: Routes = [
           import('./departments/departments.module').then(
             (m) => m.DepartmentsModule
           ),
+      },
+      {
+        path: 'organizations',
+        loadChildren: () =>
+          import('./organizations/organizations.module').then(
+            (m) => m.OrganizationsModule
+          ),
+      },
+      {
+        path: 'suppliers',
+        loadChildren: () =>
+          import('./suppliers/suppliers.module').then((m) => m.SuppliersModule),
+      },
+      {
+        path: 'employees',
+        loadChildren: () =>
+          import('./employees/employees.module').then((m) => m.EmployeesModule),
+      },
+      {
+        path: 'banking',
+        loadChildren: () =>
+          import('./banking/banking.module').then((m) => m.BankingModule),
+      },
+      {
+        path: 'budgets',
+        loadChildren: () =>
+          import('./budgets/budgets.module').then((m) => m.BudgetsModule),
+      },
+      {
+        path: 'programs',
+        loadChildren: () =>
+          import('./programs/programs.module').then((m) => m.ProgramsModule),
+      },
+      {
+        path: 'reports',
+        loadChildren: () =>
+          import('./reports/reports.module').then((m) => m.ReportsModule),
       },
     ],
   },

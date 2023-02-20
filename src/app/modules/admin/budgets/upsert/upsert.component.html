@@ -1,0 +1,137 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title py-3" id="loginModalLabel">Add Budget</h5>
+        </div>
+        <div class="modal-body">
+          <form
+            [formGroup]="registerForm"
+            (ngSubmit)="(registerFormSubmit)"
+            class="row g-3"
+          >
+            <div class="col-md-12">
+              <label for="id_email" class="form-label">Email address</label>
+              <input
+                formControlName="email"
+                [class.is-invalid]="email.touched && email.invalid"
+                type="email"
+                class="form-control"
+                id="id_email"
+              />
+              <div *ngIf="email.invalid && email.touched">
+                <div
+                  *ngIf="email.errors?.required"
+                  class="d-block invalid-feedback"
+                >
+                  Please provide a Email.
+                </div>
+                <div
+                  *ngIf="email.errors?.email"
+                  class="d-block invalid-feedback"
+                >
+                  Email address is not valid
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label for="id_number" class="form-label">Mobile Number</label>
+              <input
+                formControlName="number"
+                [class.is-invalid]="number.touched && number.invalid"
+                type="password"
+                class="form-control"
+                id="id_number"
+              />
+              <div
+                *ngIf="number.touched && number.errors?.required"
+                class="d-block invalid-feedback"
+              >
+                Provide your mobile number.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="id_firstName" class="form-label">First name</label>
+              <input
+                formControlName="firstName"
+                type="text"
+                class="form-control"
+                id="id_firstName"
+                required
+              />
+              <div
+                *ngIf="firstName.touched && firstName.errors?.required"
+                class="d-block invalid-feedback"
+              >
+                Provide your first name.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="id_lastName" class="form-label">Last name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="lastName"
+                id="id_lastName"
+                required
+              />
+              <div
+                *ngIf="lastName.touched && lastName.errors?.required"
+                class="d-block invalid-feedback"
+              >
+                Provide your last name.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="id_Password" class="form-label">Password</label>
+              <input
+                formControlName="password"
+                [class.is-invalid]="password.touched && password.invalid"
+                type="password"
+                class="form-control"
+                id="id_Password"
+              />
+              <div
+                *ngIf="password.touched && password.errors?.required"
+                class="d-block invalid-feedback"
+              >
+                Provide a password.
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="id_Password" class="form-label"
+                >Conformation Password</label
+              >
+              <input
+                formControlName="password1"
+                [class.is-invalid]="password1.touched && password1.invalid"
+                type="password1"
+                class="form-control"
+                id="id_Password1"
+              />
+              <div
+                *ngIf="password1.touched && password1.errors?.required"
+                class="d-block invalid-feedback"
+              >
+                Please Enter Conformation Password
+              </div>
+            </div>
+            <div class="col-md-6 mt-4">
+              <button
+                [disabled]="registerForm.invalid"
+                type="submit"
+                class="btn btn-primary px-5"
+              >
+                Submit
+              </button>
+              <button type="button" class="btn btn-secondary px-3 ms-2">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

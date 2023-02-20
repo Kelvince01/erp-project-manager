@@ -1,0 +1,171 @@
+<p-toast></p-toast>
+
+<div class="card">
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        label="New"
+        icon="pi pi-plus"
+        class="p-button-success mr-2"
+        routerLink="/admin/employees/add"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Delete"
+        icon="pi pi-trash"
+        class="p-button-danger"
+        (click)="deleteSelectedEmployees()"
+        [disabled]="!selectedEmployees || !selectedEmployees.length"
+      ></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+      <p-fileUpload
+        mode="basic"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        label="Import"
+        chooseLabel="Import"
+        class="mr-2 inline-block"
+      ></p-fileUpload>
+      <button
+        pButton
+        pRipple
+        label="Export"
+        icon="pi pi-upload"
+        class="p-button-help"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt
+    [value]="employees"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="[
+      'name',
+      'country.name',
+      'representative.name',
+      'status'
+    ]"
+    [tableStyle]="{ 'min-width': '75rem' }"
+    [(selection)]="selectedEmployees"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Manage Employees</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filterGlobal($event.target, 'contains')"
+            placeholder="Search..."
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="EmpNo" style="min-width: 15rem">
+          Employee No <p-sortIcon field="EmpNo"></p-sortIcon>
+        </th>
+        <th>First Name</th>
+        <th pSortableColumn="Surname">
+          Surname <p-sortIcon field="Surname"></p-sortIcon>
+        </th>
+        <th pSortableColumn="MiddleName" style="min-width: 10rem">
+          Middle Name <p-sortIcon field="MiddleName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="Designation">
+          Designation <p-sortIcon field="Designation"></p-sortIcon>
+        </th>
+        <th pSortableColumn="Extension" style="min-width: 10rem">
+          Extension <p-sortIcon field="Extension"></p-sortIcon>
+        </th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Active</th>
+
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-employee>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="employee"></p-tableCheckbox>
+        </td>
+        <td>{{ employee.EmpCode }}</td>
+        <td>
+          <!-- <img
+            [src]="'assets/showcase/images/demo/employee/' + employee.image"
+            [alt]="employee.name"
+            width="100"
+            class="shadow-4"
+          /> -->
+          {{ employee.FirstName }}
+        </td>
+        <!-- {{ employee.price | currency : "USD" }} -->
+        <td>{{ employee.Surname }}</td>
+        <td>{{ employee.MiddleName }}</td>
+        <td>
+          <!-- <p-rating
+            [ngModel]="employee.rating"
+            [readonly]="true"
+            [cancel]="false"
+          ></p-rating> -->
+          {{ employee.Designation }}
+        </td>
+        <td>
+          <!-- <span
+            [class]="
+              'employee-badge status-' +
+              (employee.inventoryStatus
+                ? employee.inventoryStatus.toLowerCase()
+                : '')
+            "
+            >{{ employee.inventoryStatus }}</span
+          > -->
+          {{ employee.Extension }}
+        </td>
+        <td>{{ employee.Email }}</td>
+        <td>{{ employee.Mobile }}</td>
+        <td>{{ employee.Active }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            routerLink="/admin/employees/edit/{employee.EmployeeID}"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="deleteEmployee(employee)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{ employees ? employees.length : 0 }} employees.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

@@ -1,5 +1,8 @@
+// import { PageNotFoundComponent } from '@shared/components/page-not-found';
 import { NgModule } from '@angular/core';
+// import { PageNotFoundComponent } from './../app/core/components/page-not-found/page-not-found.component';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '@utils/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -15,18 +18,24 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () =>
       import('./modules/admin/admin.module').then((m) => m.AdminModule),
+    canActivate: [AuthGuard],
+    data: {
+      role: 'Admin',
+    },
   },
   {
     path: '',
     redirectTo: '',
     pathMatch: 'full',
   },
+  // { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
       preloadingStrategy: PreloadAllModules,
+      initialNavigation: 'enabledBlocking',
     }),
   ],
   exports: [RouterModule],

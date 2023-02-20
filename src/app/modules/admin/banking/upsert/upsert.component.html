@@ -1,0 +1,282 @@
+<h1>{{ title }}</h1>
+<form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-4 mb-2">
+      <label class="form-label">Account Type</label>
+      <select
+        formControlName="AccountTypeID"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['AccountTypeID'].errors }"
+      >
+        <option [ngValue]="null" disabled>Select Account type</option>
+        <option
+          *ngFor="let accountType of accountTypes"
+          [ngValue]="accountType.AccountTypeID"
+        >
+          {{ accountType.AccountType }}
+        </option>
+      </select>
+      <div
+        *ngIf="submitted && f['AccountTypeID'].errors"
+        class="invalid-feedback"
+      >
+        <div *ngIf="f['AccountTypeID'].errors['required']">
+          Account Type is required
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-2">
+      <label class="form-label">Account No</label>
+      <input
+        type="text"
+        formControlName="AccountNo"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['AccountNo'].errors }"
+      />
+      <div *ngIf="submitted && f['AccountNo'].errors" class="invalid-feedback">
+        <div *ngIf="f['AccountNo'].errors['required']">
+          Account Number is required
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 mb-2">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="Active"
+          formControlName="Active"
+          [ngClass]="{ 'is-invalid': submitted && f['Active'].errors }"
+        />
+        <div *ngIf="submitted && f['Active'].errors" class="invalid-feedback">
+          <div *ngIf="f['Active'].errors['required']">Status is required</div>
+        </div>
+        <label class="form-check-label" for="Active">Active </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label">Account</label>
+      <input
+        type="text"
+        formControlName="Account"
+        class="form-control"
+        required
+        [ngClass]="{ 'is-invalid': submitted && f['Account'].errors }"
+      />
+      <div *ngIf="submitted && f['Account'].errors" class="invalid-feedback">
+        <div *ngIf="f['Account'].errors['required']">Account is required</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-2">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="SubAccount"
+          formControlName="SubAccount"
+        />
+        <label class="form-check-label" for="SubAccount"
+          >Sub Account of:
+        </label>
+      </div>
+    </div>
+    <div class="col mb-2">
+      <!-- <label class="form-label"></label> -->
+      <!-- <input type="number" formControlName="MainAccount" class="form-control" /> -->
+      <select
+        formControlName="MainAccount"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['MainAccount'].errors }"
+      >
+        <option [ngValue]="null" disabled>Select Main Account</option>
+        <option
+          *ngFor="let mainAccount of mainAccounts"
+          [ngValue]="mainAccount.AccountID"
+        >
+          {{ mainAccount.Account }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label">Description</label>
+      <textarea
+        formControlName="Description"
+        class="form-control"
+        required
+      ></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-2">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="Foreign"
+          formControlName="Foreign"
+        />
+        <label class="form-check-label" for="Foreign">Foreign Currency </label>
+      </div>
+    </div>
+    <div class="col mb-2">
+      <select
+        formControlName="CurrencyID"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['CurrencyID'].errors }"
+      >
+        <option [ngValue]="null" disabled>Select currency type</option>
+        <option
+          *ngFor="let currency of currencies"
+          [ngValue]="currency.CurrencyID"
+        >
+          {{ currency.Currency }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label">Programme</label>
+      <!-- <input type="text" name="email" class="form-control" required /> -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label">Total opening Bal</label>
+      <input
+        type="text"
+        formControlName="OpeningBal"
+        class="form-control"
+        required
+      />
+    </div>
+    <div class="col mb-2">
+      <label class="form-label">as of: </label>
+      <input
+        type="date"
+        formControlName="BalDate"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['BalDate'].errors }"
+        required
+        pattern="^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$"
+      />
+      <div *ngIf="submitted && f['BalDate'].errors" class="invalid-feedback">
+        <div *ngIf="f['BalDate'].errors['required']">
+          Balance Date is required
+        </div>
+        <div *ngIf="f['BalDate'].errors['pattern']">
+          Balance Date must be a valid date in the format YYYY-MM-DD
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col mb-2">
+      <label class="form-label">Notes</label>
+      <textarea
+        type="text"
+        formControlName="Notes"
+        class="form-control"
+        required
+      ></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <button [disabled]="loading" class="btn btn-primary">
+      <span
+        *ngIf="submitting"
+        class="spinner-border spinner-border-sm me-1"
+      ></span>
+      Save
+    </button>
+    <a routerLink="/admin/banking" class="btn btn-link">Cancel</a>
+  </div>
+</form>
+<div *ngIf="loading" class="text-center m-5">
+  <span class="spinner-border spinner-border-lg align-center"></span>
+</div>
+
+<!-- <div class="page-holder align-items-center py-4 bg-gray-100 vh-100">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 px-lg-4">
+        <div class="card">
+          <div class="card-header px-lg-5">
+            <div class="card-heading text-primary">Jassa Login</div>
+          </div>
+          <div class="card-body p-lg-5">
+            <h3 class="mb-4">Hi, welcome back! 👋👋</h3>
+            <p class="text-muted text-sm mb-5">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore.
+            </p>
+            <form id="loginForm" action="index.html">
+              <div class="form-floating mb-2">
+                <input
+                  class="form-control"
+                  id="floatingInput"
+                  type="email"
+                  placeholder="name@example.com"
+                  required
+                />
+                <label for="floatingInput">Email address</label>
+              </div>
+              <div class="form-floating mb-2">
+                <input
+                  class="form-control"
+                  id="floatingPassword"
+                  type="password"
+                  placeholder="Password"
+                  required
+                />
+                <label for="floatingPassword">Password</label>
+              </div>
+              <div class="form-check mb-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="remember"
+                  id="remember"
+                />
+                <label class="form-check-label" for="remember"
+                  >Remember me</label
+                >
+              </div>
+              <button class="btn btn-primary" type="button">Submit</button>
+            </form>
+          </div>
+          <div class="card-footer px-lg-5 py-lg-4">
+            <div class="text-sm text-muted">
+              Don't have an account? <a>Register</a>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="col-lg-6 col-xl-5 ms-xl-auto px-lg-4 text-center text-primary"
+      >
+        <img
+          class="img-fluid mb-4"
+          width="300"
+          src="https://therichpost.com/wp-content/uploads/2021/06/login_page_image.png"
+          alt=""
+          style="transform: rotate(10deg)"
+        />
+        <h1 class="mb-4">
+          Therichpost.com <br class="d-none d-lg-inline" />free code snippets.
+        </h1>
+        <p class="lead text-muted">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore.
+        </p>
+      </div>
+    </div>
+  </div>
+</div> -->

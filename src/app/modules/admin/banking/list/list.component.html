@@ -1,0 +1,49 @@
+<h3 class="py-3">Banks</h3>
+<a routerLink="/admin/banking/add" class="btn btn-sm btn-success mb-2"
+  >Add Bank</a
+>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Account Name</th>
+      <th>Description</th>
+      <th>Account Type</th>
+      <th>Tax</th>
+      <th>Current Balance</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let bank of banks">
+      <!-- <td>{{ bank.title }} {{ bank.firstName }} {{ bank.lastName }}</td> -->
+      <td>{{ bank.Account }}</td>
+      <td>{{ bank.Description }}</td>
+      <td>{{ bank.AccountTypeID }}</td>
+      <td>{{ bank.TaxID }}</td>
+      <td>{{ bank.OpeningBal }}</td>
+      <td style="white-space: nowrap">
+        <a
+          routerLink="/admin/banking/edit/{{ bank.AccountID }}"
+          class="btn btn-sm btn-primary me-1"
+          >Edit</a
+        >
+        <button
+          (click)="deleteBank(bank)"
+          class="btn btn-sm btn-danger btn-delete-bank"
+          [disabled]="isDeleting"
+        >
+          <span
+            *ngIf="isDeleting"
+            class="spinner-border spinner-border-sm"
+          ></span>
+          <span *ngIf="!isDeleting">Delete</span>
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="!banks">
+      <td colspan="4" class="text-center">
+        <span class="spinner-border spinner-border-lg align-center"></span>
+      </td>
+    </tr>
+  </tbody>
+</table>

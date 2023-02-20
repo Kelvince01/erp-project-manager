@@ -3,18 +3,30 @@
   <legend *ngIf="!isAddMode">Update A New Department</legend>
   <div class="mb-3">
     <label for="txtDepartmentName" class="form-label">Department Name</label>
-    << type="text" [(ngModel)]="departmentForm.name" class="form-control"
-    id="txtDepartmentName" />
+    <input
+      type="text"
+      [(ngModel)]="departmentForm['Department']"
+      class="form-control"
+      id="txtDepartmentName"
+    />
   </div>
   <div class="mb-3">
-    <label for="txtAuthor" class="form-label">Author</label>
-    << type="text" [(ngModel)]="departmentForm.author" class="form-control"
-    id="txtAuthor" />
+    <label for="txtAuthor" class="form-label">HOD</label>
+    <input
+      type="text"
+      [(ngModel)]="departmentForm['HOD']"
+      class="form-control"
+      id="txtAuthor"
+    />
   </div>
   <div class="mb-3">
-    <label for="txtCost" class="form-label">Cost</label>
-    << type="number" [(ngModel)]="departmentForm.cost" class="form-control"
-    id="txtCost" />
+    <label for="txtCost" class="form-label">Description</label>
+    <input
+      type="text"
+      [(ngModel)]="departmentForm['Description']"
+      class="form-control"
+      id="txtCost"
+    />
   </div>
   <button *ngIf="isAddMode" type="button" class="btn btn-dark" (click)="save()">
     Create
@@ -23,7 +35,7 @@
     *ngIf="!isAddMode"
     type="button"
     class="btn btn-dark"
-    (click)="udapte()"
+    (click)="update()"
   >
     Update
   </button>

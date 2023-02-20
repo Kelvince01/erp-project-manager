@@ -10,6 +10,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -21,7 +22,7 @@
     "useDefineForClassFields": false,
     "allowSyntheticDefaultImports": true,
     "lib": ["ES2022", "dom"],
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "manual_typings"],
     "paths": {
       "rxjs": ["dist/rxjs"],
       "@core/*": ["src/app/core/*"],
@@ -30,10 +31,17 @@
       "@main/*": ["src/app/modules/main/*"],
       "@services/*": ["src/app/data/services/*"],
       "@models/*": ["src/app/data/models/*"],
+      "@users-store/*": ["src/app/data/users/*"],
+      "@stores/*": ["src/app/data/stores/*"],
+      "@company-store/*": ["src/app/data/company-info/*"],
+      "@departments-store/*": ["src/app/data/departments/*"],
+      "@auth-store/*": ["src/app/data/auth/*"],
+      "@email-setting-store/*": ["src/app/data/email-settings/*"],
       "@utils/*": ["src/app/utilities/*"],
       "@shared/*": ["src/app/shared/*"],
       "@envs/*": ["src/environments/*"],
-      "@angular/core/src/metadata/*": ["./node_modules/@angular/core"]
+      "@angular/core/src/metadata/*": ["./node_modules/@angular/core"],
+      "lodash/*": ["node_modules/@types/lodash-es/*"]
     }
   },
   "angularCompilerOptions": {

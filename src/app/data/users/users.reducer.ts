@@ -3,8 +3,8 @@ import { IUser } from '../models/user.model';
 import {
   deleteUserAPISuccess,
   usersFetchAPISuccess,
-  saveNewUserAPISucess,
-  updateUserAPISucess,
+  saveNewUserAPISuccess,
+  updateUserAPISuccess,
 } from '../users/users.action';
 
 export const initialState: ReadonlyArray<IUser> = [];
@@ -15,13 +15,13 @@ export const userReducer = createReducer(
     return allUsers;
   }),
 
-  on(saveNewUserAPISucess, (state, { newUser }) => {
+  on(saveNewUserAPISuccess, (state, { newUser }) => {
     let newState = [...state];
     newState.unshift(newUser);
     return newState;
   }),
 
-  on(updateUserAPISucess, (state, { updateUser }) => {
+  on(updateUserAPISuccess, (state, { updateUser }) => {
     let newState = state.filter((_) => _.UsersID != updateUser.UsersID);
     newState.unshift(updateUser);
     return newState;

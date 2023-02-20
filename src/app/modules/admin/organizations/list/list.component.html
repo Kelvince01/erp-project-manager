@@ -1,1 +1,65 @@
-<p>list works!</p>
+<div class="container mt-3">
+  <p-table
+    [paginator]="true"
+    [rows]="10"
+    [value]="organizations$"
+    [showCurrentPageReport]="true"
+    responsiveLayout="scroll"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Financial Year End</th>
+        <th>Town</th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-companyInfo>
+      <!-- [ngClass]="{ inActive: companyInfo.isActive == false }" -->
+      <tr>
+        <td>{{ companyInfo.CompanyName }}</td>
+        <td>{{ companyInfo.EmailAddress }}</td>
+        <td>{{ companyInfo.Mobile1 }}</td>
+        <td>{{ companyInfo.FYEnd | date : "d/M/yyyy" }}</td>
+        <td>{{ companyInfo.Town }}</td>
+        <td>
+          <a
+            pButton
+            pRipple
+            type="button"
+            [routerLink]="['/organizations/edit', companyInfo.CompanyID]"
+            icon="pi pi-user-edit"
+            class="p-button-rounded"
+          ></a>
+          <button
+            pButton
+            pRipple
+            type="button"
+            (click)="remove(companyInfo)"
+            [disabled]="isDeleting"
+            style="margin-left: 5px"
+            icon="pi pi-trash"
+            class="p-button-rounded"
+          >
+            <span
+              *ngIf="isDeleting"
+              class="spinner-border spinner-border-sm"
+            ></span>
+            <span *ngIf="!isDeleting"></span>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <a [routerLink]="['/organizations/add']" class="btn btn-primary"
+        >Add New</a
+      >
+    </ng-template>
+  </p-table>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

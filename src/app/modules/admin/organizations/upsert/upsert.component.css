@@ -1,0 +1,130 @@
+input {
+  /* display: none; */
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.image-upload-container {
+  cursor: pointer;
+}
+.img-preview-container {
+  background-color: #f7f7f7;
+  position: relative;
+}
+.img-preview-container .img-preview {
+  background: center center no-repeat;
+  background-size: contain;
+  height: 116px;
+  width: 116px;
+}
+.img-preview-container .img-preview-error {
+  display: none;
+}
+.img-loading-overlay {
+  background-color: black;
+  bottom: 0;
+  left: 0;
+  opacity: 0.2;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.img-spinning-circle {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.img-spinning-circle:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.btn-bwm {
+  background-color: blue;
+  border-color: blue;
+  color: white;
+  padding: 15px 30px;
+  font-size: 20px;
+}
+.btn-bwm:hover,
+.btn-bwm:focus,
+.btn-bwm:active {
+  border-color: blue !important;
+  background-color: blue !important;
+}
+
+fieldset.scheduler-border {
+  border: 1px groove #ddd;
+  padding: 0 1.4em 1.4em 1.4em;
+  margin: 0 0 1.5em 0;
+  -webkit-box-shadow: 0px 0px 0px 0px #000;
+  box-shadow: 0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+  /* width: inherit; Or auto */
+  padding: 0 10px; /* To give a bit of padding on the left and right */
+  border-bottom: none;
+}
+
+legend {
+  width: auto;
+}
+
+.text-on-pannel {
+  background: #fff none repeat scroll 0 0;
+  height: auto;
+  margin-left: 20px;
+  padding: 3px 5px;
+  position: absolute;
+  margin-top: -47px;
+  border: 1px solid #337ab7;
+  border-radius: 8px;
+}
+
+.panel {
+  /* for text on pannel */
+  margin-top: 27px !important;
+}
+
+.panel-body {
+  padding-top: 30px !important;
+}
+
+fieldset {
+  border: solid 1px gray;
+  padding-top: 5px;
+  padding-right: 12px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+}
+legend {
+  float: none;
+  width: auto;
+}

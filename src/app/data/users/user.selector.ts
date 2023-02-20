@@ -12,8 +12,8 @@ export const selectUserById = (userId: number) =>
     return userbyId[0];
   });
 
-export const areUsersLoaded = createSelector(
-  selectUsers,
-  (state) => state
-  // (state) => state.departmantsLoaded
-);
+// export const areUsersLoaded = createSelector(
+//   selectUsers,
+//   (state) => state
+//   // (state) => state.departmantsLoaded
+// );

@@ -11,27 +11,27 @@ export const usersFetchAPISuccess = createAction(
 );
 
 export const invokeSaveNewUserAPI = createAction(
-  '[Users API] Inovke save new user api',
+  '[Users API] Invoke save new user api',
   props<{ newUser: IUser }>()
 );
 
-export const saveNewUserAPISucess = createAction(
+export const saveNewUserAPISuccess = createAction(
   '[Users API] save new user api success',
   props<{ newUser: IUser }>()
 );
 
 export const invokeUpdateUserAPI = createAction(
-  '[Users API] Inovke update user api',
+  '[Users API] Invoke update user api',
   props<{ updateUser: IUser }>()
 );
 
-export const updateUserAPISucess = createAction(
+export const updateUserAPISuccess = createAction(
   '[Users API] update  user api success',
   props<{ updateUser: IUser }>()
 );
 
 export const invokeDeleteUserAPI = createAction(
-  '[Users API] Inovke delete user api',
+  '[Users API] Invoke delete user api',
   props<{ id: number }>()
 );
 

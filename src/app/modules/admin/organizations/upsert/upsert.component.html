@@ -1,64 +1,366 @@
-<div class="container">
-  <div class="row">
-    <div class="card">
-      <h5>Add Organization</h5>
-      <div class="formgrid grid">
-        <div class="field col-12 md:col-6">
-          <label for="firstname6">Firstname</label>
-          <input
-            id="firstname6"
-            type="text"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          />
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="lastname6">Lastname</label>
-          <input
-            id="lastname6"
-            type="text"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          />
-        </div>
-        <div class="field col-12">
-          <label for="address">Address</label>
-          <textarea
-            id="address"
-            type="text"
-            rows="4"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          ></textarea>
-        </div>
-        <div class="field col-12 md:col-6">
-          <label for="city">City</label>
-          <input
-            id="city"
-            type="text"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          />
-        </div>
-        <div class="field col-12 md:col-3">
-          <label for="state">State</label>
-          <select
-            id="state"
-            class="w-full text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary"
-            style="appearance: auto"
+<p-tabView
+  class="surface-card p-2 m-0 list-none flex overflow-x-auto select-none"
+>
+  <p-tabPanel
+    class="flex align-items-center"
+    header="Organization Info"
+    leftIcon="pi pi-calendar"
+    tooltip="Organization Info"
+  >
+    <h1>{{ title }}</h1>
+    <form *ngIf="!loading" [formGroup]="companyInfoForm" (ngSubmit)="save()">
+      <fieldset class="scheduler-border mb-3">
+        <legend>Identity</legend>
+        <!-- <div class="row g-3">
+          <label for="" class="form-label">Company Logo</label>
+          <!- formControlName="CompanyLogo" ->
+          <p-fileUpload
+            name="CompanyLogo"
+            (onUpload)="onUpload($event)"
+            [multiple]="false"
+            #fileUpload
+            [customUpload]="true"
+            accept="image/*"
+            [maxFileSize]="1000000"
           >
-            <option>Arizona</option>
-            <option>California</option>
-            <option>Florida</option>
-            <option>Ohio</option>
-            <option>Washington</option>
-          </select>
+            <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">
+                  {{ file.name }} - {{ file.size }} bytes
+                </li>
+              </ul>
+            </ng-template>
+          </p-fileUpload>
+        </div> -->
+        <div class="row g-3">
+          <label class="image-upload-container btn btn-bwm">
+            <span>Select Image</span>
+            <input
+              #imageInput
+              class="form-control"
+              name="CompanyLogo"
+              type="file"
+              accept="image/*"
+              (change)="processFile(imageInput)"
+            />
+          </label>
+
+          <div *ngIf="selectedFile" class="img-preview-container">
+            <div
+              class="img-preview{{
+                selectedFile.status === 'fail' ? '-error' : ''
+              }}"
+              [ngStyle]="{
+                'background-image': 'url(' + selectedFile.src + ')'
+              }"
+            ></div>
+
+            <div *ngIf="selectedFile.pending" class="img-loading-overlay">
+              <div class="img-spinning-circle"></div>
+            </div>
+
+            <div
+              *ngIf="selectedFile.status === 'ok'"
+              class="alert alert-success"
+            >
+              Image Uploaded Succesfuly!
+            </div>
+            <div
+              *ngIf="selectedFile.status === 'fail'"
+              class="alert alert-danger"
+            >
+              Image Upload Failed!
+            </div>
+          </div>
         </div>
-        <div class="field col-12 md:col-3">
-          <label for="zip">Zip</label>
-          <input
-            id="zip"
-            type="text"
-            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          />
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="ProjectID" class="form-label">Project Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="ProjectID"
+              id="ProjectID"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="FYEnd" class="form-label">Financial Year</label>
+            <input
+              type="text"
+              class="form-control"
+              id="FYEnd"
+              formControlName="FYEnd"
+            />
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-12">
+            <label for="CompanyName" class="form-label">Company Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="CompanyName"
+              formControlName="CompanyName"
+            />
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="LegalName" class="form-label">Legal Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="LegalName"
+              formControlName="LegalName"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="CompanyInitials" class="form-label"
+              >Organization Init</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="CompanyInitials"
+              formControlName="CompanyInitials"
+            />
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="NSSFNo" class="form-label">NSSF No</label>
+            <input
+              type="text"
+              class="form-control"
+              id="NSSFNo"
+              formControlName="NSSFNo"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="NHIFNo" class="form-label">NHIF No</label>
+            <input
+              type="text"
+              class="form-control"
+              id="NHIFNo"
+              formControlName="NHIFNo"
+            />
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="PINNo" class="form-label">PIN No</label>
+            <input
+              type="text"
+              class="form-control"
+              id="PINNo"
+              formControlName="PINNo"
+            />
+          </div>
+          <div class="col-md-6 p-4">
+            <p-checkbox
+              class="mr-3"
+              formControlName="isOrgRegistered"
+              [binary]="true"
+              inputId="isOrgRegistered"
+            ></p-checkbox>
+            <!-- <input
+              type="checkbox"
+              class="form-control"
+              id="isOrgRegistered"
+              formControlName="isOrgRegistered"
+            /> -->
+            <label for="isOrgRegistered" align="center" class="pl-3 ml-3 mt-2"
+              >Is Organization registered for VAT?</label
+            >
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label for="DateID" class="form-label">FY Date</label>
+            <input
+              type="date"
+              class="form-control"
+              id="DateID"
+              formControlName="DateID"
+            />
+          </div>
+          <div class="col-md-3">
+            <label for="MonthID" class="form-label">FY Month</label>
+            <input
+              type="month"
+              class="form-control"
+              id="MonthID"
+              formControlName="MonthID"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="VATNo" class="form-label">VAT No</label>
+            <input
+              type="text"
+              class="form-control"
+              id="VATNo"
+              formControlName="VATNo"
+            />
+          </div>
+        </div>
+      </fieldset>
+      <div class="row">
+        <div class="col-md-6">
+          <fieldset class="scheduler-border mb-3">
+            <legend>Physical Address</legend>
+            <div class="form-group">
+              <label>Building</label>
+              <input
+                class="form-control"
+                formControlName="Building"
+                type="text"
+              />
+            </div>
+            <div class="form-group">
+              <label>Road</label>
+              <input class="form-control" formControlName="Road" type="text" />
+            </div>
+            <div class="form-group">
+              <label>P.O Box</label>
+              <input class="form-control" formControlName="POBox" type="text" />
+            </div>
+            <div class="form-group">
+              <label>Postal Code</label>
+              <input
+                class="form-control"
+                formControlName="PostalCode"
+                type="number"
+              />
+            </div>
+            <div class="form-group">
+              <label>Town</label>
+              <input class="form-control" formControlName="Town" type="text" />
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="scheduler-border mb-3">
+            <legend>Telephones</legend>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input
+                class="form-control"
+                id="EmailAddress"
+                formControlName="EmailAddress"
+                type="email"
+              />
+            </div>
+            <div class="form-group">
+              <label>Website</label>
+              <input
+                class="form-control"
+                id="Website"
+                formControlName="Website"
+                type="url"
+              />
+            </div>
+            <div class="form-group">
+              <label>Set Email</label>
+              <button
+                pButton
+                class="form-control"
+                type="button"
+                (click)="emailSettings()"
+                pButton
+                icon="pi pi-info-circle"
+                label="Email Settings"
+              ></button>
+            </div>
+            <div class="form-group">
+              <label>Telephone</label>
+              <input class="form-control" formControlName="Tel1" type="tel" />
+            </div>
+            <div class="form-group">
+              <label>Mobile</label>
+              <input
+                class="form-control"
+                formControlName="Mobile1"
+                type="tel"
+              />
+            </div>
+            <div class="form-group">
+              <label>Other Tel</label>
+              <input class="form-control" formControlName="Tel2" type="tel" />
+            </div>
+          </fieldset>
         </div>
       </div>
+      <div class="row">
+        <div class="mb-2">
+          <button [disabled]="submitting" class="btn btn-primary">
+            <span
+              *ngIf="submitting"
+              class="spinner-border spinner-border-sm me-1"
+            ></span>
+            Save
+          </button>
+          <a routerLink="/admin/programs" class="btn btn-link">Cancel</a>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="loading" class="text-center m-5">
+      <span class="spinner-border spinner-border-lg align-center"></span>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="HR" rightIcon="pi pi-inbox" tooltip="HR"> </p-tabPanel>
+  <p-tabPanel header="Settings" rightIcon="pi pi-pdf" tooltip="Settings">
+  </p-tabPanel>
+</p-tabView>
+
+<!-- <form class="row g-3">
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Email</label>
+    <input type="email" class="form-control" id="inputEmail4" />
+  </div>
+  <div class="col-md-6">
+    <label for="inputPassword4" class="form-label">Password</label>
+    <input type="password" class="form-control" id="inputPassword4" />
+  </div>
+  <div class="col-12">
+    <label for="inputAddress" class="form-label">Address</label>
+    <input
+      type="text"
+      class="form-control"
+      id="inputAddress"
+      placeholder="1234 Main St"
+    />
+  </div>
+  <div class="col-12">
+    <label for="inputAddress2" class="form-label">Address 2</label>
+    <input
+      type="text"
+      class="form-control"
+      id="inputAddress2"
+      placeholder="Apartment, studio, or floor"
+    />
+  </div>
+  <div class="col-md-6">
+    <label for="inputCity" class="form-label">City</label>
+    <input type="text" class="form-control" id="inputCity" />
+  </div>
+  <div class="col-md-4">
+    <label for="inputState" class="form-label">State</label>
+    <select id="inputState" class="form-select">
+      <option selected>Choose...</option>
+      <option>...</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <label for="inputZip" class="form-label">Zip</label>
+    <input type="text" class="form-control" id="inputZip" />
+  </div>
+  <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck" />
+      <label class="form-check-label" for="gridCheck"> Check me out </label>
     </div>
   </div>
-</div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </div>
+</form> -->

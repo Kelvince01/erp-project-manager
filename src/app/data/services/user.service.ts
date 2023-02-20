@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import { from, map, Observable } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { FeathersService } from '@services/feathers.service';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '@models/user.model';
 
@@ -6,30 +9,88 @@ import { IUser } from '@models/user.model';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private feathers: FeathersService,
+    @Inject(MessageService) private messages: MessageService
+  ) {}
 
-  get() {
-    return this.http.get<IUser[]>('http://localhost:3000/users');
+  users$(): Observable<any> {
+    // just returning the observable will query the backend on every subscription
+    // using some caching mechanism would be wise in more complex applications
+    return from(
+      (<any>this.feathers // todo: remove 'any' assertion when feathers-reactive typings are up-to-date with buzzard
+        .service('users'))
+        // .watch()
+        .find({
+          query: {
+            $sort: { LastUpdated: -1 },
+            $limit: 25,
+          },
+        })
+    );
   }
 
   getById(id: number) {
-    return this.http.get<IUser>(`http://localhost:3000/users/${id}`);
+    return this.http.get<IUser>(`http://localhost:3030/users/${id}`);
   }
 
-  create(payload: IUser) {
-    return this.http.post<IUser>('http://localhost:3000/users', payload);
+  signup(data: any): Observable<any> {
+    return from(
+      this.feathers
+        .service('users')
+        .create({ ...data })
+        .then(() =>
+          this.messages.add({ severity: 'success', detail: 'User created.' })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create user!',
+          })
+        )
+    );
   }
 
   update(payload: IUser) {
-    return this.http.put<IUser>(
-      `http://localhost:3000/users/${payload.UsersID}`,
+    return this.http.patch<IUser>(
+      `http://localhost:3030/users/${payload.UsersID}`,
       payload
     );
   }
 
   delete(id: number) {
-    return this.http.delete(`http://localhost:3000/users/${id}`);
+    return this.http.delete(`http://localhost:3030/users/${id}`);
   }
+
+  /*updateOld(id: number, params: any) {
+    return this.http.patch(`${environment.apiUrl}/users/${id}`, params).pipe(
+      map((x) => {
+        // update stored user if the logged in user updated their own record
+        if (id == this.userValue?.UsersID) {
+          // update local storage
+          const user = { ...this.userValue, ...params };
+          localStorage.setItem('user', JSON.stringify(user));
+
+          // publish updated user to subscribers
+          this.userSubject.next(user);
+        }
+        return x;
+      })
+    );
+  }
+
+  deleteOld(id: number) {
+    return this.http.delete(`${environment.apiUrl}/users/${id}`).pipe(
+      map((x) => {
+        // auto logout if the logged in user deleted their own record
+        if (id == this.userValue?.UsersID) {
+          this.logout();
+        }
+        return x;
+      })
+    );
+  }*/
 
   /*private USER_API_URL = 'https://randomuser.me/api/?results=';
 

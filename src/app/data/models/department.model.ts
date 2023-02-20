@@ -6,3 +6,5 @@ export interface IDepartment {
   Description?: string;
   LastUpdated?: Date;
 }
+
+export interface IDepartmentLite extends Omit<IDepartment, 'DepartID'> {}
