@@ -18,6 +18,6 @@ export class UploadService {
 
     // Make http post request over api
     // with formData as req
-    return from(this.feathers.service('uploads').create(formData));
+    return from(this.feathers.service('files').create(formData));
   }
 }
