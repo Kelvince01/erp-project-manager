@@ -53,7 +53,7 @@ export class UpsertComponent implements OnInit {
       OpeningBal: ['', Validators.required],
       BalDate: ['', Validators.required],
       Notes: ['', Validators.required],
-      Foreign: [''],
+      Foreign: [true],
       CurrencyID: ['', Validators.required],
     });
 
@@ -63,7 +63,7 @@ export class UpsertComponent implements OnInit {
       this.title = 'Edit Bank Account';
       this.loading = true;
       this.bankService
-        .getById(this.id)
+        .getAccountById(this.id)
         .pipe(first())
         .subscribe((x) => {
           this.form.patchValue(x);

@@ -34,15 +34,15 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private accountService: AuthService,
     private alertService: MessageService,
-    private store: Store,
+    // private store: Store,
     private localStorage: LocalStorageService,
     private rolesService: RolesService
   ) {
-    this.store.select(selectToken).subscribe((token) => (this.token = token));
-    this.store.select(selectError).subscribe((error) => (this.error = error));
-    this.store
-      .select(selectIsLoading)
-      .subscribe((isLoading) => (this.loading = isLoading));
+    // this.store.select(selectToken).subscribe((token) => (this.token = token));
+    // this.store.select(selectError).subscribe((error) => (this.error = error));
+    // this.store
+    // .select(selectIsLoading)
+    // .subscribe((isLoading) => (this.loading = isLoading));
   }
 
   ngOnInit() {

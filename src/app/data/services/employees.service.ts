@@ -43,7 +43,7 @@ export class EmployeesService {
     return from(
       this.feathers
         .service('employees')
-        .find({ query: { $limit: 1, ...query } })
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 

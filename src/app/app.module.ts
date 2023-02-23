@@ -1,3 +1,4 @@
+import { ConfigService as Config } from '@services/config.service';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { NgModule, isDevMode, APP_INITIALIZER } from '@angular/core';
@@ -66,6 +67,7 @@ export function appInitializer(accountService: AuthService) {
     FeathersService,
     AuthService,
     AuthGuard,
+    Config,
   ],
   bootstrap: [AppComponent],
 })

@@ -33,6 +33,8 @@ export class EmailSettingsService {
   }
 
   create(payload: IEmailSetting): Observable<any> {
+    console.log(payload);
+
     return from(
       this.feathers
         .service('email-settings')
@@ -40,12 +42,12 @@ export class EmailSettingsService {
           ...payload,
         })
         .then(() =>
-          this.messages.add({ severity: 'success', detail: 'User created.' })
+          this.messages.add({ severity: 'success', detail: 'Email Settings Created.' })
         )
         .catch((err: any) =>
           this.messages.add({
             severity: 'error',
-            detail: 'Could not create user!',
+            detail: 'Could not create email setting!',
           })
         )
     );

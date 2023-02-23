@@ -41,7 +41,7 @@ export class BankingService {
   banks$(query?: any): Observable<any> {
     // get(query?: any) {
     return from(
-      this.feathers.service('banks').find({ query: { $limit: 1, ...query } })
+      this.feathers.service('banks').find({ query: { $limit: 20, ...query } })
     );
   }
 
@@ -80,7 +80,9 @@ export class BankingService {
 
   accounts$(query?: any): Observable<any> {
     return from(
-      this.feathers.service('accounts').find({ query: { $limit: 1, ...query } })
+      this.feathers
+        .service('accounts')
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 
@@ -121,7 +123,7 @@ export class BankingService {
     return from(
       this.feathers
         .service('main-accounts')
-        .find({ query: { $limit: 1, ...query } })
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 
@@ -165,7 +167,7 @@ export class BankingService {
     return from(
       this.feathers
         .service('account-types')
-        .find({ query: { $limit: 1, ...query } })
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 

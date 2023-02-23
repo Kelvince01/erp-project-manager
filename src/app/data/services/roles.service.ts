@@ -39,7 +39,7 @@ export class RolesService {
   roles$(query?: any): Observable<any> {
     // get(query?: any) {
     return from(
-      this.feathers.service('roles').find({ query: { $limit: 1, ...query } })
+      this.feathers.service('roles').find({ query: { $limit: 20, ...query } })
     );
   }
 

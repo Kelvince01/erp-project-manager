@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { DataTableConstants } from './../../../../utilities/constants';
+import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
 // import * as $ from 'jquery';
 import { IUser } from '@models/user.model';
 import { AuthService } from '@services/auth.service';
+import { ConfigService } from '@services/config.service';
 
 // window['$'] = window['jQuery'] = $;
 
@@ -15,32 +17,36 @@ import { AuthService } from '@services/auth.service';
 export class NavbarComponent implements OnInit {
   items: MenuItem[] = [];
   user?: IUser | null;
+  @Input() visibleSidebar1: boolean = false;
 
   constructor(
     private accountService: AuthService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private config: ConfigService
   ) {
     this.user = this.accountService.currentUser as any;
+    this.visibleSidebar1 = config.showSideBar;
   }
 
   ngOnInit(): void {
+    // DataTableConstants.showSideBar = this.visibleSidebar1;
     this.items = [
-      {
-        label: 'Profile',
-        icon: 'pi pi-fw pi-profile',
-        url: 'http://angular.io',
-      },
-      {
-        label: 'Settings',
-        icon: 'pi pi-fw pi-settings',
-        url: 'http://angular.io',
-      },
-      {
-        label: 'Activity Log',
-        icon: 'pi pi-fw pi-list',
-        url: 'http://angular.io',
-      },
+      // {
+      //   label: 'Profile',
+      //   icon: 'pi pi-fw pi-profile',
+      //   url: 'http://angular.io',
+      // },
+      // {
+      //   label: 'Settings',
+      //   icon: 'pi pi-fw pi-settings',
+      //   url: 'http://angular.io',
+      // },
+      // {
+      //   label: 'Activity Log',
+      //   icon: 'pi pi-fw pi-list',
+      //   url: 'http://angular.io',
+      // },
       {
         label: 'Logout',
         icon: 'pi pi-fw pi-sign-out',
@@ -49,6 +55,12 @@ export class NavbarComponent implements OnInit {
         },
       },
     ];
+  }
+
+  toggleSidebar() {
+    this.visibleSidebar1 = true;
+    this.config.toggleSidebar(this.visibleSidebar1);
+    // console.log(this.visibleSidebar1);
   }
 
   logOut() {
