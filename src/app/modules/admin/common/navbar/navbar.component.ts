@@ -1,5 +1,5 @@
 import { DataTableConstants } from './../../../../utilities/constants';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
 // import * as $ from 'jquery';
@@ -17,7 +17,8 @@ import { ConfigService } from '@services/config.service';
 export class NavbarComponent implements OnInit {
   items: MenuItem[] = [];
   user?: IUser | null;
-  @Input() visibleSidebar1: boolean = false;
+  // @Input() visibleSidebar1: boolean = false;
+  @Output() visibleSidebar1 = new EventEmitter<any>();
 
   constructor(
     private accountService: AuthService,
@@ -25,8 +26,9 @@ export class NavbarComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private config: ConfigService
   ) {
-    this.user = this.accountService.currentUser as any;
-    this.visibleSidebar1 = config.showSideBar;
+    this.user = this.accountService.userValue as any;
+
+    // this.visibleSidebar1 = config.showSideBar;
   }
 
   ngOnInit(): void {
@@ -58,8 +60,9 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleSidebar() {
-    this.visibleSidebar1 = true;
-    this.config.toggleSidebar(this.visibleSidebar1);
+    // this.visibleSidebar1 = true;
+    // this.config.toggleSidebar(this.visibleSidebar1);
+    this.visibleSidebar1.emit(true);
     // console.log(this.visibleSidebar1);
   }
 

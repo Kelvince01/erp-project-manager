@@ -10,7 +10,7 @@ import { AuthService } from '@services/auth.service';
 export class AuthComponent {
   constructor(private router: Router, private accountService: AuthService) {
     // redirect to home if already logged in
-    if (this.accountService.userValue) {
+    if (this.accountService.isAuthenticated()) {
       this.router.navigate(['/']);
     }
   }

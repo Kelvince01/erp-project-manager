@@ -1,5 +1,5 @@
-import { IDepartment } from './../../../../data/models/department.model';
 import { Component, Inject, OnInit } from '@angular/core';
+import { IDepartment } from '@models/department.model';
 import { select, Store } from '@ngrx/store';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { selectDepartments } from 'src/app/data/departments/department.selector';
@@ -19,6 +19,8 @@ declare var window: any;
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
+  departments: any;
+
   constructor(
     @Inject(Store) private store: Store,
     @Inject(Store<Appstate>) private appStore: Store<Appstate>,
@@ -31,6 +33,10 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(invokeDepartmentsAPI());
+
+    this.departments$.subscribe((res) => {
+      this.departments = res;
+    });
   }
 
   deleteDepartment(department: IDepartment) {

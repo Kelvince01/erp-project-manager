@@ -57,8 +57,8 @@ export class RegisterComponent implements OnInit {
         next: () => {
           this.toastr.add({
             severity: 'success',
-            summary: 'Registration successful',
-            detail: 'Via MessageService',
+            summary: 'Success',
+            detail: 'Registration successful',
           });
           this.router.navigate(['../login'], { relativeTo: this.route });
         },

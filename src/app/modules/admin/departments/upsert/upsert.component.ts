@@ -1,8 +1,9 @@
+import { CompanyInfoService } from './../../../../data/services/company-info.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { switchMap } from 'rxjs';
+import { first, switchMap } from 'rxjs';
 import { selectDepartmentById } from 'src/app/data/departments/department.selector';
 import {
   invokeSaveNewDepartmentAPI,
@@ -25,7 +26,8 @@ export class UpsertComponent implements OnInit {
     private route: ActivatedRoute,
     private store: Store,
     private appStore: Store<Appstate>,
-    private router: Router
+    private router: Router,
+    private companyService: CompanyInfoService
   ) {}
 
   departmentForm: IDepartment = {
@@ -40,6 +42,7 @@ export class UpsertComponent implements OnInit {
   isAddMode: boolean = false;
   loading = false;
   submitted = false;
+  companies: any;
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
@@ -61,6 +64,13 @@ export class UpsertComponent implements OnInit {
         }
       });
     }
+  }
+
+  getCompanies() {
+    this.companyService
+      .companies$()
+      .pipe(first())
+      .subscribe((companies) => (this.companies = companies.data));
   }
 
   save() {

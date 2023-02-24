@@ -2,7 +2,19 @@
   <!-- [value]="users$ | async"  -->
   <ng-template pTemplate="caption">
     List of Users
-    <p-button class="btnAdd" label="ADD" (onClick)="onUserAdd()"></p-button>
+    <div class="flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        icon="pi pi-plus"
+        label="Add User"
+        class="mr-2"
+        pTooltip="Add User"
+        tooltipPosition="right"
+        routerLink="/admin/users/add"
+      ></button>
+    </div>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>

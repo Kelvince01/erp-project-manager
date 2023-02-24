@@ -35,6 +35,7 @@
     "@types/feathersjs__authentication-client": "^1.0.5",
     "@types/feathersjs__feathers": "^3.1.5",
     "@types/feathersjs__socketio-client": "^1.0.3",
+    "bn-ng-idle": "^2.0.5",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.3",
     "chart.js": "^4.2.0",

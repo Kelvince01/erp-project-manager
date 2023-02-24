@@ -29,6 +29,7 @@ export class UpsertComponent implements OnInit {
   roles: IRole[] = [];
   sections: IDepartmentSection[] = [];
   groups: IGroup[] = [];
+  employeeId: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -106,6 +107,11 @@ export class UpsertComponent implements OnInit {
     if (target.checked) {
       this._prevSelected1 = false;
     }
+  }
+
+  selectChangeHandler(event: any) {
+    //update the ui
+    this.employeeId = event.target.value;
   }
 
   getEmployees() {

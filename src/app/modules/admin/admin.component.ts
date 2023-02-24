@@ -1,4 +1,3 @@
-import { DataTableConstants } from './../../utilities/constants';
 import { Component } from '@angular/core';
 import { ConfigService } from '@services/config.service';
 
@@ -8,13 +7,17 @@ import { ConfigService } from '@services/config.service';
   styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent {
-  visibleSidebar1;
+  visibleSidebar1: any;
 
   constructor(private config: ConfigService) {
-    this.visibleSidebar1 = config.showSideBar;
+    // this.visibleSidebar1 = config.showSideBar;
+  }
+
+  fwdMsgToSib2($event: any) {
+    this.visibleSidebar1 = $event;
   }
 
   ngOnInit(): void {
-    console.log(this.visibleSidebar1);
+    // console.log(this.visibleSidebar1);
   }
 }

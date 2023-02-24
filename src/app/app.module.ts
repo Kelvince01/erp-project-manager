@@ -22,6 +22,7 @@ import { FeathersService } from '@services/feathers.service';
 import { AuthService } from '@services/auth.service';
 import { AuthGuard } from '@utils/guards/auth.guard';
 import { configFactory, ConfigService } from '@core/services/config.service';
+import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 
 export function appInitializer(accountService: AuthService) {
   return () =>
@@ -68,6 +69,7 @@ export function appInitializer(accountService: AuthService) {
     AuthService,
     AuthGuard,
     Config,
+    BnNgIdleService,
   ],
   bootstrap: [AppComponent],
 })

@@ -58,7 +58,6 @@ export class DepartmentsEffect {
         }
         return this.departmentsService.departments$().pipe(
           retry(2),
-          // map((response: Paginated<any>) => response.data)
           map((data: Paginated<any>) =>
             departmentsFetchAPISuccess({ allDepartments: data.data })
           )

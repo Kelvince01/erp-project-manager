@@ -1,8 +1,10 @@
 <div id="wrapper">
-  <app-admin-sidebar [visibleSidebar1]="visibleSidebar1"></app-admin-sidebar>
+  <app-admin-sidebar></app-admin-sidebar>
   <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
-      <app-admin-navbar [visibleSidebar1]="visibleSidebar1"></app-admin-navbar>
+      <app-admin-navbar
+        (visibleSidebar1)="fwdMsgToSib2($event)"
+      ></app-admin-navbar>
 
       <p-toast position="top-right"></p-toast>
 

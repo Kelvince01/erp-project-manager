@@ -1,3 +1,4 @@
+import { UpsertTitleComponent } from './../upsert-title/upsert-title.component';
 import { IBank } from '@models/bank.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,6 +16,7 @@ import { BankingService } from '@services/banking.service';
 import { TitlesService } from '@services/titles.service';
 import { CountriesService } from '@services/countries.service';
 import { ICountry } from '@models/country.model';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-upsert',
@@ -46,7 +48,8 @@ export class UpsertComponent implements OnInit {
     private banksService: BankingService,
     private countriesService: CountriesService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    public dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -99,6 +102,28 @@ export class UpsertComponent implements OnInit {
           this.loading = false;
         });
     }
+  }
+  ref: DynamicDialogRef = new DynamicDialogRef();
+
+  addTitle() {
+    this.ref = this.dialogService.open(UpsertTitleComponent, {
+      header: 'Add Title',
+      width: '60%',
+      contentStyle: { 'max-height': '500px', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    this.ref.onClose.subscribe((emailSetting: ITitle) => {
+      this.getTitles();
+      if (emailSetting) {
+        this.form.patchValue({ TitleID: emailSetting.TitleID });
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Title Selected',
+          detail: emailSetting.Title,
+        });
+      }
+    });
   }
 
   getTitles() {

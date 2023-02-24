@@ -40,6 +40,8 @@
                   Title is required
                 </div>
               </div>
+
+              <p-button label="Add Title" (onClick)="addTitle()"></p-button>
               <!-- <p-dropdown
                 [options]="titles"
                 [(ngModel)]="selectedTitle"
@@ -87,7 +89,7 @@
                 type="checkbox"
                 id="isForeign"
                 name="isForeign"
-                class="form-control"
+                class="form-check-control ml-4"
                 formControlName="isForeign"
               />
             </div>
@@ -97,7 +99,7 @@
                 type="checkbox"
                 id="Male"
                 name="Male"
-                class="form-control"
+                class="form-check-control ml-4"
                 formControlName="Male"
               />
             </div>
@@ -177,7 +179,7 @@
               <label for="EndDateChecked" class="form-label">Date Ending</label>
               <input
                 type="checkbox"
-                class="form-control"
+                class="form-check-control ml-4"
                 formControlName="EndDateChecked"
               />
             </div>
@@ -192,10 +194,10 @@
           </div>
           <div class="row">
             <div class="col-md-6">
-              <label for="Retired" class="form-label">Retire</label>
+              <label for="Retired" class="form-label mr-4">Retire</label>
               <input
                 type="checkbox"
-                class="form-control"
+                class="form-check-control ml-4"
                 formControlName="Retired"
               />
             </div>

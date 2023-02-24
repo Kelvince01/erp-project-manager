@@ -10,7 +10,7 @@ import {
   selectEmailSettingById,
 } from './../../../../../data/email-settings/email-setting.selector';
 import { IEmailSetting } from '@models/email-setting.model';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
@@ -26,7 +26,7 @@ import { setAPIStatus } from '@stores/app.action';
   templateUrl: './email-settings.component.html',
   styleUrls: ['./email-settings.component.css'],
 })
-export class EmailSettingsComponent {
+export class EmailSettingsComponent implements OnInit {
   id: number = 0;
   emailSettingsForm: FormGroup;
   loading = false;

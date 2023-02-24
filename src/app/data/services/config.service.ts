@@ -7,10 +7,12 @@ export class ConfigService {
   public showSideBar: boolean = false;
 
   constructor() {
-    console.log(this.showSideBar);
+    // console.log(this.showSideBar);
   }
 
-  toggleSidebar(status: boolean) {
-    this.showSideBar = status;
+  public toggleSidebar(status?: boolean) {
+    return status;
+    // this.showSideBar = status;
+    // console.log(status);
   }
 }

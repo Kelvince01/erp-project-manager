@@ -1,7 +1,13 @@
 <div class="card surface-card border-round p-4">
   <!-- <h4 class="card-header">Login</h4> -->
   <div class="card-header text-center">
-    <img src="assets/images/hyper.svg" alt="Image" height="50" class="mb-3" />
+    <img
+      src="assets/images/hyper.png"
+      alt="login logo"
+      height="50"
+      class="mb-3"
+      routerLink="/"
+    />
     <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
     <span class="text-600 font-medium line-height-3"
       >Don't have an account?</span
@@ -25,9 +31,8 @@
           [ngClass]="{ 'is-invalid': submitted && f['Email'].errors }"
         />
         <div *ngIf="submitted && f['Email'].errors" class="invalid-feedback">
-          <div *ngIf="f['Email'].errors['required']['email']">
-            Email is required
-          </div>
+          <div *ngIf="f['Email'].errors['required']">Email is required</div>
+          <div *ngIf="f['Email'].errors['email']">Email should be valid</div>
         </div>
       </div>
       <div class="mb-3">
@@ -70,7 +75,7 @@
           pButton
           pRipple
           icon="pi pi-user"
-          class="btn btn-primary p-2 w-full"
+          class="btn btn-primary p-2 w-full login-btn"
         >
           <span
             *ngIf="loading"

@@ -1,21 +1,23 @@
+import { UpsertAccountTypeComponent } from './../upsert-account-type/upsert-account-type.component';
 import { IMainAccount } from './../../../../data/models/main-account.model';
 import { ICurrency } from '@models/currency.model';
 import { IAccountType } from './../../../../data/models/account-type.model';
 import { BankingService } from './../../../../data/services/banking.service';
 import { MessageService } from 'primeng/api';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MustMatch } from '@utils/must-match.validator';
 import { first } from 'rxjs';
 import { CurrenciesService } from '@services/currencies.service';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-upsert',
   templateUrl: './upsert.component.html',
   styleUrls: ['./upsert.component.css'],
 })
-export class UpsertComponent implements OnInit {
+export class UpsertComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   id?: string;
   title!: string;
@@ -32,7 +34,8 @@ export class UpsertComponent implements OnInit {
     private router: Router,
     private bankService: BankingService,
     private currencyService: CurrenciesService,
-    private alertService: MessageService
+    private alertService: MessageService,
+    public dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -46,15 +49,15 @@ export class UpsertComponent implements OnInit {
       Account: ['', Validators.required],
       Description: ['', Validators.required],
       AccountTypeID: [1],
-      SubAccount: [true],
+      SubAccount: [false],
       // MainAccount: ['', Validators.required],
       MainAccount: [1],
       Active: [true],
       OpeningBal: ['', Validators.required],
       BalDate: ['', Validators.required],
       Notes: ['', Validators.required],
-      Foreign: [true],
-      CurrencyID: ['', Validators.required],
+      Foreign: [false],
+      CurrencyID: [''],
     });
 
     this.title = 'Add Bank Account';
@@ -93,6 +96,38 @@ export class UpsertComponent implements OnInit {
       .subscribe((currencies) => (this.currencies = currencies.data));
   }
 
+  isChecked: any;
+  isChecked2: any;
+
+  checkValue(event: any) {
+    this.isChecked = event.target.checked;
+  }
+
+  checkValue2(event: any) {
+    this.isChecked2 = event.target.checked;
+  }
+
+  ref: DynamicDialogRef = new DynamicDialogRef();
+
+  addAccountType() {
+    this.ref = this.dialogService.open(UpsertAccountTypeComponent, {
+      header: 'Add Account Type',
+      width: '60%',
+      contentStyle: { 'max-height': '500px', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    this.ref.onClose.subscribe((emailSetting: IAccountType) => {
+      if (emailSetting) {
+        this.alertService.add({
+          severity: 'info',
+          summary: 'Product Selected',
+          detail: emailSetting.AccountType,
+        });
+      }
+    });
+  }
+
   // convenience getter for easy access to form fields
   get f() {
     return this.form.controls;
@@ -129,5 +164,11 @@ export class UpsertComponent implements OnInit {
     return this.id
       ? this.bankService.updateAccount(this.form.value)
       : this.bankService.createAccount(this.form.value);
+  }
+
+  ngOnDestroy() {
+    if (this.ref) {
+      this.ref.close();
+    }
   }
 }
