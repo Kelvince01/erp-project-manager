@@ -2,16 +2,30 @@
   <div class="row">
     <fieldset class="scheduler-border mb-3">
       <legend>Project Info</legend>
-      <div class="mb-2">
-        <label class="form-label" for="LeadPerson">Lead Person :</label>
-        <div>
-          <input
-            type="number"
-            class="form-control"
-            id="LeadPerson"
-            name="LeadPerson"
+      <div class="col-lg-4 col-md-10">
+        <div class="form-floating">
+          <select
             formControlName="LeadPerson"
-          />
+            class="form-select"
+            [ngClass]="{ 'is-invalid': submitted && f['LeadPerson'].errors }"
+          >
+            <option [ngValue]="null" disabled>Select EMPLOYEE</option>
+            <option
+              *ngFor="let employee of employees"
+              [ngValue]="employee.EmployeeID"
+            >
+              {{ employee.FirstName }} {{ employee.Surname }}
+            </option>
+          </select>
+          <div
+            *ngIf="submitted && f['LeadPerson'].errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f['LeadPerson'].errors['required']">
+              EMPLOYEE is required.
+            </div>
+          </div>
+          <label>Lead Person</label>
         </div>
       </div>
       <div class="mb-2">

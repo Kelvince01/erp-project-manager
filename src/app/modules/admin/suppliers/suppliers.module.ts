@@ -11,6 +11,7 @@ import { PayBillComponent } from './pay-bill/pay-bill.component';
 import { ReceiveDebitNoteComponent } from './receive-debit-note/receive-debit-note.component';
 import { ReceiveRefundComponent } from './receive-refund/receive-refund.component';
 import { CreateExpenseComponent } from './create-expense/create-expense.component';
+import { AddClassOfTransComponent } from './add-class-of-trans/add-class-of-trans.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { CreateExpenseComponent } from './create-expense/create-expense.componen
     ReceiveDebitNoteComponent,
     ReceiveRefundComponent,
     CreateExpenseComponent,
+    AddClassOfTransComponent,
   ],
   imports: [CommonModule, SuppliersRoutingModule, SharedModule],
 })

@@ -1,0 +1,37 @@
+export interface IJournalBS {
+  JournalBSID?: number;
+  JournalID?: number;
+  ItemID?: number;
+  Description?: string;
+  Quan?: number;
+  QuanDelivered?: number;
+  QuantsNow?: number;
+  Rate?: number;
+  ExchangeRate?: number;
+  CurrencyID?: number;
+  ForeignCurrency?: boolean;
+  Amount?: number;
+  TaxID?: number;
+  TaxAmt?: number;
+  AccountID?: number;
+  DrCrID?: number;
+  TransTypeID?: number;
+  Reconciled?: boolean;
+  PackedWeight?: number;
+  PackedVolume?: number;
+  DeliveryModeID?: number;
+  ProjectID?: number;
+  PatientID?: number;
+  Results?: string;
+  Seen?: boolean;
+  Tested?: boolean;
+  Issued?: boolean;
+  GrantID?: number;
+  Level?: number;
+  GrantCode?: string;
+  myGuid?: string;
+  AmtDue?: number;
+  QuanBal?: number;
+  LastUpdated?: Date;
+  SSMA_TimeStamp?: Date;
+}

@@ -1,0 +1,116 @@
+<div class="container">
+  <div class="mt-0">
+    <form [formGroup]="currencyForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <div class="col-12 mb-2">
+          <span class="text-muted"
+            >Enter all required fields <b>*</b> and hit <b>SAVE</b></span
+          >
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="CURRENCY"
+              formControlName="Currency"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.Currency.errors }"
+            />
+            <div
+              *ngIf="submitted && f.Currency.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Currency.errors.required">
+                CURRENCY is required.
+              </div>
+            </div>
+            <label>CURRENCY *</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="SYMBOL"
+              formControlName="Symbol"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.Symbol.errors }"
+            />
+            <div *ngIf="submitted && f.Symbol.errors" class="invalid-feedback">
+              <div *ngIf="f.Symbol.errors.required">SYMBOL is required.</div>
+            </div>
+            <label>SYMBOL *</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="RATE"
+              formControlName="Rate"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.Rate.errors }"
+            />
+            <div *ngIf="submitted && f.Rate.errors" class="invalid-feedback">
+              <div *ngIf="f.Rate.errors.required">RATE is required.</div>
+            </div>
+            <label>RATE *</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-check form-check-inline mb-3">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="isHome"
+              id="isHome"
+              value="false"
+              formControlName="isHome"
+            />
+            <label class="form-check-label" for="isHome">IS HOME</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="datetime-local"
+              placeholder="AS AT DATE"
+              formControlName="AsAtDate"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.AsAtDate.errors }"
+            />
+            <div
+              *ngIf="submitted && f.AsAtDate.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.AsAtDate.errors.required">
+                AS AT DATE is required.
+              </div>
+            </div>
+            <label>AS AT DATE *</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="datetime-local"
+              placeholder="END DATE"
+              formControlName="EndDate"
+              class="form-control"
+            />
+            <label>END DATE</label>
+          </div>
+        </div>
+
+        <div class="col-12 mt-4">
+          <button class="btn btn-primary text-uppercase" type="submit">
+            SAVE<i class="fa fa-plane ms-3"></i>
+          </button>
+          <a routerLink="/admin/banking" class="btn btn-link text-uppercase"
+            >CANCEL</a
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

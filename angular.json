@@ -53,7 +53,8 @@
               "feathers-reactive",
               "file-saver",
               "jquery",
-              "socket.io-client"
+              "socket.io-client",
+              "crypto-js"
             ]
           },
           "configurations": {

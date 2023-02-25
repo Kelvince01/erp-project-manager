@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IAccount } from '@models/account.model';
+import { IClassOfTransaction } from '@models/class-of-transaction.model';
+import { ISupplier } from '@models/supplier.model';
+import { BankingService } from '@services/banking.service';
+import { ClassOfTransactionService } from '@services/class-of-transaction.service';
+import { EmployeesService } from '@services/employees.service';
+import { JournalsService } from '@services/journals.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-pay-bill',
@@ -7,17 +15,32 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./pay-bill.component.css'],
 })
 export class PayBillComponent implements OnInit {
-  registerForm: any = FormGroup;
+  payExpenseForm: any = FormGroup;
   submitted = false;
-  constructor(private formBuilder: FormBuilder) {}
+  accounts: IAccount[] = [];
+  paymentAccounts: IAccount[] = [];
+  paymentMethods: IAccount[] = [];
+  suppliers: ISupplier[] = [];
+  classOfTrans: IClassOfTransaction[] = [];
+  isCheque: boolean = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private accountService: BankingService,
+    private supplierService: EmployeesService,
+    private classOfTransService: ClassOfTransactionService,
+    private journalService: JournalsService
+  ) {}
+
   //Add user form actions
   get f() {
-    return this.registerForm.controls;
+    return this.payExpenseForm.controls;
   }
+
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
-    if (this.registerForm.invalid) {
+    if (this.payExpenseForm.invalid) {
       return;
     }
     //True if all the fields are filled
@@ -25,17 +48,74 @@ export class PayBillComponent implements OnInit {
       alert('Great!!');
     }
   }
+
   ngOnInit() {
+    this.getPaymentAccounts();
+
     //Add form validations
-    this.registerForm = this.formBuilder.group({
-      ffrom: ['', [Validators.required]],
-      fto: ['', [Validators.required]],
-      dparting: ['', [Validators.required]],
-      returning: ['', [Validators.required]],
-      adults: ['', [Validators.required]],
-      children: ['', [Validators.required]],
-      travel: ['', [Validators.required]],
-      roundtripopt: ['', [Validators.required]],
+    this.payExpenseForm = this.formBuilder.group({
+      AccountID: ['', [Validators.required]],
+      SupplierID: ['', [Validators.required]],
+      AmountPaid: ['', [Validators.required]],
+      PaymentAccountID: ['', [Validators.required]],
+      RefNo: ['', [Validators.required]],
+      Date: ['', [Validators.required]],
+      PayableDate: ['', [Validators.required]],
+      PaymentMethodID: ['', [Validators.required]],
+      ChequeNo: [''],
+      IssueCheque: [''],
+      UnpaidAmountDue: [''],
+      UnUsedCredits: [''],
+      CreditsBF: [''],
+      Memo: [''],
     });
+  }
+
+  getPaymentAccounts() {
+    let query = {
+      AccountTypeID: 6,
+    };
+
+    return this.accountService
+      .accounts$()
+      .pipe(first())
+      .subscribe((res) => {
+        this.accounts = res.data;
+      });
+  }
+
+  getSuppliers() {
+    return this.supplierService
+      .suppliers$()
+      .pipe(first())
+      .subscribe((res) => {
+        this.suppliers = res.data;
+      });
+  }
+
+  getClassOfTrans() {
+    let query = {
+      ClassOfTrans: 'Service',
+    };
+
+    return this.classOfTransService
+      .classOfTransaction$(query)
+      .pipe(first())
+      .subscribe((res) => {
+        this.classOfTrans = res.data;
+      });
+  }
+
+  getAccounts() {
+    let query = {
+      AccountTypeID: 8,
+    };
+
+    return this.accountService
+      .accounts$()
+      .pipe(first())
+      .subscribe((res) => {
+        this.accounts = res.data;
+      });
   }
 }

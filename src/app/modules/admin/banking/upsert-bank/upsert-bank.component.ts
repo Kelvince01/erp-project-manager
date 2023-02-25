@@ -1,5 +1,13 @@
+import { AddCountryComponent } from './../add-country/add-country.component';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { CountriesService } from '@services/countries.service';
+import { BankingService } from '@services/banking.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ICountry } from '@models/country.model';
+import { first } from 'rxjs';
+import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-upsert-bank',
@@ -7,35 +15,94 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./upsert-bank.component.css'],
 })
 export class UpsertBankComponent implements OnInit {
-  registerForm: any = FormGroup;
+  bankForm: any = FormGroup;
   submitted = false;
-  constructor(private formBuilder: FormBuilder) {}
-  //Add user form actions
-  get f() {
-    return this.registerForm.controls;
+  submitting = false;
+  // countries: ICountry[] = [];
+  countries: any;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private bankingService: BankingService,
+    private countryService: CountriesService,
+    private messageService: MessageService,
+    private router: Router,
+    private dialogService: DialogService
+  ) {}
+
+  getCountries() {
+    return this.countryService
+      .countries$()
+      .pipe(first())
+      .subscribe((res) => {
+        this.countries = res.data;
+      });
   }
+
+  get f() {
+    return this.bankForm.controls;
+  }
+
   onSubmit() {
     this.submitted = true;
-    // stop here if form is invalid
-    if (this.registerForm.invalid) {
-      return;
-    }
-    //True if all the fields are filled
-    if (this.submitted) {
-      alert('Great!!');
-    }
+
+    // reset alerts on submit
+    this.messageService.clear();
+
+    if (this.bankForm.invalid) return;
+
+    return this.bankingService
+      .create(this.bankForm.value)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            detail: 'Bank saved',
+          });
+          this.router.navigateByUrl('/admin/banking');
+        },
+        error: (error: any) => {
+          this.messageService.add({ severity: 'error', detail: error });
+          this.submitting = false;
+        },
+      });
   }
+
   ngOnInit() {
-    //Add form validations
-    this.registerForm = this.formBuilder.group({
-      ffrom: ['', [Validators.required]],
-      fto: ['', [Validators.required]],
-      dparting: ['', [Validators.required]],
-      returning: ['', [Validators.required]],
-      adults: ['', [Validators.required]],
-      children: ['', [Validators.required]],
-      travel: ['', [Validators.required]],
-      roundtripopt: ['', [Validators.required]],
+    this.getCountries();
+
+    this.bankForm = this.formBuilder.group({
+      BankName: ['', [Validators.required]],
+      ShortName: ['', [Validators.required]],
+      Branch: ['', [Validators.required]],
+      SwiftCode: ['', [Validators.required]],
+      POBox: ['', [Validators.required]],
+      ZipCode: ['', [Validators.required]],
+      Town: ['', [Validators.required]],
+      CountryID: ['', [Validators.required]],
+    });
+  }
+
+  ref: DynamicDialogRef = new DynamicDialogRef();
+
+  addCountry() {
+    this.ref = this.dialogService.open(AddCountryComponent, {
+      header: 'Add Country',
+      width: '60%',
+      contentStyle: { 'max-height': '500px', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    this.ref.onClose.subscribe((country: ICountry) => {
+      if (country) {
+        this.getCountries();
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Country Selected',
+          detail: country.Country,
+        });
+      }
     });
   }
 }

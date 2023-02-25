@@ -1,28 +1,33 @@
 <div class="container">
   <div class="card mt-0">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="payExpenseForm" (ngSubmit)="onSubmit()">
       <div class="row g-3">
         <div class="col-12 mb-4">
-          <h4>Create Expense</h4>
-          <span class="text-muted"
-            >Please make the payment to start enjoying all the features of our
-            premium plan as soon as possible</span
-          >
+          <h4>Pay Expense</h4>
+          <span class="text-muted">Enter all required fields</span>
         </div>
-        <div class="col-lg-6 col-md-6">
+
+        <div class="col-lg-6 col-md-6 disabledDiv">
           <div class="form-floating">
             <select
               class="form-select"
-              formControlName="adults"
-              [ngClass]="{ 'is-invalid': submitted && f.adults.errors }"
+              formControlName="AccountID"
+              [ngClass]="{ 'is-invalid': submitted && f.AccountID.errors }"
             >
-              <option selected="" hidden="">Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option
+                *ngFor="let account of accounts"
+                [ngValue]="account.AccountID"
+              >
+                {{ account.AccountNo }}
+              </option>
             </select>
-            <div *ngIf="submitted && f.adults.errors" class="invalid-feedback">
-              <div *ngIf="f.adults.errors.required">Account is required.</div>
+            <div
+              *ngIf="submitted && f.AccountID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.AccountID.errors.required">
+                Account is required.
+              </div>
             </div>
             <label>Account</label>
           </div>
@@ -31,19 +36,22 @@
           <div class="form-floating">
             <select
               class="form-select"
-              formControlName="children"
-              [ngClass]="{ 'is-invalid': submitted && f.children.errors }"
+              formControlName="SupplierID"
+              [ngClass]="{ 'is-invalid': submitted && f.SupplierID.errors }"
             >
-              <option selected="" hidden="">Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option [ngValue]="null" disabled>Select Supplier</option>
+              <option
+                *ngFor="let supplier of suppliers"
+                [ngValue]="supplier.EmployeeID"
+              >
+                {{ supplier.FirstName }} {{ supplier.Surname }}
+              </option>
             </select>
             <div
-              *ngIf="submitted && f.children.errors"
+              *ngIf="submitted && f.SupplierID.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.children.errors.required">
+              <div *ngIf="f.SupplierID.errors.required">
                 Supplier is required.
               </div>
             </div>
@@ -52,121 +60,201 @@
         </div>
         <div class="col-lg-6 col-md-6">
           <div class="form-floating">
-            <select
-              class="form-select"
-              formControlName="children"
-              [ngClass]="{ 'is-invalid': submitted && f.children.errors }"
-            >
-              <option selected="" hidden="">Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+            <input
+              type="text"
+              placeholder="Amount Paid"
+              formControlName="AmountPaid"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.AmountPaid.errors }"
+            />
             <div
-              *ngIf="submitted && f.children.errors"
+              *ngIf="submitted && f.AmountPaid.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.children.errors.required">
-                CHILDREN is required.
+              <div *ngIf="f.AmountPaid.errors.required">
+                Amount paid is required.
               </div>
             </div>
-            <label>Supplier</label>
+            <label>Amount Paid</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 disabledDiv">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              formControlName="PaymentAccountID"
+              [ngClass]="{
+                'is-invalid': submitted && f.PaymentAccountID.errors
+              }"
+            >
+              <option
+                *ngFor="let account of paymentAccounts"
+                [ngValue]="account.AccountID"
+              >
+                {{ account.AccountNo }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && f.PaymentAccountID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.PaymentAccountID.errors.required">
+                Payment Account is required.
+              </div>
+            </div>
+            <label>Payment Account</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Ref No"
+              formControlName="RefNo"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.RefNo.errors }"
+            />
+            <div *ngIf="submitted && f.RefNo.errors" class="invalid-feedback">
+              <div *ngIf="f.RefNo.errors.required">Ref No is required.</div>
+            </div>
+            <label>Ref No</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="date"
+              placeholder="Date"
+              formControlName="Date"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.Date.errors }"
+            />
+            <div *ngIf="submitted && f.Date.errors" class="invalid-feedback">
+              <div *ngIf="f.Date.errors.required">Date is required.</div>
+            </div>
+            <label>Date</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="date"
+              placeholder="Payable Date"
+              formControlName="PayableDate"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.PayableDate.errors }"
+            />
+            <div
+              *ngIf="submitted && f.PayableDate.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.PayableDate.errors.required">
+                Payable Date is required.
+              </div>
+            </div>
+            <label>Payable Date</label>
           </div>
         </div>
         <div class="col-lg-6 col-md-6">
           <div class="form-floating">
-            <input
-              type="text"
-              placeholder="FLYING FROM"
-              formControlName="ffrom"
-              class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.ffrom.errors }"
-            />
-            <div *ngIf="submitted && f.ffrom.errors" class="invalid-feedback">
-              <div *ngIf="f.ffrom.errors.required">
-                FLYING FROM is required.
-              </div>
-            </div>
-            <label></label>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-          <div class="form-floating">
-            <input
-              type="text"
-              placeholder="FLYING TO"
-              formControlName="fto"
-              class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.fto.errors }"
-            />
-            <div *ngIf="submitted && f.fto.errors" class="invalid-feedback">
-              <div *ngIf="f.fto.errors.required">FLYING TO is required.</div>
-            </div>
-            <label>Total Amount</label>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-          <div class="form-floating">
-            <input
-              type="date"
-              placeholder="DEPARTING"
-              formControlName="dparting"
-              class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.dparting.errors }"
-            />
+            <select
+              class="form-select"
+              formControlName="PaymentMethodID"
+              [ngClass]="{
+                'is-invalid': submitted && f.PaymentMethodID.errors
+              }"
+            >
+              <option [ngValue]="null" disabled>Select Payment Method</option>
+              <option
+                *ngFor="let project of paymentMethods"
+                [ngValue]="project.ProjectID"
+              >
+                <!-- {{ project.ProjectName }} -->
+              </option>
+            </select>
             <div
-              *ngIf="submitted && f.dparting.errors"
+              *ngIf="submitted && f.PaymentMethodID.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.dparting.errors.required">
-                DEPARTING is required.
+              <div *ngIf="f.PaymentMethodID.errors.required">
+                Payment Method is required.
               </div>
             </div>
-            <label>DEPARTING</label>
+            <label>Payment Method</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-12" *ngIf="isCheque">
           <div class="form-floating">
             <input
-              type="date"
-              placeholder="RETURNING"
-              formControlName="returning"
+              type="text"
+              placeholder="Cheque Number"
+              formControlName="ChequeNo"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.returning.errors }"
             />
-            <div
-              *ngIf="submitted && f.returning.errors"
-              class="invalid-feedback"
+            <label>Cheque No</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12" *ngIf="isCheque">
+          <div class="form-check form-check-inline mb-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="IssueCheque"
+              id="IssueCheque"
+              value="false"
+              formControlName="IssueCheque"
+            />
+            <label class="form-check-label" for="IssueCheque"
+              >Issue Cheque</label
             >
-              <div *ngIf="f.returning.errors.required">
-                RETURNING is required.
-              </div>
-            </div>
-            <label>RETURNING</label>
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-12">
+        <div class="col-lg-6 col-md-12">
           <div class="form-floating">
-            <select
-              class="form-select"
-              formControlName="travel"
-              [ngClass]="{ 'is-invalid': submitted && f.travel.errors }"
-            >
-              <option selected="" hidden="">Open this select menu</option>
-              <option value="1">Economy</option>
-              <option value="2">Premium</option>
-              <option value="3">Business</option>
-            </select>
-            <div *ngIf="submitted && f.travel.errors" class="invalid-feedback">
-              <div *ngIf="f.travel.errors.required">TRAVEL is required.</div>
-            </div>
-            <label>TRAVEL CLASS</label>
+            <input
+              type="text"
+              placeholder="Unpaid Amount Due"
+              formControlName="UnpaidAmountDue"
+              class="form-control"
+            />
+            <label>Unpaid Amount Due</label>
           </div>
         </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Unused Credits"
+              formControlName="UnUsedCredits"
+              class="form-control"
+            />
+            <label>Unused Credits</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Credits BF"
+              formControlName="CreditsBF"
+              class="form-control"
+            />
+            <label>Credits BF</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <textarea formControlName="Memo" class="form-control"></textarea>
+            <label>Memo</label>
+          </div>
+        </div>
+
         <div class="col-12 mt-4">
           <button class="btn btn-primary text-uppercase" type="submit">
-            CREATE EXPENSE<i class="fa fa-plane ms-3"></i>
+            PAY EXPENSE<i class="fa fa-plane ms-3"></i>
           </button>
         </div>
       </div>

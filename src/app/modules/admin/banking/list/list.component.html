@@ -7,6 +7,9 @@
   class="btn btn-sm btn-success mb-2 add-bank-btn"
   >Add Bank</a
 >
+<a (click)="addCurrency()" class="btn btn-sm btn-success mb-2 add-bank-btn"
+  >Add Currency</a
+>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -52,3 +55,5 @@
     </tr>
   </tbody>
 </table>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

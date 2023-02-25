@@ -71,7 +71,7 @@ export class UpsertComponent implements OnInit {
       CountryID: ['', Validators.required],
       isForeign: [''],
       Male: [''],
-      Bank: ['Test', Validators.required],
+      Bank: ['', Validators.required],
       BankAcNo: ['', Validators.required],
       BranchID: ['', Validators.required],
       BankCode: ['', Validators.required],
