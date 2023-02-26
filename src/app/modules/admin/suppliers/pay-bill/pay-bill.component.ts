@@ -1,3 +1,4 @@
+import { IItem } from './../../../../data/models/item.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAccount } from '@models/account.model';
@@ -8,6 +9,7 @@ import { ClassOfTransactionService } from '@services/class-of-transaction.servic
 import { EmployeesService } from '@services/employees.service';
 import { JournalsService } from '@services/journals.service';
 import { first } from 'rxjs';
+import { ItemsService } from '@services/items.service';
 
 @Component({
   selector: 'app-pay-bill',
@@ -23,13 +25,17 @@ export class PayBillComponent implements OnInit {
   suppliers: ISupplier[] = [];
   classOfTrans: IClassOfTransaction[] = [];
   isCheque: boolean = false;
+  // items: IItem[] = [];
+  items: any;
+  itemPosting: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private accountService: BankingService,
     private supplierService: EmployeesService,
     private classOfTransService: ClassOfTransactionService,
-    private journalService: JournalsService
+    private journalService: JournalsService,
+    private itemService: ItemsService
   ) {}
 
   //Add user form actions
@@ -51,6 +57,9 @@ export class PayBillComponent implements OnInit {
 
   ngOnInit() {
     this.getPaymentAccounts();
+    this.getSuppliers();
+    this.getClassOfTrans();
+    this.getAccounts();
 
     //Add form validations
     this.payExpenseForm = this.formBuilder.group({

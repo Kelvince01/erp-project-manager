@@ -3,7 +3,7 @@
     <form [formGroup]="payExpenseForm" (ngSubmit)="onSubmit()">
       <div class="row g-3">
         <div class="col-12 mb-4">
-          <h4>Pay Expense</h4>
+          <h4>Pay Bill</h4>
           <span class="text-muted">Enter all required fields</span>
         </div>
 
@@ -252,9 +252,70 @@
           </div>
         </div>
 
+        <div class="col-lg-12 col-md-12">
+          <table class="table table-hover table-responsive">
+            <thead>
+              <tr>
+                <th>Applied</th>
+                <th>Date Due</th>
+                <th>Ref No</th>
+                <th>Description</th>
+                <th>Total Amount</th>
+                <th>Amount Due (Ksh)</th>
+                <th>Credits (Ksh)</th>
+                <th>Payment (Ksh)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table">
+                <td id="firstname1">Fuel</td>
+                <td id="lastname1">2</td>
+                <td id="email1">1.0</td>
+                <td id="email1">10,000</td>
+                <td id="email1">1</td>
+                <td id="email1">1</td>
+                <td id="email1">Construction</td>
+                <td id="email1">Construction</td>
+                <!-- <td id="1" style="cursor: pointer; font-weight: bold">Show</td> -->
+              </tr>
+              <tr class="table">
+                <td id="firstname1">Fuel</td>
+                <td id="lastname1">2</td>
+                <td id="email1">1.0</td>
+                <td id="email1">10,000</td>
+                <td id="email1">1</td>
+                <td id="email1">1</td>
+                <td id="email1">Construction</td>
+                <td id="email1">Construction</td>
+              </tr>
+              <tr class="table">
+                <td id="firstname1">Fuel</td>
+                <td id="lastname1">2</td>
+                <td id="email1">1.0</td>
+                <td id="email1">10,000</td>
+                <td id="email1">1</td>
+                <td id="email1">1</td>
+                <td id="email1">Construction</td>
+                <td id="email1">Construction</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- <ng-container *ngFor="let item of items">
+            <tr>
+              <td>{{ item.ItemName }}</td>
+              <td>{{ item.location | titlecase }}</td>
+              <td>{{ item.location }}</td>
+              <td>{{ item.location }}</td>
+              <td>{{ item.dates.startdate }}</td>
+              <td><button class="btn btn-outline-dark">Details</button></td>
+              <!- (click)="modalService.open();" ->
+            </tr>
+          </ng-container> -->
+        </div>
+
         <div class="col-12 mt-4">
           <button class="btn btn-primary text-uppercase" type="submit">
-            PAY EXPENSE<i class="fa fa-plane ms-3"></i>
+            PAY BILL<i class="fa fa-plane ms-3"></i>
           </button>
         </div>
       </div>

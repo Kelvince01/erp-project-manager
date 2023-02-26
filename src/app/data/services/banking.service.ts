@@ -180,4 +180,47 @@ export class BankingService {
   deleteAccountType(id: number): Observable<any> {
     return from(this.feathers.service('account-types').remove(id));
   }
+
+  createAccountPosting(payload: IAccount): Observable<any> {
+    return from(
+      this.feathers
+        .service('account-posting')
+        .create({
+          ...payload,
+        })
+        .then(() =>
+          this.messages.add({ severity: 'success', detail: 'Account created.' })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create account posting!',
+          })
+        )
+    );
+  }
+
+  getAccountPostingById(id: string): Observable<any> {
+    return from(this.feathers.service('account-posting').get(id));
+  }
+
+  accountPostings$(query?: any): Observable<any> {
+    return from(
+      this.feathers
+        .service('account-posting')
+        .find({ query: { $limit: 20, ...query } })
+    );
+  }
+
+  updateAccountPosting(payload: Partial<IAccount>): Observable<any> {
+    return from(
+      this.feathers
+        .service('account-posting')
+        .update(payload.AccountID!, payload)
+    );
+  }
+
+  deleteAccountPosting(id: number): Observable<any> {
+    return from(this.feathers.service('account-posting').remove(id));
+  }
 }

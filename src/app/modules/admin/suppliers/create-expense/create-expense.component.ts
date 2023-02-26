@@ -10,6 +10,9 @@ import { ISupplier } from '@models/supplier.model';
 import { IClassOfTransaction } from '@models/class-of-transaction.model';
 import { IProject } from '@models/project.model';
 import { ProjectsService } from '@services/projects.service';
+import { IItem } from '@models/item.model';
+import { ItemsService } from '@services/items.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-create-expense',
@@ -17,13 +20,19 @@ import { ProjectsService } from '@services/projects.service';
   styleUrls: ['./create-expense.component.css'],
 })
 export class CreateExpenseComponent implements OnInit {
-  registerForm: any = FormGroup;
+  expenseForm: any = FormGroup;
   submitted = false;
   expense: any;
   suppliers: ISupplier[] = [];
   classOfTrans: IClassOfTransaction[] = [];
   accounts: IAccount[] = [];
   projects: IProject[] = [];
+  items: IItem[] = [];
+
+  submittedItem = false;
+  itemDialog: boolean = false;
+  item: any;
+  itemData: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,18 +40,23 @@ export class CreateExpenseComponent implements OnInit {
     private classOfTransService: ClassOfTransactionService,
     private accountService: BankingService,
     private journalService: JournalsService,
-    private projectService: ProjectsService
+    private projectService: ProjectsService,
+    private itemService: ItemsService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
 
   get f() {
-    return this.registerForm.controls;
+    return this.expenseForm.controls;
   }
 
   onSubmit() {
     this.submitted = true;
-    if (this.registerForm.invalid) {
+    if (this.expenseForm.invalid) {
       return;
     }
+
+    console.log(this.expenseForm.value);
   }
 
   ngOnInit() {
@@ -51,7 +65,7 @@ export class CreateExpenseComponent implements OnInit {
     this.getAccounts();
     this.getProjects();
 
-    this.registerForm = this.formBuilder.group({
+    this.expenseForm = this.formBuilder.group({
       AccountID: ['', [Validators.required]],
       ClassID: ['', [Validators.required]],
       SupplierID: ['', [Validators.required]],
@@ -61,6 +75,12 @@ export class CreateExpenseComponent implements OnInit {
       RefNo: ['', [Validators.required]],
       Date: ['', [Validators.required]],
     });
+  }
+
+  openNewItem() {
+    this.item = {};
+    this.submitted = false;
+    this.itemDialog = true;
   }
 
   getSuppliers() {
@@ -105,5 +125,39 @@ export class CreateExpenseComponent implements OnInit {
       .subscribe((res) => {
         this.projects = res.data;
       });
+  }
+
+  hideDialog() {
+    this.itemDialog = false;
+    this.submittedItem = false;
+  }
+
+  saveProduct() {
+    this.submittedItem = true;
+
+    this.item.id = this.createId();
+    this.itemData.push(this.item);
+    // console.log(this.item);
+    // console.log(this.itemData);
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Successful',
+      detail: 'Product Created',
+      life: 3000,
+    });
+
+    this.itemDialog = false;
+    this.item = {};
+  }
+
+  createId(): string {
+    let id = '';
+    var chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < 5; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
   }
 }
