@@ -125,3 +125,8 @@
 .contact .php-email-form button[type="submit"]:hover {
   background: #1c84e3;
 }
+
+.wrapper-box {
+  margin-top: 5%;
+  overflow-x: hidden !important;
+}

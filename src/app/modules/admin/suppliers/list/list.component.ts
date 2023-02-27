@@ -1,6 +1,6 @@
 import { ISupplier } from '@models/supplier.model';
 import { Component, OnInit } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, first } from 'rxjs';
 import { Paginated } from '@feathersjs/feathers';
 import { EmployeesService } from '@services/employees.service';
 import { FilesService } from '@services/files.service';
@@ -12,7 +12,6 @@ import { FilesService } from '@services/files.service';
 })
 export class ListComponent implements OnInit {
   suppliers: ISupplier[] = [];
-
   selectedSuppliers: ISupplier[] = [];
 
   constructor(
@@ -25,10 +24,10 @@ export class ListComponent implements OnInit {
   exportColumns: any[] = [];
 
   ngOnInit() {
-    this.suppliersService.suppliers$().pipe(
-      map((m: Paginated<any>) => (this.suppliers = m.data)),
-      map((m: Array<any>) => m.reverse())
-    );
+    // this.suppliersService.suppliers$().pipe(
+    //   map((m: Paginated<any>) => (this.suppliers = m.data)),
+    //   map((m: Array<any>) => m.reverse())
+    // );
 
     this.cols = [
       {
@@ -45,6 +44,18 @@ export class ListComponent implements OnInit {
       title: col.header,
       dataKey: col.field,
     }));
+  }
+
+  getSuppliers() {
+    this.suppliersService
+      .suppliers$()
+      .pipe(first())
+      .subscribe(
+        (res: Paginated<any>) => {
+          this.suppliers = res.data;
+        },
+        (m: Array<any>) => m.reverse()
+      );
   }
 
   exportPdf() {

@@ -14,6 +14,10 @@ import { IItem } from '@models/item.model';
 import { ItemsService } from '@services/items.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 @Component({
   selector: 'app-create-expense',
   templateUrl: './create-expense.component.html',
@@ -159,5 +163,15 @@ export class CreateExpenseComponent implements OnInit {
       id += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return id;
+  }
+
+  generatePDF() {
+    let docDefinition = {
+      header: 'C#Corner PDF Header',
+      content:
+        'Sample PDF generated with Angular and PDFMake for C#Corner Blog',
+    };
+
+    pdfMake.createPdf(docDefinition).open();
   }
 }

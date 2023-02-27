@@ -48,10 +48,9 @@ export class UpsertComponent implements OnInit, OnDestroy {
       AccountNo: ['', Validators.required],
       Account: ['', Validators.required],
       Description: ['', Validators.required],
-      AccountTypeID: [1],
+      AccountTypeID: [''],
       SubAccount: [false],
-      // MainAccount: ['', Validators.required],
-      MainAccount: [1],
+      MainAccount: [''],
       Active: [true],
       OpeningBal: ['', Validators.required],
       BalDate: ['', Validators.required],
@@ -150,7 +149,7 @@ export class UpsertComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.alertService.add({ severity: 'success', detail: 'Bank saved' });
-          this.router.navigateByUrl('/admin/banking');
+          // this.router.navigateByUrl('/admin/banking');
         },
         error: (error) => {
           this.alertService.add({ severity: 'error', detail: error });
