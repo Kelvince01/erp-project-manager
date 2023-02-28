@@ -30,7 +30,7 @@ class Invoice {
 
 @Component({
   selector: 'app-receive-debit-note',
-  templateUrl: './receive-debit-note.component.html',
+  template: '<p>test</p>',
   styleUrls: ['./receive-debit-note.component.css'],
 })
 export class ReceiveDebitNoteComponent {
@@ -43,41 +43,51 @@ export class ReceiveDebitNoteComponent {
           image: imageLogo,
           margin: [0, 20, 0, 0],
           alignment: 'center',
-          width: 100,
+        },
+        {
+          text: 'Supplier Payments',
+          fontSize: 16,
+          margin: [0, 20, 0, 0],
+          alignment: 'center',
+          color: '#000',
+        },
+        {
+          text: 'INVOICE',
+          fontSize: 20,
+          bold: true,
+          alignment: 'center',
+          decoration: 'underline',
+          color: 'skyblue',
+        },
+        {
+          text: 'Customer Details',
+          style: 'sectionHeader',
         },
         {
           columns: [
             [
               {
-                text: 'Church Building',
+                text: this.invoice.customerName,
                 bold: true,
               },
-              { text: 'Birongo Road' },
-              { text: 'P.O Box 19324, 00202 Nairobi' },
-              { text: 'Tel +254 724 57 99 26' },
+              { text: this.invoice.address },
+              { text: this.invoice.email },
+              { text: this.invoice.contactNo },
             ],
             [
               {
-                text: `PIN No : ${(Math.random() * 1000).toFixed(0)}`,
+                text: `Date: ${new Date().toLocaleString()}`,
                 alignment: 'right',
               },
               {
-                text: `VAT No : ${(Math.random() * 2000).toFixed(0)}`,
-                alignment: 'right',
-              },
-              {
-                text: `Website : onstergroup.co.ke`,
-                alignment: 'right',
-              },
-              {
-                text: `Email : onstergroup@gmail.com`,
+                text: `Bill No : ${(Math.random() * 1000).toFixed(0)}`,
                 alignment: 'right',
               },
             ],
           ],
         },
         {
-          text: 'Supplier Payments',
+          text: 'Order Details',
           style: 'sectionHeader',
         },
         {
@@ -102,6 +112,31 @@ export class ReceiveDebitNoteComponent {
               ],
             ],
           },
+        },
+        {
+          text: 'Additional Details',
+          style: 'sectionHeader',
+        },
+        {
+          text: this.invoice.additionalDetails,
+          margin: [0, 0, 0, 15],
+        },
+        {
+          columns: [
+            [{ qr: `${this.invoice.customerName}`, fit: '50' }],
+            [{ text: 'Signature', alignment: 'right', italics: true }],
+          ],
+        },
+        {
+          text: 'Terms and Conditions',
+          style: 'sectionHeader',
+        },
+        {
+          ul: [
+            'Order can be return in max 10 days.',
+            'Warrenty of the product will be subject to the manufacturer terms and conditions.',
+            'This is system generated invoice.',
+          ],
         },
       ],
       styles: {

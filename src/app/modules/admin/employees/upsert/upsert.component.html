@@ -88,7 +88,6 @@
               <input
                 type="checkbox"
                 id="isForeign"
-                name="isForeign"
                 class="form-check-control ml-4"
                 formControlName="isForeign"
               />
@@ -98,7 +97,6 @@
               <input
                 type="checkbox"
                 id="Male"
-                name="Male"
                 class="form-check-control ml-4"
                 formControlName="Male"
               />
@@ -178,9 +176,17 @@
             <div class="col-md-6">
               <label for="EndDateChecked" class="form-label">Date Ending</label>
               <input
+                #EndDateChecked
                 type="checkbox"
                 class="form-check-control ml-4"
                 formControlName="EndDateChecked"
+                (change)="onDateEndingChanged(EndDateChecked.checked)"
+              />
+              <input
+                *ngIf="showDateEnding"
+                type="date"
+                class="form-control"
+                formControlName="DateEnding"
               />
             </div>
             <div class="col-md-6">
@@ -300,12 +306,12 @@
 
         <div class="row flex-container">
           <button
+            type="submit"
             class="flex-item"
             pButton
             pRipple
             label="{{ title }}"
             icon="pi pi-check"
-            (click)="save()"
             [disabled]="submitting"
           ></button>
           <button

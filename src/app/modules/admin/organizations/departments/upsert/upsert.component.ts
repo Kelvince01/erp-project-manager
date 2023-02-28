@@ -1,4 +1,4 @@
-import { CompanyInfoService } from './../../../../data/services/company-info.service';
+import { CompanyInfoService } from '../../../../../data/services/company-info.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

@@ -1,1 +1,36 @@
-<p>list works!</p>
+<p-table #dt [value]="sales">
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        icon="pi pi-file-pdf"
+        (click)="exportPdf()"
+        class="p-button-warning p-mr-2"
+        pTooltip="PDF"
+        tooltipPosition="bottom"
+      ></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="brand">
+        Brand <p-sortIcon field="brand"></p-sortIcon>
+      </th>
+      <th>Last Year Sale</th>
+      <th>This Year Sale</th>
+      <th>Last Year Profit</th>
+      <th>This Year Profit</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-sale>
+    <tr>
+      <td>{{ sale.brand }}</td>
+      <td>{{ sale.lastYearSale }}</td>
+      <td>{{ sale.thisYearSale }}</td>
+      <td>{{ sale.lastYearProfit }}</td>
+      <td>{{ sale.thisYearProfit }}</td>
+    </tr>
+  </ng-template>
+</p-table>

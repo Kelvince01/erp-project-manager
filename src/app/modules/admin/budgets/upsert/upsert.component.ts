@@ -39,7 +39,7 @@ export class UpsertComponent implements OnInit {
   registerFormSubmit(): void {
     const formData = this.registerForm.value;
     delete formData.password1;
-    console.log(formData);
+    // console.log(formData);
     // Api Request Here
   }
 }

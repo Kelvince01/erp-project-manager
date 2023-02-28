@@ -24,5 +24,16 @@
     >
     <script src="assets/js/jassa-admin.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+      // Log the value of FCP to the console | https://web.dev/fcp/#measure-fcp-in-javascript
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntriesByName("first-contentful-paint")) {
+          console.log("FCP: ", entry.startTime);
+          observer.disconnect();
+        }
+      });
+
+      observer.observe({ type: "paint", buffered: true });
+    </script>
   </body>
 </html>

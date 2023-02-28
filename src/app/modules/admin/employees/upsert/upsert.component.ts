@@ -53,13 +53,13 @@ export class UpsertComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
+
     this.store.dispatch(invokeDepartmentsAPI());
     this.title = 'Add Employee';
     this.getTitles();
     this.getCountries();
     this.getBanks();
-
-    this.id = this.route.snapshot.params['id'];
 
     this.form = this.fb.group({
       FirstName: ['', Validators.required],
@@ -69,17 +69,18 @@ export class UpsertComponent implements OnInit {
       IDNo: ['', Validators.required],
       PINNo: ['', Validators.required],
       CountryID: ['', Validators.required],
-      isForeign: [''],
-      Male: [''],
+      isForeign: [],
+      Male: [],
       Bank: ['', Validators.required],
       BankAcNo: ['', Validators.required],
       BranchID: ['', Validators.required],
       BankCode: ['', Validators.required],
-      DateEmployed: ['', Validators.required],
-      SubCompanyID: ['', Validators.required],
-      EndDateChecked: [''],
-      DeptID: ['', Validators.required],
-      Retired: [''],
+      DateEmployed: [],
+      DateEnding: [],
+      SubCompanyID: [],
+      EndDateChecked: [],
+      DeptID: [],
+      Retired: [],
       PayGradeID: ['', Validators.required],
       DesignationID: ['', Validators.required],
       DateOfBirth: ['', Validators.required],
@@ -103,6 +104,13 @@ export class UpsertComponent implements OnInit {
         });
     }
   }
+
+  public showDateEnding: boolean = false;
+
+  public onDateEndingChanged(value: boolean) {
+    this.showDateEnding = value;
+  }
+
   ref: DynamicDialogRef = new DynamicDialogRef();
 
   addTitle() {
@@ -172,10 +180,6 @@ export class UpsertComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            detail: 'Employee saved',
-          });
           this.router.navigateByUrl('/admin/employees');
         },
         error: (error: any) => {
@@ -186,6 +190,8 @@ export class UpsertComponent implements OnInit {
   }
 
   private saveEmployee() {
+    console.log(this.form.value);
+
     // create or update user based on id param
     return this.id
       ? this.employeeService.update(this.form.value)

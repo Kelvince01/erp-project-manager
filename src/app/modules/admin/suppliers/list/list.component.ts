@@ -1,6 +1,6 @@
 import { ISupplier } from '@models/supplier.model';
 import { Component, OnInit } from '@angular/core';
-import { Observable, map, first } from 'rxjs';
+import { first } from 'rxjs';
 import { Paginated } from '@feathersjs/feathers';
 import { EmployeesService } from '@services/employees.service';
 import { FilesService } from '@services/files.service';
@@ -24,20 +24,18 @@ export class ListComponent implements OnInit {
   exportColumns: any[] = [];
 
   ngOnInit() {
-    // this.suppliersService.suppliers$().pipe(
-    //   map((m: Paginated<any>) => (this.suppliers = m.data)),
-    //   map((m: Array<any>) => m.reverse())
-    // );
+    this.getSuppliers();
 
     this.cols = [
       {
         field: 'FirstName',
         header: 'FirstName',
         customExportHeader: 'First Name',
+        dataKey: 'FirstName',
       },
-      { field: 'Surname', header: 'Surname' },
-      { field: 'IDNo', header: 'IDNo' },
-      { field: 'Town', header: 'Town' },
+      { field: 'Surname', header: 'Surname', dataKey: 'Surname' },
+      { field: 'IDNo', header: 'IDNo', dataKey: 'IDNo' },
+      { field: 'Town', header: 'Town', dataKey: 'Town' },
     ];
 
     this.exportColumns = this.cols.map((col) => ({

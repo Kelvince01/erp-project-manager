@@ -7,7 +7,10 @@
       id="accordionSidebar"
     >
       <!-- class="sidebar" -->
-      <a class="d-flex align-items-center justify-content-center" href="#">
+      <a
+        class="d-flex align-items-center justify-content-center"
+        routerLink="profile"
+      >
         <div class="sidebar-brand-icon">{{ user?.FirstName }}</div>
         <div class="sidebar-brand-text mx-3">{{ user?.Surname }}</div>
       </a>
@@ -130,16 +133,6 @@
         >
           <i class="fas fa-fw fa-palette"></i>
           <span>Budgets</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          routerLink="/admin/departments"
-          routerLinkActive="active"
-        >
-          <i class="fas fa-fw fa-palette"></i>
-          <span>Departments</span>
         </a>
       </li>
       <li class="nav-item">

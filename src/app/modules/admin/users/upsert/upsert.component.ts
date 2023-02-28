@@ -13,6 +13,7 @@ import { IEmployee } from '@models/employee.model';
 import { IRole } from '@models/role.model';
 import { DepartmentsService } from '@services/departments.service';
 import { RolesService } from '@services/roles.service';
+import { IUser } from '@models/user.model';
 
 @Component({
   selector: 'app-upsert',
@@ -30,6 +31,8 @@ export class UpsertComponent implements OnInit {
   sections: IDepartmentSection[] = [];
   groups: IGroup[] = [];
   employeeId: any;
+  selectedUser?: IUser;
+  selectedEmployee?: IEmployee;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -112,6 +115,10 @@ export class UpsertComponent implements OnInit {
   selectChangeHandler(event: any) {
     //update the ui
     this.employeeId = event.target.value;
+    this.employeeService.getById(this.employeeId).subscribe((res) => {
+      this.form.patchValue({ FirstName: res.FirstName });
+      this.form.patchValue({ Surname: res.Surname });
+    });
   }
 
   getEmployees() {

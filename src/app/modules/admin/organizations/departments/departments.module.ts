@@ -20,5 +20,6 @@ import { SharedModule } from '@shared/shared.module';
     EffectsModule.forFeature([DepartmentsEffect]),
     SharedModule,
   ],
+  exports: [DepartmentsComponent, ListComponent, UpsertComponent],
 })
 export class DepartmentsModule {}

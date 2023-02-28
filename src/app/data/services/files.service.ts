@@ -1,13 +1,43 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 
+import autoTable from 'jspdf-autotable';
+
 @Injectable({
   providedIn: 'root',
 })
 export class FilesService {
+  pdfMake: any;
+  jsPdf: any;
+
   constructor() {}
 
-  exportPdf(exportColumns: any, items: any, filename: string) {
+  async loadPdfMaker() {
+    if (!this.pdfMake) {
+      const pdfMakeModule = await import('pdfmake/build/pdfmake');
+      const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
+      this.pdfMake = pdfMakeModule.default;
+      this.pdfMake.vfs = pdfFontsModule.default.pdfMake.vfs;
+    }
+  }
+
+  async loadJsPdf() {
+    if (!this.jsPdf) {
+      const jsPdfModule = await import('jspdf');
+      this.jsPdf = jsPdfModule.default;
+    }
+  }
+
+  async generatePdf() {
+    await this.loadPdfMaker();
+
+    const def = {
+      content: 'A sample PDF document generated using Angular and PDFMake',
+    };
+    this.pdfMake.createPdf(def).open();
+  }
+
+  async exportPdf(exportColumns: any, items: any, filename: string) {
     /*import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default(0, 0);
@@ -15,6 +45,17 @@ export class FilesService {
         doc.save(`${filename}.pdf`);
       });
     });*/
+    await this.loadJsPdf();
+
+    const doc = new this.jsPdf('p', 'pt');
+    autoTable(doc, {
+      columns: exportColumns,
+      body: items,
+      didDrawPage: (dataArg) => {
+        doc.text('Suppliers List', dataArg.settings.margin.left, 10);
+      },
+    });
+    doc.save(`${filename}.pdf`);
   }
 
   exportExcel(items: any, filename: string) {

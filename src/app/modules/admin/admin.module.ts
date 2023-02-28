@@ -6,7 +6,6 @@ import { OrganizationsModule } from './organizations/organizations.module';
 import { ProgramsModule } from './programs/programs.module';
 import { SuppliersModule } from './suppliers/suppliers.module';
 import { UsersModule } from './users/users.module';
-import { DepartmentsModule } from './departments/departments.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -17,6 +16,8 @@ import { NavbarComponent } from './common/navbar/navbar.component';
 import { SidebarComponent } from './common/sidebar/sidebar.component';
 import { SharedModule } from '../../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AdminProfileComponent } from './common/profile/admin-profile.component';
+import { AdminSettingsComponent } from './common/admin-settings/admin-settings.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +26,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     NavbarComponent,
     SidebarComponent,
     DashboardComponent,
+    AdminProfileComponent,
+    AdminSettingsComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     SharedModule,
-    DepartmentsModule,
     UsersModule,
     SuppliersModule,
     ProgramsModule,

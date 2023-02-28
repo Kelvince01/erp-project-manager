@@ -29,7 +29,8 @@ export class EmployeesService {
         .catch((err: any) =>
           this.messages.add({
             severity: 'error',
-            detail: 'Could not create project!',
+            // detail: 'Could not create employee!',
+            detail: err,
           })
         )
     );
@@ -57,15 +58,15 @@ export class EmployeesService {
     return from(this.feathers.service('employees').remove(id));
   }
 
-  suppliers$(): Observable<any> {
+  suppliers$(query?: any): Observable<any> {
     return from(
-      <any>this.feathers
+      this.feathers
         .service('employees')
         // .watch()
         .find({
           query: {
-            $sort: { LastUpdated: -1 },
-            isSupplier: true,
+            // $sort: { LastUpdated: -1 },
+            isSupplier: 1,
             $limit: 25,
           },
         })

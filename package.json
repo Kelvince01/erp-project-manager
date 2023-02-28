@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^15.1.2",
+    "@angular/cdk": "^15.2.0",
     "@angular/common": "^15.0.0",
     "@angular/compiler": "^15.0.0",
     "@angular/core": "^15.0.0",
@@ -50,6 +51,7 @@
     "ngrx": "^0.0.1-security",
     "ngx-spinner": "^15.0.1",
     "pdfmake": "^0.2.7",
+    "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
     "primeng": "^15.2.0",
     "rxjs": "~7.5.0",

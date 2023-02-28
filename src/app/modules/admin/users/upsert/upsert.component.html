@@ -36,6 +36,7 @@
       <select
         formControlName="EmployeeID"
         class="form-control"
+        (change)="selectChangeHandler($event)"
         [ngClass]="{ 'is-invalid': submitted && f['EmployeeID'].errors }"
       >
         <option [ngValue]="null" disabled>Select Employee</option>
@@ -53,6 +54,7 @@
       </div>
     </div>
   </div>
+  <!-- [value]="selectedIngredient && selectedIngredient.unitOfMeasure" readonly -->
   <div class="row" [ngClass]="{ disabledNoOfCasesDiv: _prevSelected1 }">
     <label class="form-label">First Name</label>
     <input
