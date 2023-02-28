@@ -14,8 +14,35 @@ import { IItem } from '@models/item.model';
 import { ItemsService } from '@services/items.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
+class Product {
+  ItemName?: string;
+  Rate?: number;
+  Quantity?: number;
+  AmountTotal?: number;
+  Tax?: number;
+}
+
+class Invoice {
+  AccountID?: number;
+  ClassID?: number;
+  SupplierID?: number;
+  ProjectID?: number;
+  AmountTotal?: number;
+  Address?: string;
+  RefNo?: string;
+  Date?: Date;
+
+  products: Product[] = [];
+
+  constructor() {
+    // Initially one empty product row we will show
+    this.products.push(new Product());
+  }
+}
+
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { imageLogo } from '../image-logo';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -24,7 +51,6 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['./create-expense.component.css'],
 })
 export class CreateExpenseComponent implements OnInit {
-  expenseForm: any = FormGroup;
   submitted = false;
   expense: any;
   suppliers: ISupplier[] = [];
@@ -32,11 +58,14 @@ export class CreateExpenseComponent implements OnInit {
   accounts: IAccount[] = [];
   projects: IProject[] = [];
   items: IItem[] = [];
+  employeeId: any;
 
   submittedItem = false;
   itemDialog: boolean = false;
   item: any;
   itemData: any[] = [];
+
+  invoice = new Invoice();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,17 +79,13 @@ export class CreateExpenseComponent implements OnInit {
     private confirmationService: ConfirmationService
   ) {}
 
-  get f() {
-    return this.expenseForm.controls;
-  }
-
   onSubmit() {
     this.submitted = true;
-    if (this.expenseForm.invalid) {
-      return;
-    }
+    // if (this.expenseForm.invalid) {
+    //   return;
+    // }
 
-    console.log(this.expenseForm.value);
+    // console.log(this.expenseForm.value);
   }
 
   ngOnInit() {
@@ -69,16 +94,9 @@ export class CreateExpenseComponent implements OnInit {
     this.getAccounts();
     this.getProjects();
 
-    this.expenseForm = this.formBuilder.group({
-      AccountID: ['', [Validators.required]],
-      ClassID: ['', [Validators.required]],
-      SupplierID: ['', [Validators.required]],
-      ProjectID: ['', [Validators.required]],
-      AmountTotal: ['', [Validators.required]],
-      Address: ['', [Validators.required]],
-      RefNo: ['', [Validators.required]],
-      Date: ['', [Validators.required]],
-    });
+    this.invoice.RefNo = this.createId();
+
+    console.log(this.invoice);
   }
 
   openNewItem() {
@@ -96,6 +114,18 @@ export class CreateExpenseComponent implements OnInit {
       });
   }
 
+  selectChangeHandler(event: any) {
+    //update the ui
+    this.employeeId = event.target.value;
+    this.supplierService.getById(this.employeeId).subscribe((res) => {
+      let address = `
+        ${res.POBox}, ${res.PostalCode}, ${res.Estate}, ${res.Town}
+      `;
+
+      this.invoice.Address = address;
+    });
+  }
+
   getClassOfTrans() {
     let query = {
       ClassOfTrans: 'Service',
@@ -106,6 +136,7 @@ export class CreateExpenseComponent implements OnInit {
       .pipe(first())
       .subscribe((res) => {
         this.classOfTrans = res.data;
+        this.invoice.ClassID = this.classOfTrans[0].ClassID;
       });
   }
 
@@ -115,10 +146,11 @@ export class CreateExpenseComponent implements OnInit {
     };
 
     return this.accountService
-      .accounts$()
+      .accounts$(query)
       .pipe(first())
       .subscribe((res) => {
         this.accounts = res.data;
+        this.invoice.AccountID = this.accounts[0].AccountID;
       });
   }
 
@@ -165,13 +197,94 @@ export class CreateExpenseComponent implements OnInit {
     return id;
   }
 
-  generatePDF() {
-    let docDefinition = {
-      header: 'C#Corner PDF Header',
-      content:
-        'Sample PDF generated with Angular and PDFMake for C#Corner Blog',
+  generatePDF(action = 'open') {
+    let docDefinition: any = {
+      content: [
+        {
+          image: imageLogo,
+          margin: [0, 20, 0, 0],
+          alignment: 'center',
+          width: 100,
+        },
+        {
+          columns: [
+            [
+              {
+                text: 'Church Building',
+                bold: true,
+              },
+              { text: 'Birongo Road' },
+              { text: 'P.O Box 19324, 00202 Nairobi' },
+              { text: 'Tel +254 724 57 99 26' },
+            ],
+            [
+              {
+                text: `PIN No : ${(Math.random() * 1000).toFixed(0)}`,
+                alignment: 'right',
+              },
+              {
+                text: `VAT No : ${(Math.random() * 2000).toFixed(0)}`,
+                alignment: 'right',
+              },
+              {
+                text: `Website : onstergroup.co.ke`,
+                alignment: 'right',
+              },
+              {
+                text: `Email : onstergroup@gmail.com`,
+                alignment: 'right',
+              },
+            ],
+          ],
+        },
+        {
+          text: 'Supplier Payments',
+          style: 'sectionHeader',
+        },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['*', 'auto', 'auto', 'auto'],
+            body: [
+              ['Item', 'Rate', 'Quantity', 'Amount'],
+              ...this.invoice.products.map((p) => [
+                p.ItemName,
+                p.Rate,
+                p.Quantity,
+                (p.Rate! * p.Quantity!).toFixed(2),
+              ]),
+              [
+                { text: 'Total Amount', colSpan: 3 },
+                {},
+                {},
+                this.invoice.products
+                  .reduce((sum, p) => sum + p.Quantity! * p.Rate!, 0)
+                  .toFixed(2),
+              ],
+            ],
+          },
+        },
+      ],
+      styles: {
+        sectionHeader: {
+          bold: true,
+          decoration: 'underline',
+          fontSize: 14,
+          margin: [0, 15, 0, 15],
+        },
+      },
     };
 
-    pdfMake.createPdf(docDefinition).open();
+    if (action === 'download') {
+      pdfMake.createPdf(docDefinition).download();
+    } else if (action === 'print') {
+      pdfMake.createPdf(docDefinition).print();
+    } else {
+      pdfMake.createPdf(docDefinition).open();
+    }
+  }
+
+  addProduct() {
+    this.invoice.products.push(new Product());
   }
 }

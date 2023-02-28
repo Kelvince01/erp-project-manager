@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 import { AuthService } from '@services/auth.service';
 import { MessageService } from 'primeng/api';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { IUser } from '@models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,7 @@ export class LoginComponent implements OnInit {
   token = '';
   error = '';
   role = '';
+  user?: IUser | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,6 +49,7 @@ export class LoginComponent implements OnInit {
     // this.store
     // .select(selectIsLoading)
     // .subscribe((isLoading) => (this.loading = isLoading));
+    this.user = this.accountService.userValue as any;
   }
 
   ngOnInit() {
@@ -54,9 +57,12 @@ export class LoginComponent implements OnInit {
       Email: ['', [Validators.required, Validators.email]],
       Password: ['', Validators.required],
     });
-    console.log(this.accountService.isAuthenticated());
+    // console.log(this.accountService.isAuthenticated());
+    // console.log(this.accountService.userValue as any);
+    // if (this.localStorage.getItem('STATE')) {
+    // console.log(this.user);
 
-    if (this.localStorage.getItem('STATE')) {
+    if (this.accountService.userValue != null) {
       const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
       this.router.navigateByUrl(returnUrl);
     }

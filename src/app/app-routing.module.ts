@@ -33,25 +33,6 @@ const routes: Routes = [
   {
     path: 'accounts',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
-    data: {
-      seo: {
-        title: 'Onster Group PM | Authentication',
-        metaTags: [
-          { name: 'description', content: 'Onster Group PM Authentication' },
-          { property: 'og:title', content: 'Authentication' },
-          {
-            proprety: 'og:description',
-            content: 'Onster Group PM Authentication',
-          },
-          {
-            property: 'og:image',
-            content: environment.appUrl + 'assets/images/company-logo.png',
-          },
-          { property: 'og:url', content: environment.appUrl + 'accounts' },
-          { name: 'twitter:card', content: 'summary_large_image' },
-        ],
-      },
-    },
   },
   {
     path: 'admin',
@@ -60,6 +41,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       role: 'Admin',
+      seo: {
+        title: 'Onster Group PM | Admin',
+        metaTags: [{ name: 'description', content: 'Onster Group PM Admin' }],
+      },
     },
   },
   {

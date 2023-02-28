@@ -1,6 +1,20 @@
 <p-tabView>
   <p-tabPanel header="Suppliers" leftIcon="pi pi-calendar" tooltip="1972">
     <div class="row">
+      <button
+        type="button"
+        pButton
+        pRipple
+        label="Add Class of Transaction"
+        (click)="addClassOfTrans()"
+        icon="pi pi-plus"
+        class="p-button-info mb-2 col-md-4"
+        pTooltip="Add Class of Transaction"
+        tooltipPosition="bottom"
+      ></button>
+    </div>
+
+    <div class="row">
       <div class="col-md-12">
         <p-table
           #dt

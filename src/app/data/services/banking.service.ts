@@ -68,7 +68,8 @@ export class BankingService {
         .catch((err: any) =>
           this.messages.add({
             severity: 'error',
-            detail: 'Could not create account!',
+            detail: err,
+            // detail: 'Could not create account!',
           })
         )
     );

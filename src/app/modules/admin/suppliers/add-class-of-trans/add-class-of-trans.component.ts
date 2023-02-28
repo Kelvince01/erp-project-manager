@@ -14,7 +14,7 @@ import { first } from 'rxjs';
 })
 export class AddClassOfTransComponent implements OnInit {
   id: number = 0;
-  classOfTransForm: FormGroup;
+  classOfTransForm!: FormGroup;
   loading = false;
   submitting = false;
   submitted = false;
@@ -27,12 +27,7 @@ export class AddClassOfTransComponent implements OnInit {
     @Inject(MessageService) public messageService: MessageService,
     public router: Router,
     private classOfTransService: ClassOfTransactionService
-  ) {
-    this.classOfTransForm = this.fb.group({
-      ClassOfTrans: ['', [Validators.required]],
-      Description: ['', [Validators.required]],
-    });
-  }
+  ) {}
 
   get f() {
     return this.classOfTransForm.controls;
@@ -46,6 +41,8 @@ export class AddClassOfTransComponent implements OnInit {
 
     if (this.classOfTransForm.invalid) return;
 
+    console.log(this.classOfTransForm.value);
+
     return this.classOfTransService
       .create(this.classOfTransForm.value)
       .pipe(first())
@@ -55,7 +52,7 @@ export class AddClassOfTransComponent implements OnInit {
             severity: 'success',
             detail: 'Class of transaction saved',
           });
-          this.router.navigateByUrl('/admin/suppliers/create-expense');
+          this.ref.close();
         },
         error: (error: any) => {
           this.messageService.add({ severity: 'error', detail: error });
@@ -64,5 +61,15 @@ export class AddClassOfTransComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.classOfTransForm = this.fb.group({
+      CompanyID: [1],
+      ClassOfTrans: ['', [Validators.required]],
+      Description: ['', [Validators.required]],
+    });
+  }
+
+  closeDialog() {
+    this.ref.close();
+  }
 }

@@ -29,7 +29,8 @@ export class ClassOfTransactionService {
         .catch((err: any) =>
           this.messages.add({
             severity: 'error',
-            detail: 'Could not create class of transaction!',
+            detail: err,
+            // detail: 'Could not create class of transaction!',
           })
         )
     );

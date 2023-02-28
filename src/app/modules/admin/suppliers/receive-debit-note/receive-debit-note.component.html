@@ -191,6 +191,54 @@
   </div>
 </form>
 
+<p-dialog
+  [(visible)]="resultDialog"
+  [style]="{ width: '450px' }"
+  header="Product Details"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+    ></button>
+    <button
+      type="button"
+      class="btn btn-secondary btn-lg btn-block"
+      (click)="invoiceForm.valid ? generatePDF('download') : ''"
+    >
+      Download Invoice
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary btn-lg btn-block"
+      (click)="invoiceForm.valid ? generatePDF('print') : ''"
+    >
+      Print Invoice
+    </button>
+    <button
+      type="submit"
+      class="btn btn-secondary btn-lg btn-block"
+      (click)="invoiceForm.valid ? generatePDF() : ''"
+    >
+      Open Invoice
+    </button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
 <!-- <div class="p-4">
   <div class="card p-4">
     <h5>Advanced</h5>

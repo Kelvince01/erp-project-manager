@@ -56,7 +56,7 @@ export class UpsertComponent implements OnInit, OnDestroy {
       BalDate: ['', Validators.required],
       Notes: ['', Validators.required],
       Foreign: [false],
-      CurrencyID: [''],
+      CurrencyID: [1],
     });
 
     this.title = 'Add Bank Account';
@@ -149,7 +149,7 @@ export class UpsertComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.alertService.add({ severity: 'success', detail: 'Bank saved' });
-          // this.router.navigateByUrl('/admin/banking');
+          this.router.navigateByUrl('/admin/banking');
         },
         error: (error) => {
           this.alertService.add({ severity: 'error', detail: error });
