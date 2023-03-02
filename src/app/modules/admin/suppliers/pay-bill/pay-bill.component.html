@@ -322,3 +322,40 @@
     </form>
   </div>
 </div>
+
+<p-dialog
+  [(visible)]="resultDialog"
+  [style]="{ width: '500px' }"
+  header="Choose Action"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <button
+      pButton
+      pRipple
+      label="Download Invoice"
+      icon="pi pi-download"
+      class="p-button-text"
+      (click)="payExpenseForm.valid ? generatePDF('download') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Print Invoice"
+      icon="pi pi-print"
+      class="p-button-text"
+      (click)="payExpenseForm.valid ? generatePDF('print') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Open Invoice"
+      icon="pi pi-file-pdf"
+      class="p-button-text"
+      (click)="payExpenseForm.valid ? generatePDF() : ''"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

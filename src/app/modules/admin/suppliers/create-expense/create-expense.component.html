@@ -2,7 +2,7 @@
   <div class="card mt-0">
     <form #expenseForm="ngForm">
       <div class="row g-3">
-        <div class="col-12 mb-4">
+        <div class="col-12 mb-2">
           <h4>Create Expense</h4>
           <span class="text-muted">Enter all required fields *</span>
         </div>
@@ -66,6 +66,7 @@
               <option
                 *ngFor="let supplier of suppliers"
                 [ngValue]="supplier.EmployeeID"
+                [value]="supplier.EmployeeID"
               >
                 {{ supplier.FirstName }} {{ supplier.Surname }}
               </option>
@@ -131,7 +132,7 @@
             <label>Amount Total</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="text"
@@ -149,7 +150,7 @@
             <label>Address</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="text"
@@ -167,7 +168,7 @@
             <label>Ref No</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="date"
@@ -183,6 +184,24 @@
               <div *ngIf="Date.errors['required']">Date is required.</div>
             </div>
             <label>Date</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <textarea
+              placeholder="Memo"
+              id="Memo"
+              name="Memo"
+              [(ngModel)]="invoice.Memo"
+              #Memo="ngModel"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && Memo.errors }"
+            ></textarea>
+            <div *ngIf="submitted && Memo.errors" class="invalid-feedback">
+              <div *ngIf="Memo.errors['required']">Memo is required.</div>
+            </div>
+            <label>Memo</label>
           </div>
         </div>
 
@@ -214,7 +233,28 @@
                   <tbody>
                     <tr *ngFor="let product of invoice.products; let i = index">
                       <td scope="row">
-                        <input
+                        <select
+                          class="form-select"
+                          id="ItemName"
+                          name="ItemName{{ i }}"
+                          [(ngModel)]="product.ItemName"
+                          #ItemName="ngModel"
+                          [ngClass]="{
+                            'is-invalid': submitted && ItemName.errors
+                          }"
+                          (change)="itemSelectChangeHandler($event, i)"
+                        >
+                          <option [ngValue]="null" disabled>Select Item</option>
+                          <option
+                            *ngFor="let item of items"
+                            [ngValue]="item.ItemName"
+                            [value]="item.ItemName"
+                          >
+                            {{ item.ItemName }}
+                          </option>
+                        </select>
+
+                        <!-- <input
                           type="text"
                           class="form-control"
                           name="ItemName{{ i }}"
@@ -226,7 +266,7 @@
                           [(ngModel)]="product.ItemName"
                           #ItemName="ngModel"
                           required
-                        />
+                        /> -->
                       </td>
                       <td>
                         <input
@@ -241,12 +281,13 @@
                           [(ngModel)]="product.Quantity"
                           #Quantity="ngModel"
                           required
+                          (change)="calcTotal($event)"
                         />
                       </td>
                       <td>
                         <input
                           type="number"
-                          class="form-control"
+                          class="form-control disabledDiv"
                           name="Rate{{ i }}"
                           id="Rate"
                           [ngClass]="{
@@ -255,10 +296,14 @@
                           [(ngModel)]="product.Rate"
                           #Rate="ngModel"
                           required
+                          readonly
+                          (change)="calcTotal($event)"
                         />
                       </td>
                       <td>
-                        {{ product.Rate! * product.Quantity! || "" }}
+                        <div class="disabledDiv">
+                          {{ product.Rate! * product.Quantity! || "" }}
+                        </div>
                       </td>
                       <td>0.00</td>
                       <td>0.00</td>
@@ -310,18 +355,47 @@
           >
             CREATE EXPENSE<i class="fa fa-plane ms-3"></i>
           </button>
-          <button
-            (click)="expenseForm.valid ? generatePDF() : ''"
-            type="button"
-            class="btn btn-secondary ml-3 text-uppercase"
-          >
-            Generate PDF
-          </button>
+          <a routerLink="/admin/suppliers" class="btn btn-link">Cancel</a>
         </div>
       </div>
     </form>
   </div>
 </div>
+
+<p-dialog
+  [(visible)]="resultDialog"
+  [style]="{ width: '500px' }"
+  header="Choose Action"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <button
+      pButton
+      pRipple
+      label="Download Invoice"
+      icon="pi pi-download"
+      class="p-button-text"
+      (click)="expenseForm.valid ? generatePDF('download') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Print Invoice"
+      icon="pi pi-print"
+      class="p-button-text"
+      (click)="expenseForm.valid ? generatePDF('print') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Open Invoice"
+      icon="pi pi-file-pdf"
+      class="p-button-text"
+      (click)="expenseForm.valid ? generatePDF() : ''"
+    ></button>
+  </ng-template>
+</p-dialog>
 
 <p-dialog
   [(visible)]="itemDialog"

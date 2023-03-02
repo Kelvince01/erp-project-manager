@@ -1,6 +1,4 @@
-import { IEmailSetting } from './../../../../data/models/email-setting.model';
 import { EmailSettingsComponent } from './../common/email-settings/email-settings.component';
-import { UploadService } from './../../../../data/services/upload.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormGroup,
@@ -15,6 +13,8 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 import { first } from 'rxjs';
+import { UploadService } from '@services/upload.service';
+import { IEmailSetting } from '@models/email-setting.model';
 
 @Component({
   selector: 'app-upsert',
@@ -127,7 +127,7 @@ export class UpsertComponent implements OnInit {
       this.companyInfoForm.patchValue({ CompanyLogo: file });
       this.companyInfoForm.get('CompanyLogo')?.updateValueAndValidity();
 
-      this.uploadService.upload(this.selectedFile.file).subscribe(
+      this.uploadService.uploadCompanyLogo(this.selectedFile.file).subscribe(
         (res) => {
           this.onSuccess();
         },
@@ -167,7 +167,7 @@ export class UpsertComponent implements OnInit {
         CompanyLogo: this.selectedFile.file.name,
       });
       this.companyInfoForm.get('CompanyLogo')?.updateValueAndValidity();
-      this.uploadService.upload(this.selectedFile.file).subscribe(
+      this.uploadService.uploadCompanyLogo(this.selectedFile.file).subscribe(
         (res) => {
           this.onSuccess();
         },

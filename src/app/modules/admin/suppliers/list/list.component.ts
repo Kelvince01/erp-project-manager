@@ -1,3 +1,6 @@
+import { AddTypeComponent } from './../items/add-type/add-type.component';
+import { AddStatusComponent } from './../items/add-status/add-status.component';
+import { UpsertComponent } from './../items/upsert/upsert.component';
 import { MessageService } from 'primeng/api';
 import { AddClassOfTransComponent } from './../add-class-of-trans/add-class-of-trans.component';
 import { ISupplier } from '@models/supplier.model';
@@ -8,6 +11,8 @@ import { EmployeesService } from '@services/employees.service';
 import { FilesService } from '@services/files.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IClassOfTransaction } from '@models/class-of-transaction.model';
+import { IItem } from '@models/item.model';
+import { IITemStatus } from '@models/item-status.model';
 
 @Component({
   selector: 'app-list-suppliers',
@@ -90,6 +95,63 @@ export class ListComponent implements OnInit {
           severity: 'info',
           summary: 'Class of Transaction Selected',
           detail: currency.ClassOfTrans,
+        });
+      }
+    });
+  }
+
+  addItem() {
+    this.ref = this.dialogService.open(UpsertComponent, {
+      header: 'Add Item',
+      width: '80%',
+      contentStyle: { 'max-height': '800px', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    this.ref.onClose.subscribe((currency: IItem) => {
+      if (currency) {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Item Selected',
+          detail: currency.ItemName,
+        });
+      }
+    });
+  }
+
+  addItemType() {
+    this.ref = this.dialogService.open(AddTypeComponent, {
+      header: 'Add Item Type',
+      width: '60%',
+      contentStyle: { 'max-height': '500px', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    this.ref.onClose.subscribe((currency: IItem) => {
+      if (currency) {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Item Selected',
+          detail: currency.ItemName,
+        });
+      }
+    });
+  }
+
+  addItemStatus() {
+    this.ref = this.dialogService.open(AddStatusComponent, {
+      header: 'Add Item Status',
+      width: '60%',
+      contentStyle: { 'max-height': '500px', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    this.ref.onClose.subscribe((currency: IITemStatus) => {
+      if (currency) {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Item Status Selected',
+          detail: currency.ItemStatus,
         });
       }
     });

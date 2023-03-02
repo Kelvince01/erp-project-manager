@@ -5,6 +5,7 @@ import { Observable, from } from 'rxjs';
 import { FeathersService } from './feathers.service';
 import { MessageService } from 'primeng/api';
 import { IMainAccount } from '@models/main-account.model';
+import { IAccountPosting } from '@models/account-posting.model';
 
 @Injectable({
   providedIn: 'root',
@@ -182,7 +183,7 @@ export class BankingService {
     return from(this.feathers.service('account-types').remove(id));
   }
 
-  createAccountPosting(payload: IAccount): Observable<any> {
+  createAccountPosting(payload: IAccountPosting): Observable<any> {
     return from(
       this.feathers
         .service('account-posting')
@@ -190,7 +191,10 @@ export class BankingService {
           ...payload,
         })
         .then(() =>
-          this.messages.add({ severity: 'success', detail: 'Account created.' })
+          this.messages.add({
+            severity: 'success',
+            detail: 'Account posting created.',
+          })
         )
         .catch((err: any) =>
           this.messages.add({
@@ -213,7 +217,7 @@ export class BankingService {
     );
   }
 
-  updateAccountPosting(payload: Partial<IAccount>): Observable<any> {
+  updateAccountPosting(payload: Partial<IAccountPosting>): Observable<any> {
     return from(
       this.feathers
         .service('account-posting')

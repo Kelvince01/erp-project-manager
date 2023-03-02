@@ -20,4 +20,17 @@ export class UploadService {
     // with formData as req
     return from(this.feathers.service('files').create(formData));
   }
+
+  // Returns an observable
+  uploadCompanyLogo(file: any): Observable<any> {
+    // Create form data
+    const formData = new FormData();
+
+    // Store form name as "file" with file data
+    formData.append('file', file, file.name);
+
+    // Make http post request over api
+    // with formData as req
+    return from(this.feathers.service('org/upload').create(formData));
+  }
 }

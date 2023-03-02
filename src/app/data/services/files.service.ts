@@ -37,6 +37,12 @@ export class FilesService {
     this.pdfMake.createPdf(def).open();
   }
 
+  async createPdf(docDefinition: any) {
+    await this.loadPdfMaker();
+
+    return this.pdfMake.createPdf(docDefinition);
+  }
+
   async exportPdf(exportColumns: any, items: any, filename: string) {
     /*import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {

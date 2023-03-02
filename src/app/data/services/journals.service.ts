@@ -16,20 +16,9 @@ export class JournalsService {
 
   create(payload: IJournal): Observable<any> {
     return from(
-      this.feathers
-        .service('journals')
-        .create({
-          ...payload,
-        })
-        .then(() =>
-          this.messages.add({ severity: 'success', detail: 'Role created.' })
-        )
-        .catch((err: any) =>
-          this.messages.add({
-            severity: 'error',
-            detail: 'Could not create journal!',
-          })
-        )
+      this.feathers.service('journals').create({
+        ...payload,
+      })
     );
   }
 
@@ -63,7 +52,10 @@ export class JournalsService {
           ...payload,
         })
         .then(() =>
-          this.messages.add({ severity: 'success', detail: 'Role created.' })
+          this.messages.add({
+            severity: 'success',
+            detail: 'Journal BS created.',
+          })
         )
         .catch((err: any) =>
           this.messages.add({

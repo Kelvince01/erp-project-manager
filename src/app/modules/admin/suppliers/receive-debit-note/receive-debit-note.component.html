@@ -1,12 +1,12 @@
 <h4>
-  <a class="navbar-brand" href="#">INVOICE GENERATOR</a>
+  <a class="navbar-brand" href="#">Receive Debit Note</a>
 </h4>
 <form #invoiceForm="ngForm">
   <div class="container-fluid pt-2 mb-5">
     <div class="row">
-      <div class="col-md-8">
-        <div class="card border-secondary">
-          <!-- <div class="card-body">
+      <!-- <div class="col-md-8"> -->
+      <!-- <div class="card border-secondary"> -->
+      <!-- <div class="card-body">
             <h4 class="card-title">Customer Details</h4>
             <div class="row">
               <div class="col-md-8">
@@ -71,7 +71,7 @@
               </div>
             </div>
           </div> -->
-        </div>
+      <!-- </div>
         <div class="card border-secondary mt-2">
           <div class="card-body">
             <h4 class="card-title d-flex justify-content-between">
@@ -162,31 +162,8 @@
               ></textarea>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <button
-          type="button"
-          class="btn btn-secondary btn-lg btn-block"
-          (click)="invoiceForm.valid ? generatePDF('download') : ''"
-        >
-          Download Invoice
-        </button>
-        <button
-          type="button"
-          class="btn btn-secondary btn-lg btn-block"
-          (click)="invoiceForm.valid ? generatePDF('print') : ''"
-        >
-          Print Invoice
-        </button>
-        <button
-          type="submit"
-          class="btn btn-secondary btn-lg btn-block"
-          (click)="invoiceForm.valid ? generatePDF() : ''"
-        >
-          Open Invoice
-        </button>
-      </div>
+        </div> -->
+      <!-- </div> -->
     </div>
   </div>
 </form>

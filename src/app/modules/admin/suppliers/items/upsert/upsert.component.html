@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="mt-0">
+    <form [formGroup]="itemForm" (ngSubmit)="saveItem()">
+      <div class="row g-3">
+        <!-- <div class="col-12 mb-2">
+          <span class="text-muted"
+            >Enter all required fields <b>*</b> and hit <b>SAVE</b></span
+          >
+        </div> -->
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="ClassID"
+              name="ItemTypeID"
+              formControlName="ItemTypeID"
+              [ngClass]="{ 'is-invalid': submitted && f['ItemTypeID'].errors }"
+              (change)="selectChangeHandler($event)"
+            >
+              <option
+                *ngFor="let type of itemTypes"
+                [ngValue]="type.ItemTypeID"
+                [value]="type.ItemTypeID"
+              >
+                {{ type.ItemType }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && f['ItemTypeID'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['ItemTypeID'].errors['required']">
+                Item type is required.
+              </div>
+            </div>
+            <label>Item Type</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <textarea
+              formControlName="Description"
+              readonly
+              class="form-control disabledDiv p-2"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Item Name"
+              id="ItemName"
+              formControlName="ItemName"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['ItemName'].errors }"
+            />
+            <div
+              *ngIf="submitted && f['ItemName'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['ItemName'].errors['required']">
+                Item Name is required
+              </div>
+            </div>
+            <label>Item Name</label>
+          </div>
+        </div>
+
+        <div class="col-12 mt-3">
+          <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary mr-3">Save</button>
+            <button
+              type="button"
+              class="btn btn-secondary ml-3"
+              (click)="closeDialog()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

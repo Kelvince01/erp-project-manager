@@ -10,6 +10,8 @@ import { EmployeesService } from '@services/employees.service';
 import { JournalsService } from '@services/journals.service';
 import { first } from 'rxjs';
 import { ItemsService } from '@services/items.service';
+import { imageLogo } from '../image-logo';
+import { FilesService } from '@services/files.service';
 
 @Component({
   selector: 'app-pay-bill',
@@ -28,6 +30,7 @@ export class PayBillComponent implements OnInit {
   // items: IItem[] = [];
   items: any;
   itemPosting: any;
+  resultDialog: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,7 +38,8 @@ export class PayBillComponent implements OnInit {
     private supplierService: EmployeesService,
     private classOfTransService: ClassOfTransactionService,
     private journalService: JournalsService,
-    private itemService: ItemsService
+    private itemService: ItemsService,
+    private fileService: FilesService
   ) {}
 
   //Add user form actions
@@ -126,5 +130,92 @@ export class PayBillComponent implements OnInit {
       .subscribe((res) => {
         this.accounts = res.data;
       });
+  }
+
+  async generatePDF(action = 'open') {
+    let docDefinition: any = {
+      content: [
+        {
+          image: imageLogo,
+          margin: [0, 20, 0, 0],
+          alignment: 'center',
+          width: 100,
+        },
+        {
+          columns: [
+            [
+              {
+                text: 'Church Building',
+                bold: true,
+              },
+              { text: 'Birongo Road' },
+              { text: 'P.O Box 19324, 00202 Nairobi' },
+              { text: 'Tel +254 724 57 99 26' },
+            ],
+            [
+              {
+                text: `PIN No : ${(Math.random() * 1000).toFixed(0)}`,
+                alignment: 'right',
+              },
+              {
+                text: `VAT No : ${(Math.random() * 2000).toFixed(0)}`,
+                alignment: 'right',
+              },
+              {
+                text: `Website : onstergroup.co.ke`,
+                alignment: 'right',
+              },
+              {
+                text: `Email : onstergroup@gmail.com`,
+                alignment: 'right',
+              },
+            ],
+          ],
+        },
+        {
+          text: 'Supplier Payments',
+          style: 'sectionHeader',
+        },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['*', 'auto', 'auto', 'auto'],
+            body: [
+              // ['Item', 'Rate', 'Quantity', 'Amount'],
+              // ...this.invoice.products.map((p) => [
+              //   p.ItemName,
+              //   p.Rate,
+              //   p.Quantity,
+              //   (p.Rate! * p.Quantity!).toFixed(2),
+              // ]),
+              // [
+              //   { text: 'Total Amount', colSpan: 3 },
+              //   {},
+              //   {},
+              //   this.invoice.products
+              //     .reduce((sum, p) => sum + p.Quantity! * p.Rate!, 0)
+              //     .toFixed(2),
+              // ],
+            ],
+          },
+        },
+      ],
+      styles: {
+        sectionHeader: {
+          bold: true,
+          decoration: 'underline',
+          fontSize: 14,
+          margin: [0, 15, 0, 15],
+        },
+      },
+    };
+
+    if (action === 'download') {
+      (await this.fileService.createPdf(docDefinition)).download();
+    } else if (action === 'print') {
+      (await this.fileService.createPdf(docDefinition)).print();
+    } else {
+      (await this.fileService.createPdf(docDefinition)).open();
+    }
   }
 }
