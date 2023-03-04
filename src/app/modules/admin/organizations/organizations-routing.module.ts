@@ -21,6 +21,13 @@ const routes: Routes = [
         path: 'edit/:id',
         component: UpsertComponent,
       },
+      {
+        path: 'departments',
+        loadChildren: () =>
+          import('./departments/departments.module').then(
+            (m) => m.DepartmentsModule
+          ),
+      },
     ],
   },
 ];

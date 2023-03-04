@@ -1,8 +1,4 @@
 import { first } from 'rxjs';
-import { invokeDepartmentsAPI } from './../../../../data/departments/departments.action';
-import { selectDepartments } from './../../../../data/departments/department.selector';
-import { EmployeesService } from './../../../../data/services/employees.service';
-import { IEmployee } from './../../../../data/models/employee.model';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CommonFunctionalityComponent } from '@shared/components/common-functionality/common-functionality.component';
@@ -10,6 +6,10 @@ import { Router } from '@angular/router';
 import { Appstate } from '@stores/appstate';
 import { Store, select } from '@ngrx/store';
 import { FilesService } from '@services/files.service';
+import { IEmployee } from '@models/employee.model';
+import { selectDepartments } from '@departments-store/department.selector';
+import { EmployeesService } from '@services/employees.service';
+import { invokeDepartmentsAPI } from '@departments-store/departments.action';
 
 @Component({
   selector: 'app-list',
@@ -47,10 +47,11 @@ export class ListComponent extends CommonFunctionalityComponent {
         field: 'FirstName',
         header: 'FirstName',
         customExportHeader: 'First Name',
+        dataKey: 'FirstName',
       },
-      { field: 'Surname', header: 'Surname' },
-      { field: 'IDNo', header: 'IDNo' },
-      { field: 'Town', header: 'Town' },
+      { field: 'Surname', header: 'Surname', dataKey: 'Surname' },
+      { field: 'IDNo', header: 'IDNo', dataKey: 'IDNo' },
+      { field: 'Town', header: 'Town', dataKey: 'Town' },
     ];
 
     this.exportColumns = this.cols.map((col) => ({
@@ -60,8 +61,12 @@ export class ListComponent extends CommonFunctionalityComponent {
   }
 
   getEmployees() {
+    let query = {
+      isEmployee: 1,
+    };
+
     this.employeeService
-      .employees$()
+      .employees$(query)
       .pipe(first())
       .subscribe((data: any) => {
         this.employees = data.data;
@@ -118,11 +123,11 @@ export class ListComponent extends CommonFunctionalityComponent {
   }
 
   exportPdf() {
-    this.filesService.exportPdf(this.cols, this.employees, 'Suppliers List');
+    this.filesService.exportPdf(this.cols, this.employees, 'Employees List');
   }
 
   exportExcel() {
-    this.filesService.exportExcel(this.cols, 'Suppliers List');
+    this.filesService.exportExcel(this.cols, 'Employees List');
   }
 
   saveAsExcelFile(buffer: any, fileName: string): void {

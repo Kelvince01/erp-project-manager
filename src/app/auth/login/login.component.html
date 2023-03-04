@@ -1,8 +1,14 @@
 <div class="card surface-card border-round p-4">
   <!-- <h4 class="card-header">Login</h4> -->
   <div class="card-header text-center">
-    <img src="assets/images/hyper.svg" alt="Image" height="50" class="mb-3" />
-    <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+    <img
+      src="assets/images/company-logo.png"
+      alt="login logo"
+      height="50"
+      class="mb-3"
+      routerLink="/"
+    />
+    <div class="text-900 text-3xl font-medium mb-3">Hi, Welcome Back 👋👋</div>
     <span class="text-600 font-medium line-height-3"
       >Don't have an account?</span
     >
@@ -25,9 +31,8 @@
           [ngClass]="{ 'is-invalid': submitted && f['Email'].errors }"
         />
         <div *ngIf="submitted && f['Email'].errors" class="invalid-feedback">
-          <div *ngIf="f['Email'].errors['required']['email']">
-            Email is required
-          </div>
+          <div *ngIf="f['Email'].errors['required']">Email is required</div>
+          <div *ngIf="f['Email'].errors['email']">Email should be valid</div>
         </div>
       </div>
       <div class="mb-3">
@@ -47,28 +52,30 @@
           </div>
         </div>
       </div>
-      <div class="flex align-items-center justify-content-between mb-3">
-        <div class="flex align-items-center">
+      <div class="flex align-items-center justify-content-between mb-3 row">
+        <div class="flex align-items-center col">
           <p-checkbox
             id="rememberme1"
             [binary]="true"
             styleClass="mr-2"
           ></p-checkbox>
-          <label for="rememberme1" class="text-900">Remember me</label>
+          <label for="rememberme1" class="text-900 ml-3 rememberme1"
+            >Remember me</label
+          >
         </div>
         <a
-          class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer"
+          class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer col forgotpass"
           routerLink="/accounts/forgot-password"
           >Forgot password?</a
         >
       </div>
-      <div class="card-footer px-0">
+      <div class="card-footer px-0 row" align="center">
         <button
           [disabled]="loading"
           pButton
           pRipple
           icon="pi pi-user"
-          class="btn btn-primary p-2 w-full"
+          class="btn btn-primary p-2 w-full login-btn"
         >
           <span
             *ngIf="loading"
@@ -81,60 +88,83 @@
   </div>
 </div>
 
-<!-- <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
-  <div class="text-center mb-5">
-    <img src="assets/images/hyper.svg" alt="Image" height="50" class="mb-3" />
-    <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
-    <span class="text-600 font-medium line-height-3"
-      >Don't have an account?</span
-    >
-    <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
-      >Create today!</a
-    >
-  </div>
-
-  <div>
-    <label for="email1" class="block text-900 font-medium mb-2">Email</label>
-    <input
-      id="email1"
-      type="text"
-      placeholder="Email address"
-      pInputText
-      class="w-full mb-3"
-    />
-
-    <label for="password1" class="block text-900 font-medium mb-2"
-      >Password</label
-    >
-    <input
-      id="password1"
-      type="password"
-      placeholder="Password"
-      pInputText
-      class="w-full mb-3"
-    />
-
-    <div class="flex align-items-center justify-content-between mb-6">
-      <div class="flex align-items-center">
-        <p-checkbox
-          id="rememberme1"
-          [binary]="true"
-          styleClass="mr-2"
-        ></p-checkbox>
-        <label for="rememberme1" class="text-900">Remember me</label>
+<!--
+  <div class="page-holder align-items-center py-4 bg-gray-100 vh-100">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 px-lg-4">
+        <div class="card">
+          <div class="card-header px-lg-5">
+            <div class="card-heading text-primary">Jassa Login</div>
+          </div>
+          <div class="card-body p-lg-5">
+            <h3 class="mb-4">Hi, welcome back! 👋👋</h3>
+            <p class="text-muted text-sm mb-5">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore.
+            </p>
+            <form id="loginForm" action="index.html">
+              <div class="form-floating mb-2">
+                <input
+                  class="form-control"
+                  id="floatingInput"
+                  type="email"
+                  placeholder="name@example.com"
+                  required
+                />
+                <label for="floatingInput">Email address</label>
+              </div>
+              <div class="form-floating mb-2">
+                <input
+                  class="form-control"
+                  id="floatingPassword"
+                  type="password"
+                  placeholder="Password"
+                  required
+                />
+                <label for="floatingPassword">Password</label>
+              </div>
+              <div class="form-check mb-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="remember"
+                  id="remember"
+                />
+                <label class="form-check-label" for="remember"
+                  >Remember me</label
+                >
+              </div>
+              <button class="btn btn-primary" type="button">Submit</button>
+            </form>
+          </div>
+          <div class="card-footer px-lg-5 py-lg-4">
+            <div class="text-sm text-muted">
+              Don't have an account? <a>Register</a>.
+            </div>
+          </div>
+        </div>
       </div>
-      <a
-        class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer"
-        >Forgot password?</a
-      >
-    </div>
 
-    <button
-      pButton
-      pRipple
-      label="Sign In"
-      icon="pi pi-user"
-      class="w-full"
-    ></button>
+      <div
+        class="col-lg-6 col-xl-5 ms-xl-auto px-lg-4 text-center text-primary"
+      >
+        <img
+          class="img-fluid mb-4"
+          width="300"
+          src="https://therichpost.com/wp-content/uploads/2021/06/login_page_image.png"
+          alt=""
+          style="transform: rotate(10deg)"
+        />
+        <h1 class="mb-4">
+          Therichpost.com <br class="d-none d-lg-inline" />free code snippets.
+        </h1>
+        <p class="lead text-muted">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore.
+        </p>
+      </div>
+    </div>
   </div>
-</div> -->
+</div>
+ -->

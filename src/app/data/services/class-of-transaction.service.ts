@@ -29,7 +29,8 @@ export class ClassOfTransactionService {
         .catch((err: any) =>
           this.messages.add({
             severity: 'error',
-            detail: 'Could not create class of transaction!',
+            detail: err,
+            // detail: 'Could not create class of transaction!',
           })
         )
     );
@@ -43,7 +44,7 @@ export class ClassOfTransactionService {
     return from(
       this.feathers
         .service('class-of-transaction')
-        .find({ query: { $limit: 1, ...query } })
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 

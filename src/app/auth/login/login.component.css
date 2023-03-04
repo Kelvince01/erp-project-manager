@@ -8,3 +8,16 @@
   font-size: 12px;
   padding-top: 4px;
 }
+
+.rememberme1 {
+  margin-left: 10px;
+}
+
+.forgotpass {
+  display: contents;
+  margin-right: 10px;
+}
+
+.login-btn {
+  justify-content: center;
+}

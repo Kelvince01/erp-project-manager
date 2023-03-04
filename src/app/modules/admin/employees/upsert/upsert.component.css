@@ -11,3 +11,8 @@
 .form-group {
   margin-bottom: 10px;
 }
+
+.form-label {
+  margin-bottom: 0.5rem;
+  margin-right: 20px;
+}

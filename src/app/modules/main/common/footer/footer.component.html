@@ -3,25 +3,29 @@
   <div class="footer-top">
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 col-md-6 footer-contact">
-          <h3>Onster ERP PM</h3>
+        <div class="col-lg-4 col-md-6 footer-contact">
+          <h3>Onster Group ERP PM</h3>
           <p>
-            1111 Adam Street <br />
-            New York, NY 11111<br />
-            United States <br /><br />
-            <strong>Phone:</strong> +1 1111 1111 11<br />
+            Church Building <br />
+            Birongo Road<br />
+            P.O Box 19324, 00202 Nairobi <br /><br />
+            <strong>Phone:</strong> +254 724 57 99 26<br />
             <strong>Email:</strong> info@onstergroup.co.ke<br />
           </p>
         </div>
-        <div class="col-lg-2 col-md-6 footer-links">
+        <div class="col-lg-3 col-md-6 footer-links">
           <h4>Useful Links</h4>
           <ul>
-            <li><i class="fa fa-chevron-right"></i> <a href="#">Home</a></li>
             <li>
-              <i class="fa fa-chevron-right"></i> <a href="#">About us</a>
+              <i class="fa fa-chevron-right"></i> <a routerLink="/">Home</a>
             </li>
             <li>
-              <i class="fa fa-chevron-right"></i> <a href="#">Services</a>
+              <i class="fa fa-chevron-right"></i>
+              <a routerLink="/about">About us</a>
+            </li>
+            <li>
+              <i class="fa fa-chevron-right"></i>
+              <a href="/contact">Contact Us</a>
             </li>
             <li>
               <i class="fa fa-chevron-right"></i>
@@ -32,39 +36,15 @@
             </li>
           </ul>
         </div>
-        <div class="col-lg-3 col-md-6 footer-links">
-          <h4>Our Services</h4>
-          <ul>
-            <li>
-              <i class="fa fa-chevron-right"></i> <a href="#">Web Design</a>
-            </li>
-            <li>
-              <i class="fa fa-chevron-right"></i>
-              <a href="#">Web Development</a>
-            </li>
-            <li>
-              <i class="fa fa-chevron-right"></i>
-              <a href="#">Product Management</a>
-            </li>
-            <li>
-              <i class="fa fa-chevron-right"></i> <a href="#">Marketing</a>
-            </li>
-            <li>
-              <i class="fa fa-chevron-right"></i> <a href="#">Graphic Design</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-lg-4 col-md-6 footer-newsletter">
+        <div class="col-lg-5 col-md-6 footer-newsletter">
           <h4>Join Our Newsletter</h4>
           <p>
-            Tamen quem nulla quae legam multos aute sint culpa legam noster
-            magna
+            Subscribe to keep up with fresh news and exciting updates. We
+            promise not to spam you!
           </p>
-          <form action="" method="post">
-            <input type="email" name="email" /><input
-              type="submit"
-              value="Subscribe"
-            />
+          <form [formGroup]="newsletterForm" (ngSubmit)="subscribe()">
+            <input type="email" name="email" formControlName="email" required />
+            <input type="submit" value="Subscribe" />
           </form>
         </div>
       </div>

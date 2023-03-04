@@ -11,9 +11,6 @@ export class HomeComponent {
   user!: IUser | null;
 
   constructor(private accountService: AuthService) {
-    // this.user = this.accountService.userValue;
-    this.accountService.currentUser().then((user) => {
-      this.user = user;
-    });
+    this.user = this.accountService.userValue as any;
   }
 }

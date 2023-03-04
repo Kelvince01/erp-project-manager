@@ -1,7 +1,9 @@
+import { AdminProfileComponent as AdminProfileComponent } from './common/profile/admin-profile.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminSettingsComponent } from './common/admin-settings/admin-settings.component';
 
 const routes: Routes = [
   {
@@ -13,16 +15,17 @@ const routes: Routes = [
         component: DashboardComponent,
       },
       {
+        path: 'profile',
+        component: AdminProfileComponent,
+      },
+      {
+        path: 'settings',
+        component: AdminSettingsComponent,
+      },
+      {
         path: 'users',
         loadChildren: () =>
           import('./users/users.module').then((m) => m.UsersModule),
-      },
-      {
-        path: 'departments',
-        loadChildren: () =>
-          import('./departments/departments.module').then(
-            (m) => m.DepartmentsModule
-          ),
       },
       {
         path: 'organizations',

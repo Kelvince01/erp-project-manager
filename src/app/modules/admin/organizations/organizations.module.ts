@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { OrganizationsRoutingModule } from './organizations-routing.module';
 import { OrganizationsComponent } from './organizations.component';
+import { DepartmentsModule } from './departments/departments.module';
 import { ListComponent } from './list/list.component';
 import { UpsertComponent } from './upsert/upsert.component';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
@@ -29,6 +30,7 @@ export const reducers: ActionReducerMap<any> = {
   imports: [
     CommonModule,
     OrganizationsRoutingModule,
+    DepartmentsModule,
     SharedModule,
     // StoreModule.forFeature('company-info', reducers),
     StoreModule.forFeature('company-info', companyInfoReducer),

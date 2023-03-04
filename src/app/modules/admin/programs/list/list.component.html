@@ -1,57 +1,67 @@
 <h1>Programs</h1>
-<a routerLink="/admin/programs/add" class="btn btn-sm btn-success mb-2"
-  >Add Program</a
->
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Title</th>
-      <th>Tender No</th>
-      <th>Location</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Duration (Months)</th>
-      <th>Closed</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let program of programs">
-      <td>{{ program.ProjectID }}</td>
-      <td>{{ program.ProjectName }}</td>
-      <td>{{ program.Code }}</td>
-      <!-- <td>{{ program.Description }}</td> -->
-      <td>{{ program.Country }}</td>
-      <td>{{ program.StartDate | date : "fullDate" }}</td>
-      <td>{{ program.EndDate | date : "fullDate" }}</td>
-      <td>{{ program.Code }}</td>
-      <td>{{ program.Code }}</td>
-      <td style="white-space: nowrap">
-        <a
-          routerLink="/admin/programs/edit/{{ program.ProjectID }}"
-          class="btn btn-sm btn-primary me-1"
-          >Edit</a
-        >
-        <button
-          (click)="deleteProject(program)"
-          class="btn btn-sm btn-danger btn-delete-user"
-          [disabled]="isDeleting"
-        >
-          <span
-            *ngIf="isDeleting"
-            class="spinner-border spinner-border-sm"
-          ></span>
-          <span *ngIf="!isDeleting">Delete</span>
-        </button>
-      </td>
-    </tr>
-    <tr *ngIf="!programs">
-      <td colspan="4" class="text-center">
-        <span class="spinner-border spinner-border-lg align-center"></span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="row">
+  <a
+    routerLink="/admin/programs/add"
+    class="col-md-3 btn btn-sm btn-success mb-2 add-program-btn"
+    >Add Program</a
+  >
+  <button class="col-md-3 btn btn-sm btn-success mb-2" (click)="openPDF()">
+    Download PDF
+  </button>
+</div>
+<!-- <div id="htmlData"> -->
+<div id="pdfTable" #pdfTable>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Tender No</th>
+        <th>Location</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Duration (Months)</th>
+        <th>Closed</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let program of programs">
+        <td>{{ program.ProjectID }}</td>
+        <td>{{ program.ProjectName }}</td>
+        <td>{{ program.Code }}</td>
+        <!-- <td>{{ program.Description }}</td> -->
+        <td>{{ program.Country }}</td>
+        <td>{{ program.StartDate | date : "fullDate" }}</td>
+        <td>{{ program.EndDate | date : "fullDate" }}</td>
+        <td>{{ program.Code }}</td>
+        <td>{{ program.Code }}</td>
+        <td style="white-space: nowrap">
+          <a
+            routerLink="/admin/programs/edit/{{ program.ProjectID }}"
+            class="btn btn-sm btn-primary me-1"
+            >Edit</a
+          >
+          <button
+            (click)="deleteProject(program)"
+            class="btn btn-sm btn-danger btn-delete-user"
+            [disabled]="isDeleting"
+          >
+            <span
+              *ngIf="isDeleting"
+              class="spinner-border spinner-border-sm"
+            ></span>
+            <span *ngIf="!isDeleting">Delete</span>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="!programs">
+        <td colspan="4" class="text-center">
+          <span class="spinner-border spinner-border-lg align-center"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

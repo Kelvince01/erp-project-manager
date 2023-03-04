@@ -18,6 +18,9 @@ import { Observable } from 'rxjs';
 export class AuthGuard
   implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad
 {
+  // result = new Subject<boolean>();
+  result: boolean = false;
+
   constructor(private router: Router, private auth: AuthService) {}
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
@@ -56,37 +59,16 @@ export class AuthGuard
     let url: string = state.url;
 
     /* Try to auth with the server. If authed resolve to true, else resolve to false */
-    // return this.auth
-    //   .logIn()
-    //   .then(
-    //     () => true
-    //     // () => this.checkUserLogin(route, url)
-    //   )
-    //   .catch(() => {
-    //     this.router.navigate(['/accounts/login']);
-    //     return false;
-    //   });
-
-    // return this.checkUserLogin(route, url);
     return this.auth
       .logIn()
-      .then(() => true)
+      .then(
+        () => true
+        // () => this.checkUserLogin(route, url)
+      )
       .catch(() => {
         this.router.navigate(['/accounts/login']);
         return false;
       });
-
-    /*const user = this.auth.userValue;
-    if (user) {
-      // authorised so return true
-      return true;
-    }
-
-    // not logged in so redirect to login page with the return url
-    this.router.navigate(['/accounts/login'], {
-      queryParams: { returnUrl: state.url },
-    });
-    return false;*/
   }
 
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
@@ -103,3 +85,27 @@ export class AuthGuard
     return false;
   }
 }
+
+/*
+let url: string = state.url;
+
+    if (this.auth.isAuthenticated()) {
+      const userRole = this.auth.getRole();
+
+      if (
+        route.data['role'] &&
+        route.data['role'].indexOf(userRole) === -1 &&
+        this.auth.isAuthenticated()
+      ) {
+        this.router.navigate(['/']);
+        return true;
+      }
+
+      return true;
+    }
+
+    this.router.navigate(['accounts/login'], {
+      queryParams: { returnUrl: state.url },
+    });
+    return false;
+    */

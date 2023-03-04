@@ -1,11 +1,11 @@
 import { ICompanyInfo } from '@models/company-info.model';
-import { CompanyInfoService } from './../../../../data/services/company-info.service';
 import { first, Observable } from 'rxjs';
 import { Component } from '@angular/core';
 import { selectCompanyInfos } from '@company-store/company-info.selector';
 import { Store, select } from '@ngrx/store';
 import { Appstate } from 'src/app/data/stores/appstate';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { CompanyInfoService } from '@services/company-info.service';
 
 @Component({
   selector: 'app-list-organizations',

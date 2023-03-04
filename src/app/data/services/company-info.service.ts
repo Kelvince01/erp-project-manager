@@ -43,7 +43,7 @@ export class CompanyInfoService {
     return from(
       this.feathers
         .service('companies')
-        .find({ query: { $limit: 1, ...query } })
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 

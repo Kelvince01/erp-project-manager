@@ -23,6 +23,7 @@ export class FeathersService {
       .configure(
         this.feathersAuthClient({
           // add authentication plugin
+          storageKey: 'auth-jwt',
           storage: window.localStorage,
         })
       );
@@ -58,6 +59,10 @@ _socket.on("connect_timeout", () => changeServerState('connect_timeout')); */
   // authenticates using the JWT from the storage
   public reAuthenticate(credentials?: any): Promise<any> {
     return this.client.reAuthenticate();
+  }
+
+  public isAuthenticated() {
+    return this.client.authentication.authenticated;
   }
 
   public getCurrentUser(): Promise<any> {

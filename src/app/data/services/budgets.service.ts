@@ -39,7 +39,7 @@ export class BudgetsService {
   budgets$(query?: any): Observable<any> {
     // get(query?: any) {
     return from(
-      this.feathers.service('budgets').find({ query: { $limit: 1, ...query } })
+      this.feathers.service('budgets').find({ query: { $limit: 20, ...query } })
     );
   }
 

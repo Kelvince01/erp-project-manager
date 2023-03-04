@@ -85,9 +85,9 @@
 }
 
 /**
-* Appointment Button *
+* Login Button *
 */
-.appointment-btn {
+.login-btn {
   margin-left: 25px;
   background: #1977cc;
   color: #fff;
@@ -99,13 +99,13 @@
   display: inline-block;
 }
 
-.appointment-btn:hover {
+.login-btn:hover {
   background: #166ab5;
   color: #fff;
 }
 
 @media (max-width: 768px) {
-  .appointment-btn {
+  .login-btn {
     margin: 0 15px 0 0;
     padding: 6px 18px;
   }

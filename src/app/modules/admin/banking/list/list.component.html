@@ -1,6 +1,14 @@
-<h3 class="py-3">Banks</h3>
+<h3 class="py-3">Bank Accounts</h3>
 <a routerLink="/admin/banking/add" class="btn btn-sm btn-success mb-2"
+  >Add Bank Account</a
+>
+<a
+  routerLink="/admin/banking/add-bank"
+  class="btn btn-sm btn-success mb-2 add-bank-btn"
   >Add Bank</a
+>
+<a (click)="addCurrency()" class="btn btn-sm btn-success mb-2 add-bank-btn"
+  >Add Currency</a
 >
 <table class="table table-striped">
   <thead>
@@ -47,3 +55,5 @@
     </tr>
   </tbody>
 </table>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

@@ -41,7 +41,7 @@ export class TitlesService {
 
   titles$(query?: any): Observable<any> {
     return from(
-      this.feathers.service('titles').find({ query: { $limit: 1, ...query } })
+      this.feathers.service('titles').find({ query: { $limit: 20, ...query } })
     );
   }
 

@@ -1,96 +1,10 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
-  <div class="container">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto ps-5 mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            routerLinkActive="active"
-            [routerLink]="['/']"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >Home</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            aria-current="page"
-            routerLinkActive="active"
-            [routerLink]="['/admin/users']"
-            >Users</a
-          >
-        </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link disabled"
-            href="#"
-            tabindex="-1"
-            aria-disabled="true"
-            >Disabled</a
-          >
-        </li>
-      </ul>
-      <div class="d-flex">
-        <button
-          class="btn btn-link btn-info nav-item nav-link px-3"
-          (click)="logout()"
-        >
-          Logout
-        </button>
-        <!- Button trigger modal ->
-        <button
-          type="button"
-          class="btn btn-secondary px-3"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasExample"
-        >
-          <i class="bi bi-text-left"></i> Toggle sidebar
-        </button>
-      </div>
-    </div>
-  </div>
-</nav> -->
-
 <!-- ======= Top Bar ======= -->
 <div id="topbar" class="d-flex align-items-center fixed-top">
   <div class="container d-flex justify-content-between">
     <div class="contact-info d-flex align-items-center">
       <i class="fa fa-envelope"></i>
       <a href="mailto:info@onstergroup.co.ke">info@onstergroup.co.ke</a>
-      <i class="fa fa-phone"></i> +1 1111 1111 11
+      <i class="fa fa-phone"></i> +254 724 57 99 26
     </div>
     <div class="d-none d-lg-flex social-links align-items-center">
       <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
@@ -103,7 +17,7 @@
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top">
   <div class="container d-flex align-items-center">
-    <h1 class="logo me-auto"><a routerLink="/">Onster ERP PM</a></h1>
+    <h1 class="logo me-auto"><a routerLink="/">Onster Group ERP PM</a></h1>
 
     <nav id="navbar" class="navbar order-last order-lg-0">
       <ul>
@@ -133,10 +47,7 @@
     </nav>
     <!-- .navbar -->
 
-    <a
-      *ngIf="!loggedIn"
-      routerLink="/accounts/login"
-      class="appointment-btn scrollto"
+    <a *ngIf="!loggedIn" routerLink="/accounts/login" class="login-btn scrollto"
       >Login</a
     >
 

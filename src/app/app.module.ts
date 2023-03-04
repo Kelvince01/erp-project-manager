@@ -1,3 +1,4 @@
+import { ConfigService as Config } from '@services/config.service';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { NgModule, isDevMode, APP_INITIALIZER } from '@angular/core';
@@ -21,6 +22,7 @@ import { FeathersService } from '@services/feathers.service';
 import { AuthService } from '@services/auth.service';
 import { AuthGuard } from '@utils/guards/auth.guard';
 import { configFactory, ConfigService } from '@core/services/config.service';
+import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 
 export function appInitializer(accountService: AuthService) {
   return () =>
@@ -66,6 +68,8 @@ export function appInitializer(accountService: AuthService) {
     FeathersService,
     AuthService,
     AuthGuard,
+    Config,
+    BnNgIdleService,
   ],
   bootstrap: [AppComponent],
 })

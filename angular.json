@@ -30,14 +30,14 @@
               "node_modules/ngx-spinner/animations/ball-spin-clockwise-fade.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeflex/primeflex.css",
               "node_modules/primeng/resources/themes/bootstrap4-light-blue/theme.css",
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/jquery.easing/jquery.easing.min.js",
-              "node_modules/@srexi/purecounterjs/dist/purecounter_vanilla.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "src/assets/js/jassa-admin.min.js",
+              "src/assets/js/main.js",
+              "node_modules/@srexi/purecounterjs/dist/purecounter_vanilla.js"
             ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json",
@@ -53,7 +53,28 @@
               "feathers-reactive",
               "file-saver",
               "jquery",
-              "socket.io-client"
+              "socket.io-client",
+              "crypto-js",
+              "pdfmake/build/pdfmake",
+              "pdfmake/build/vfs_fonts",
+              "core-js/modules/es.array.index-of.js",
+              "core-js/modules/es.array.iterator.js",
+              "core-js/modules/es.array.reduce.js",
+              "core-js/modules/es.array.reverse.js",
+              "core-js/modules/es.promise.js",
+              "core-js/modules/es.regexp.to-string.js",
+              "core-js/modules/es.string.ends-with.js",
+              "core-js/modules/es.string.includes.js",
+              "core-js/modules/es.string.match.js",
+              "core-js/modules/es.string.replace.js",
+              "core-js/modules/es.string.split.js",
+              "core-js/modules/es.string.starts-with.js",
+              "core-js/modules/es.string.trim.js",
+              "core-js/modules/web.dom-collections.iterator.js",
+              "raf",
+              "rgbcolor",
+              "html2canvas",
+              "jspdf-autotable"
             ]
           },
           "configurations": {

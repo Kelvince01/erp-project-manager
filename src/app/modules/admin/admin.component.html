@@ -1,8 +1,178 @@
 <div id="wrapper">
-  <app-admin-sidebar></app-admin-sidebar>
+  <!-- <app-admin-sidebar></app-admin-sidebar> -->
+  <!-- Sidebar -->
+  <p-sidebar [(visible)]="visibleSidebar1" [baseZIndex]="10000">
+    <ul
+      class="navbar-nav sidebar-brand sidebar-light accordion"
+      id="accordionSidebar"
+    >
+      <!-- class="sidebar" -->
+      <a
+        class="d-flex align-items-center justify-content-center"
+        routerLink="profile"
+      >
+        <div class="sidebar-brand-icon">{{ user?.FirstName }}</div>
+        <div class="sidebar-brand-text mx-3">{{ user?.Surname }}</div>
+      </a>
+      <hr class="sidebar-divider my-0" />
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a
+        >
+      </li>
+      <hr class="sidebar-divider" />
+      <div class="sidebar-heading">Features</div>
+      <li class="nav-item">
+        <a
+          class="nav-link collapsed"
+          routerLink="/admin/organizations"
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#collapseBootstrap"
+          aria-expanded="true"
+          aria-controls="collapseBootstrap"
+        >
+          <i class="far fa-fw fa-window-maximize"></i>
+          <span>Organization Info</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link collapsed"
+          routerLink="programs"
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#collapseForm"
+          aria-expanded="true"
+          aria-controls="collapseForm"
+        >
+          <i class="fab fa-fw fa-wpforms"></i>
+          <span>Programs</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link collapsed"
+          routerLink="/admin/employees"
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#collapseTable"
+          aria-expanded="true"
+          aria-controls="collapseTable"
+        >
+          <i class="fas fa-fw fa-table"></i>
+          <span>Employees</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/admin/suppliers"
+          routerLinkActive="active"
+        >
+          <i class="fas fa-fw fa-palette"></i>
+          <span>Purchases & Expenses</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/admin/banking"
+          routerLinkActive="active"
+        >
+          <i class="fas fa-fw fa-palette"></i>
+          <span>Banking</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/admin/budgets"
+          routerLinkActive="active"
+        >
+          <i class="fas fa-fw fa-palette"></i>
+          <span>Budgets</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin/users" routerLinkActive="active">
+          <i class="fas fa-fw fa-palette"></i>
+          <span>Users</span>
+        </a>
+      </li>
+      <hr class="sidebar-divider" />
+      <div class="sidebar-heading">Others</div>
+      <li class="nav-item">
+        <a
+          class="nav-link collapsed"
+          routerLink="/admin/reports"
+          routerLinkActive="active"
+          data-toggle="collapse"
+          data-target="#collapsePage"
+          aria-expanded="true"
+          aria-controls="collapsePage"
+        >
+          <i class="fas fa-fw fa-columns"></i>
+          <span>Reports</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Charts</span>
+        </a>
+      </li>
+      <hr class="sidebar-divider" />
+      <div class="version" id="version-jassaadmin"></div>
+    </ul>
+  </p-sidebar>
+  <!-- Sidebar -->
   <div id="content-wrapper" class="d-flex flex-column">
     <div id="content">
-      <app-admin-navbar></app-admin-navbar>
+      <!-- <app-admin-navbar
+        (visibleSidebar1)="fwdMsgToSib2($event)"
+      ></app-admin-navbar> -->
+      <!-- TopBar -->
+      <nav
+        class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top"
+      >
+        <button
+          type="button"
+          (click)="toggleSidebar()"
+          id="sidebarToggleTop"
+          class="btn btn-link rounded-circle mr-3"
+        >
+          <i class="fa fa-bars"></i>
+        </button>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              type="button"
+              pButton
+              (click)="menu.toggle($event)"
+            >
+              <img
+                class="img-profile rounded-circle"
+                src="assets/images/boy.png"
+                style="max-width: 60px"
+              />
+              <span class="ml-2 d-none d-lg-inline text-white small"
+                >{{ user?.FirstName }} {{ user?.Surname }}</span
+              >
+            </button>
+            <p-menu
+              #menu
+              [popup]="true"
+              [model]="items"
+              class="shadow animated--grow-in"
+            >
+            </p-menu>
+          </li>
+        </ul>
+      </nav>
+      <!-- Topbar -->
 
       <p-toast position="top-right"></p-toast>
 
@@ -13,6 +183,7 @@
     <app-admin-footer></app-admin-footer>
   </div>
 </div>
+
 <!-- Scroll to top -->
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>

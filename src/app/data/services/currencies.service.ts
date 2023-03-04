@@ -43,7 +43,7 @@ export class CurrenciesService {
     return from(
       this.feathers
         .service('currencies')
-        .find({ query: { $limit: 1, ...query } })
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 

@@ -1,0 +1,171 @@
+<div class="container">
+  <div class="card mt-0">
+    <form [formGroup]="bankForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <div class="col-12 mb-2">
+          <h4>Add Bank</h4>
+          <span class="text-muted"
+            >Enter all required fields * and hit <b>SAVE</b></span
+          >
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="BANK NAME"
+              formControlName="BankName"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.BankName.errors }"
+            />
+            <div
+              *ngIf="submitted && f.BankName.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.BankName.errors.required">
+                BANK NAME is required.
+              </div>
+            </div>
+            <label>BANK NAME</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="SHORT NAME"
+              formControlName="ShortName"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.ShortName.errors }"
+            />
+            <div
+              *ngIf="submitted && f.ShortName.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.ShortName.errors.required">
+                SHORT NAME is required.
+              </div>
+            </div>
+            <label>SHORT NAME</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="BRANCH"
+              formControlName="Branch"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.Branch.errors }"
+            />
+            <div *ngIf="submitted && f.Branch.errors" class="invalid-feedback">
+              <div *ngIf="f.Branch.errors.required">BRANCH is required.</div>
+            </div>
+            <label>BRANCH</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="SWIFT CODE"
+              formControlName="SwiftCode"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.SwiftCode.errors }"
+            />
+            <div
+              *ngIf="submitted && f.SwiftCode.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.SwiftCode.errors.required">
+                SWIFT CODE is required.
+              </div>
+            </div>
+            <label>SWIFT CODE</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="PO BOX"
+              formControlName="POBox"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.POBox.errors }"
+            />
+            <div *ngIf="submitted && f.POBox.errors" class="invalid-feedback">
+              <div *ngIf="f.POBox.errors.required">PO BOX is required.</div>
+            </div>
+            <label>PO BOX</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="number"
+              placeholder="ZIP CODE"
+              formControlName="ZipCode"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.ZipCode.errors }"
+            />
+            <div *ngIf="submitted && f.ZipCode.errors" class="invalid-feedback">
+              <div *ngIf="f.ZipCode.errors.required">ZIP CODE is required.</div>
+            </div>
+            <label>ZIP CODE</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="TOWN"
+              formControlName="Town"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.Town.errors }"
+            />
+            <div *ngIf="submitted && f.Town.errors" class="invalid-feedback">
+              <div *ngIf="f.Town.errors.required">TOWN is required.</div>
+            </div>
+            <label>TOWN</label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-10">
+          <div class="form-floating">
+            <select
+              formControlName="CountryID"
+              class="form-select"
+              [ngClass]="{ 'is-invalid': submitted && f['CountryID'].errors }"
+            >
+              <option [ngValue]="null" disabled>Select COUNTRY</option>
+              <option
+                *ngFor="let country of countries"
+                [ngValue]="country.CountryID"
+              >
+                {{ country.Country }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && f.CountryID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.CountryID.errors.required">
+                COUNTRY is required.
+              </div>
+            </div>
+            <label>COUNTRY</label>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <p-button label="Add Country" (onClick)="addCountry()"></p-button>
+        </div>
+        <div class="col-12 mt-4">
+          <button class="btn btn-primary text-uppercase" type="submit">
+            SAVE<i class="fa fa-plane ms-3"></i>
+          </button>
+          <a routerLink="/admin/banking" class="btn btn-link text-uppercase"
+            >CANCEL</a
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

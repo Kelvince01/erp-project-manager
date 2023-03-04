@@ -5,6 +5,8 @@ import { Observable, from } from 'rxjs';
 import { FeathersService } from './feathers.service';
 import { MessageService } from 'primeng/api';
 import { IMainAccount } from '@models/main-account.model';
+import { IAccountPosting } from '@models/account-posting.model';
+import { IPaymentMethod } from '@models/payment-method.model';
 
 @Injectable({
   providedIn: 'root',
@@ -41,7 +43,7 @@ export class BankingService {
   banks$(query?: any): Observable<any> {
     // get(query?: any) {
     return from(
-      this.feathers.service('banks').find({ query: { $limit: 1, ...query } })
+      this.feathers.service('banks').find({ query: { $limit: 20, ...query } })
     );
   }
 
@@ -68,7 +70,8 @@ export class BankingService {
         .catch((err: any) =>
           this.messages.add({
             severity: 'error',
-            detail: 'Could not create account!',
+            detail: err,
+            // detail: 'Could not create account!',
           })
         )
     );
@@ -80,7 +83,9 @@ export class BankingService {
 
   accounts$(query?: any): Observable<any> {
     return from(
-      this.feathers.service('accounts').find({ query: { $limit: 1, ...query } })
+      this.feathers
+        .service('accounts')
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 
@@ -121,7 +126,7 @@ export class BankingService {
     return from(
       this.feathers
         .service('main-accounts')
-        .find({ query: { $limit: 1, ...query } })
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 
@@ -165,7 +170,7 @@ export class BankingService {
     return from(
       this.feathers
         .service('account-types')
-        .find({ query: { $limit: 1, ...query } })
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 
@@ -177,5 +182,92 @@ export class BankingService {
 
   deleteAccountType(id: number): Observable<any> {
     return from(this.feathers.service('account-types').remove(id));
+  }
+
+  createPaymentMethod(payload: IPaymentMethod): Observable<any> {
+    return from(
+      this.feathers
+        .service('payment-methods')
+        .create({
+          ...payload,
+        })
+        .then(() =>
+          this.messages.add({ severity: 'success', detail: 'Payment method created.' })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create payment method!',
+          })
+        )
+    );
+  }
+
+  getPaymentMethodById(id: string): Observable<any> {
+    return from(this.feathers.service('payment-methods').get(id));
+  }
+
+  paymentMethods$(query?: any): Observable<any> {
+    return from(
+      this.feathers
+        .service('payment-methods')
+        .find({ query: { $limit: 20, ...query } })
+    );
+  }
+
+  updatePaymentMethod(id: string, payload: Partial<IPaymentMethod>): Observable<any> {
+    return from(
+      this.feathers.service('payment-methods').update(payload.PymtMethodID!, payload)
+    );
+  }
+
+  deletePaymentMethod(id: number): Observable<any> {
+    return from(this.feathers.service('payment-methods').remove(id));
+  }
+
+  createAccountPosting(payload: IAccountPosting): Observable<any> {
+    return from(
+      this.feathers
+        .service('account-posting')
+        .create({
+          ...payload,
+        })
+        .then(() =>
+          this.messages.add({
+            severity: 'success',
+            detail: 'Account posting created.',
+          })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create account posting!',
+          })
+        )
+    );
+  }
+
+  getAccountPostingById(id: string): Observable<any> {
+    return from(this.feathers.service('account-posting').get(id));
+  }
+
+  accountPostings$(query?: any): Observable<any> {
+    return from(
+      this.feathers
+        .service('account-posting')
+        .find({ query: { $limit: 20, ...query } })
+    );
+  }
+
+  updateAccountPosting(payload: Partial<IAccountPosting>): Observable<any> {
+    return from(
+      this.feathers
+        .service('account-posting')
+        .update(payload.AccountID!, payload)
+    );
+  }
+
+  deleteAccountPosting(id: number): Observable<any> {
+    return from(this.feathers.service('account-posting').remove(id));
   }
 }

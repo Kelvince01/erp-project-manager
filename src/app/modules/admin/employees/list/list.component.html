@@ -37,6 +37,7 @@
         label="Export"
         icon="pi pi-upload"
         class="p-button-help"
+        (click)="exportPdf()"
       ></button>
     </ng-template>
   </p-toolbar>
@@ -116,27 +117,12 @@
           /> -->
           {{ employee.FirstName }}
         </td>
-        <!-- {{ employee.price | currency : "USD" }} -->
         <td>{{ employee.Surname }}</td>
         <td>{{ employee.MiddleName }}</td>
         <td>
-          <!-- <p-rating
-            [ngModel]="employee.rating"
-            [readonly]="true"
-            [cancel]="false"
-          ></p-rating> -->
           {{ employee.Designation }}
         </td>
         <td>
-          <!-- <span
-            [class]="
-              'employee-badge status-' +
-              (employee.inventoryStatus
-                ? employee.inventoryStatus.toLowerCase()
-                : '')
-            "
-            >{{ employee.inventoryStatus }}</span
-          > -->
           {{ employee.Extension }}
         </td>
         <td>{{ employee.Email }}</td>
@@ -148,7 +134,7 @@
             pRipple
             icon="pi pi-pencil"
             class="p-button-rounded p-button-success mr-2"
-            routerLink="/admin/employees/edit/{employee.EmployeeID}"
+            routerLink="/admin/employees/edit/{{ employee.EmployeeID }}"
           ></button>
           <button
             pButton

@@ -39,7 +39,9 @@ export class ProjectsService {
   projects$(query?: any): Observable<any> {
     // get(query?: any) {
     return from(
-      this.feathers.service('projects').find({ query: { $limit: 1, ...query } })
+      this.feathers
+        .service('projects')
+        .find({ query: { $limit: 20, ...query } })
     );
   }
 

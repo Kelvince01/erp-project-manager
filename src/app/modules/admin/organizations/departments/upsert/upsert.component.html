@@ -1,0 +1,72 @@
+<div class="container">
+  <legend *ngIf="isAddMode">Add A New Department</legend>
+  <legend *ngIf="!isAddMode">Update A New Department</legend>
+  <form #form>
+    <div class="mb-3">
+      <label class="form-label">Company</label>
+      <select
+        [(ngModel)]="departmentForm['CompanyID']"
+        class="form-control"
+        name="CompanyID"
+      >
+        <option [ngValue]="null" disabled>Select Company</option>
+        <option *ngFor="let company of companies" [ngValue]="company.CompanyID">
+          {{ company.CompanyName }}
+        </option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="txtDepartmentName" class="form-label">Department Name</label>
+      <input
+        type="text"
+        [(ngModel)]="departmentForm['Department']"
+        class="form-control"
+        id="txtDepartmentName"
+        name="Department"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="txtHOD" class="form-label">HOD</label>
+      <input
+        type="text"
+        [(ngModel)]="departmentForm['HOD']"
+        class="form-control"
+        id="txtHOD"
+        name="HOD"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="txtDesc" class="form-label">Description</label>
+      <input
+        type="text"
+        [(ngModel)]="departmentForm['Description']"
+        class="form-control"
+        id="txtDesc"
+        name="Description"
+      />
+    </div>
+    <button
+      *ngIf="isAddMode"
+      type="button"
+      class="btn btn-dark"
+      (click)="save()"
+    >
+      Create
+    </button>
+    <button
+      *ngIf="!isAddMode"
+      type="button"
+      class="btn btn-dark"
+      (click)="update()"
+    >
+      Update
+    </button>
+    <button
+      type="button"
+      class="btn btn-light"
+      routerLink="/admin/organizations/departments"
+    >
+      Cancel
+    </button>
+  </form>
+</div>

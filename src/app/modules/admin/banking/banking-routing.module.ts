@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BankingComponent } from './banking.component';
 import { ListComponent } from './list/list.component';
+import { UpsertBankComponent } from './upsert-bank/upsert-bank.component';
 import { UpsertComponent } from './upsert/upsert.component';
 
 const routes: Routes = [
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path: 'edit/:id',
         component: UpsertComponent,
+      },
+      {
+        path: 'add-bank',
+        component: UpsertBankComponent,
       },
     ],
   },

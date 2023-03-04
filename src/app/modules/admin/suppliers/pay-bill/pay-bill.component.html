@@ -1,1 +1,348 @@
-<p>pay-bill works!</p>
+<div class="container">
+  <div class="card mt-0">
+    <form [formGroup]="payExpenseForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <div class="col-12 mb-2">
+          <h4>Pay Bill</h4>
+          <span class="text-muted">Enter all required fields</span>
+        </div>
+
+        <div class="col-lg-6 col-md-6 disabledDiv">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              formControlName="AccountID"
+              [ngClass]="{ 'is-invalid': submitted && f.AccountID.errors }"
+            >
+              <option
+                *ngFor="let account of accounts"
+                [ngValue]="account.AccountID"
+              >
+                {{ account.AccountNo }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && f.AccountID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.AccountID.errors.required">
+                Account is required.
+              </div>
+            </div>
+            <label>Account</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              formControlName="SupplierID"
+              [ngClass]="{ 'is-invalid': submitted && f.SupplierID.errors }"
+            >
+              <option [ngValue]="null" disabled>Select Supplier</option>
+              <option
+                *ngFor="let supplier of suppliers"
+                [ngValue]="supplier.EmployeeID"
+              >
+                {{ supplier.FirstName }} {{ supplier.Surname }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && f.SupplierID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.SupplierID.errors.required">
+                Supplier is required.
+              </div>
+            </div>
+            <label>Supplier</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Amount Paid"
+              formControlName="AmountPaid"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.AmountPaid.errors }"
+            />
+            <div
+              *ngIf="submitted && f.AmountPaid.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.AmountPaid.errors.required">
+                Amount paid is required.
+              </div>
+            </div>
+            <label>Amount Paid</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 disabledDiv">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              formControlName="PaymentAccountID"
+              [ngClass]="{
+                'is-invalid': submitted && f.PaymentAccountID.errors
+              }"
+            >
+              <option
+                *ngFor="let account of paymentAccounts"
+                [ngValue]="account.AccountID"
+              >
+                {{ account.AccountNo }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && f.PaymentAccountID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.PaymentAccountID.errors.required">
+                Payment Account is required.
+              </div>
+            </div>
+            <label>Payment Account</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Ref No"
+              formControlName="RefNo"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.RefNo.errors }"
+            />
+            <div *ngIf="submitted && f.RefNo.errors" class="invalid-feedback">
+              <div *ngIf="f.RefNo.errors.required">Ref No is required.</div>
+            </div>
+            <label>Ref No</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="date"
+              placeholder="Date"
+              formControlName="Date"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.Date.errors }"
+            />
+            <div *ngIf="submitted && f.Date.errors" class="invalid-feedback">
+              <div *ngIf="f.Date.errors.required">Date is required.</div>
+            </div>
+            <label>Date</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="date"
+              placeholder="Payable Date"
+              formControlName="PayableDate"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.PayableDate.errors }"
+            />
+            <div
+              *ngIf="submitted && f.PayableDate.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.PayableDate.errors.required">
+                Payable Date is required.
+              </div>
+            </div>
+            <label>Payable Date</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              formControlName="PaymentMethodID"
+              [ngClass]="{
+                'is-invalid': submitted && f.PaymentMethodID.errors
+              }"
+              (change)="itemSelectChangeHandler($event)"
+            >
+              <option [ngValue]="null" disabled>Select Payment Method</option>
+              <option
+                *ngFor="let payment of paymentMethods"
+                [ngValue]="payment.PymtMethodID"
+                [value]="payment.PymtMethodID"
+              >
+                {{ payment.PymtMethod }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && f.PaymentMethodID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.PaymentMethodID.errors.required">
+                Payment Method is required.
+              </div>
+            </div>
+            <label>Payment Method</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6" *ngIf="isCheque">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Cheque Number"
+              formControlName="ChequeNo"
+              class="form-control"
+            />
+            <label>Cheque No</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6" *ngIf="isCheque">
+          <div class="form-check form-check-inline mb-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="IssueCheque"
+              id="IssueCheque"
+              value="false"
+              formControlName="IssueCheque"
+            />
+            <label class="form-check-label" for="IssueCheque"
+              >Issue Cheque</label
+            >
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Unpaid Amount Due"
+              formControlName="UnpaidAmountDue"
+              class="form-control"
+            />
+            <label>Unpaid Amount Due</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Unused Credits"
+              formControlName="UnUsedCredits"
+              class="form-control"
+            />
+            <label>Unused Credits</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Credits BF"
+              formControlName="CreditsBF"
+              class="form-control"
+            />
+            <label>Credits BF</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <textarea formControlName="Memo" class="form-control"></textarea>
+            <label>Memo</label>
+          </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+          <table class="table table-hover table-responsive">
+            <thead>
+              <tr>
+                <th>Applied</th>
+                <th>Date Due</th>
+                <th>Ref No</th>
+                <th>Description</th>
+                <th>Total Amount</th>
+                <th>Amount Due (Ksh)</th>
+                <th>Credits (Ksh)</th>
+                <th>Payment (Ksh)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table" *ngFor="let item of journals">
+                <!-- <td id="Applied">{{ item.Applied }}</td> -->
+                <td id="Applied">
+                  <input type="checkbox" class="form-check-control" />
+                </td>
+                <td id="DateDue">{{ item.DateDue }}</td>
+                <td id="RefNo">{{ item.JournalNo }}</td>
+                <td id="Description">{{ item.CustMsg }}</td>
+                <td id="TotalAmount">{{ item.TotalAmt }}</td>
+                <td id="AmountDue">{{ item.AmtDue }}</td>
+                <td id="Credits">{{ item.Credits }}</td>
+                <td id="Payment">{{ item.Payment }}</td>
+                <!-- <td id="1" style="cursor: pointer; font-weight: bold">Show</td> -->
+              </tr>
+            </tbody>
+          </table>
+          <!-- <ng-container *ngFor="let item of items">
+            <tr>
+              <td>{{ item.ItemName }}</td>
+              <td>{{ item.location | titlecase }}</td>
+              <td>{{ item.location }}</td>
+              <td>{{ item.location }}</td>
+              <td>{{ item.dates.startdate }}</td>
+              <td><button class="btn btn-outline-dark">Details</button></td>
+              <!- (click)="modalService.open();" ->
+            </tr>
+          </ng-container> -->
+        </div>
+
+        <div class="col-12 mt-4">
+          <button class="btn btn-primary text-uppercase" type="submit">
+            PAY BILL<i class="fa fa-plane ms-3"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="resultDialog"
+  [style]="{ width: '500px' }"
+  header="Choose Action"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <button
+      pButton
+      pRipple
+      label="Download Invoice"
+      icon="pi pi-download"
+      class="p-button-text"
+      (click)="payExpenseForm.valid ? generatePDF('download') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Print Invoice"
+      icon="pi pi-print"
+      class="p-button-text"
+      (click)="payExpenseForm.valid ? generatePDF('print') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Open Invoice"
+      icon="pi pi-file-pdf"
+      class="p-button-text"
+      (click)="payExpenseForm.valid ? generatePDF() : ''"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

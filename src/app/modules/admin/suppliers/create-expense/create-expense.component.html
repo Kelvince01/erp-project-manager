@@ -1,51 +1,52 @@
 <div class="container">
   <div class="card mt-0">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form #expenseForm="ngForm">
       <div class="row g-3">
-        <div class="col-12 mb-4">
+        <div class="col-12 mb-2">
           <h4>Create Expense</h4>
-          <span class="text-muted"
-            >Please make the payment to start enjoying all the features of our
-            premium plan as soon as possible</span
-          >
+          <span class="text-muted">Enter all required fields *</span>
         </div>
-        <div class="col-lg-6 col-md-6">
+        <div class="col-lg-6 col-md-6 disabledDiv">
           <div class="form-floating">
             <select
               class="form-select"
-              formControlName="adults"
-              [ngClass]="{ 'is-invalid': submitted && f.adults.errors }"
+              id="AccountID"
+              name="AccountID"
+              [(ngModel)]="invoice.AccountID"
+              #AccountID="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && AccountID.errors }"
             >
-              <option selected="" hidden="">Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option
+                *ngFor="let account of accounts"
+                [ngValue]="account.AccountID"
+              >
+                {{ account.AccountNo }}
+              </option>
             </select>
-            <div *ngIf="submitted && f.adults.errors" class="invalid-feedback">
-              <div *ngIf="f.adults.errors.required">ADULTS is required.</div>
+            <div *ngIf="submitted && AccountID.errors" class="invalid-feedback">
+              <div *ngIf="AccountID.errors['required']">
+                Account is required.
+              </div>
             </div>
             <label>Account</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6">
+        <div class="col-lg-6 col-md-6 disabledDiv">
           <div class="form-floating">
             <select
               class="form-select"
-              formControlName="children"
-              [ngClass]="{ 'is-invalid': submitted && f.children.errors }"
+              id="ClassID"
+              name="ClassID"
+              [(ngModel)]="invoice.ClassID"
+              #ClassID="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && ClassID.errors }"
             >
-              <option selected="" hidden="">Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option *ngFor="let cot of classOfTrans" [ngValue]="cot.ClassID">
+                {{ cot.ClassOfTrans }}
+              </option>
             </select>
-            <div
-              *ngIf="submitted && f.children.errors"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f.children.errors.required">
-                CHILDREN is required.
-              </div>
+            <div *ngIf="submitted && ClassID.errors" class="invalid-feedback">
+              <div *ngIf="ClassID.errors['required']">Class is required.</div>
             </div>
             <label>Class</label>
           </div>
@@ -54,20 +55,28 @@
           <div class="form-floating">
             <select
               class="form-select"
-              formControlName="children"
-              [ngClass]="{ 'is-invalid': submitted && f.children.errors }"
+              id="SupplierID"
+              name="SupplierID"
+              [(ngModel)]="invoice.SupplierID"
+              #SupplierID="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && SupplierID.errors }"
+              (change)="selectChangeHandler($event)"
             >
-              <option selected="" hidden="">Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option [ngValue]="null" disabled>Select Supplier</option>
+              <option
+                *ngFor="let supplier of suppliers"
+                [ngValue]="supplier.EmployeeID"
+                [value]="supplier.EmployeeID"
+              >
+                {{ supplier.FirstName }} {{ supplier.Surname }}
+              </option>
             </select>
             <div
-              *ngIf="submitted && f.children.errors"
+              *ngIf="submitted && SupplierID.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.children.errors.required">
-                CHILDREN is required.
+              <div *ngIf="SupplierID.errors['required']">
+                Supplier is required.
               </div>
             </div>
             <label>Supplier</label>
@@ -75,101 +84,408 @@
         </div>
         <div class="col-lg-6 col-md-6">
           <div class="form-floating">
-            <input
-              type="text"
-              placeholder="FLYING FROM"
-              formControlName="ffrom"
-              class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.ffrom.errors }"
-            />
-            <div *ngIf="submitted && f.ffrom.errors" class="invalid-feedback">
-              <div *ngIf="f.ffrom.errors.required">
-                FLYING FROM is required.
+            <select
+              class="form-select"
+              id="ProjectID"
+              name="ProjectID"
+              [(ngModel)]="invoice.ProjectID"
+              #ProjectID="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && ProjectID.errors }"
+            >
+              <option [ngValue]="null" disabled>Select Project</option>
+              <option
+                *ngFor="let project of projects"
+                [ngValue]="project.ProjectID"
+              >
+                {{ project.ProjectName }}
+              </option>
+            </select>
+            <div *ngIf="submitted && ProjectID.errors" class="invalid-feedback">
+              <div *ngIf="ProjectID.errors['required']">
+                Project is required.
               </div>
             </div>
-            <label></label>
+            <label>Project</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="text"
-              placeholder="FLYING TO"
-              formControlName="fto"
+              placeholder="Amount Total"
+              id="AmountTotal"
+              name="AmountTotal"
+              [(ngModel)]="invoice.AmountTotal"
+              #AmountTotal="ngModel"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.fto.errors }"
+              readonly
+              [ngClass]="{ 'is-invalid': submitted && AmountTotal.errors }"
             />
-            <div *ngIf="submitted && f.fto.errors" class="invalid-feedback">
-              <div *ngIf="f.fto.errors.required">FLYING TO is required.</div>
+            <div
+              *ngIf="submitted && AmountTotal.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="AmountTotal.errors['required']">
+                Amount total is required.
+              </div>
             </div>
-            <label>Total Amount</label>
+            <label>Amount Total</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Address"
+              id="Address"
+              name="Address"
+              [(ngModel)]="invoice.Address"
+              #Address="ngModel"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && Address.errors }"
+            />
+            <div *ngIf="submitted && Address.errors" class="invalid-feedback">
+              <div *ngIf="Address.errors['required']">Address is required.</div>
+            </div>
+            <label>Address</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Ref No"
+              id="RefNo"
+              name="RefNo"
+              [(ngModel)]="invoice.RefNo"
+              #RefNo="ngModel"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && RefNo.errors }"
+            />
+            <div *ngIf="submitted && RefNo.errors" class="invalid-feedback">
+              <div *ngIf="RefNo.errors['required']">Ref No is required.</div>
+            </div>
+            <label>Ref No</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="date"
-              placeholder="DEPARTING"
-              formControlName="dparting"
+              placeholder="Date"
+              id="Date"
+              name="Date"
+              [(ngModel)]="invoice.Date"
+              #Date="ngModel"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.dparting.errors }"
+              [ngClass]="{ 'is-invalid': submitted && Date.errors }"
             />
-            <div
-              *ngIf="submitted && f.dparting.errors"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f.dparting.errors.required">
-                DEPARTING is required.
-              </div>
+            <div *ngIf="submitted && Date.errors" class="invalid-feedback">
+              <div *ngIf="Date.errors['required']">Date is required.</div>
             </div>
-            <label>DEPARTING</label>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-          <div class="form-floating">
-            <input
-              type="date"
-              placeholder="RETURNING"
-              formControlName="returning"
-              class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.returning.errors }"
-            />
-            <div
-              *ngIf="submitted && f.returning.errors"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f.returning.errors.required">
-                RETURNING is required.
-              </div>
-            </div>
-            <label>RETURNING</label>
+            <label>Date</label>
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-12">
+        <div class="col-lg-6 col-md-12">
           <div class="form-floating">
-            <select
-              class="form-select"
-              formControlName="travel"
-              [ngClass]="{ 'is-invalid': submitted && f.travel.errors }"
-            >
-              <option selected="" hidden="">Open this select menu</option>
-              <option value="1">Economy</option>
-              <option value="2">Premium</option>
-              <option value="3">Business</option>
-            </select>
-            <div *ngIf="submitted && f.travel.errors" class="invalid-feedback">
-              <div *ngIf="f.travel.errors.required">TRAVEL is required.</div>
+            <textarea
+              placeholder="Memo"
+              id="Memo"
+              name="Memo"
+              [(ngModel)]="invoice.Memo"
+              #Memo="ngModel"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && Memo.errors }"
+            ></textarea>
+            <div *ngIf="submitted && Memo.errors" class="invalid-feedback">
+              <div *ngIf="Memo.errors['required']">Memo is required.</div>
             </div>
-            <label>TRAVEL CLASS</label>
+            <label>Memo</label>
           </div>
         </div>
+
+        <div class="col-lg-12 col-md-12">
+          <div class="card border-secondary mt-2">
+            <div class="card-body">
+              <h4 class="card-title d-flex justify-content-between">
+                Item Details
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="addProduct()"
+                >
+                  +
+                </button>
+              </h4>
+              <div class="row">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Item Name</th>
+                      <th>Qty</th>
+                      <th>Rate (Ksh)</th>
+                      <th>Amount</th>
+                      <th>Tax</th>
+                      <th>Tax</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let product of invoice.products; let i = index">
+                      <td scope="row">
+                        <select
+                          class="form-select"
+                          id="ItemName"
+                          name="ItemName{{ i }}"
+                          [(ngModel)]="product.ItemName"
+                          #ItemName="ngModel"
+                          [ngClass]="{
+                            'is-invalid': submitted && ItemName.errors
+                          }"
+                          (change)="itemSelectChangeHandler($event, i)"
+                        >
+                          <option [ngValue]="null" disabled>Select Item</option>
+                          <option
+                            *ngFor="let item of items"
+                            [ngValue]="item.ItemName"
+                            [value]="item.ItemName"
+                          >
+                            {{ item.ItemName }}
+                          </option>
+                        </select>
+
+                        <!-- <input
+                          type="text"
+                          class="form-control"
+                          name="ItemName{{ i }}"
+                          [ngClass]="{
+                            'is-invalid':
+                              expenseForm.submitted && ItemName.invalid
+                          }"
+                          id="ItemName"
+                          [(ngModel)]="product.ItemName"
+                          #ItemName="ngModel"
+                          required
+                        /> -->
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="Quantity{{ i }}"
+                          id="Quantity"
+                          [ngClass]="{
+                            'is-invalid':
+                              expenseForm.submitted && Quantity.invalid
+                          }"
+                          [(ngModel)]="product.Quantity"
+                          #Quantity="ngModel"
+                          required
+                          (change)="calcTotal($event)"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          class="form-control disabledDiv"
+                          name="Rate{{ i }}"
+                          id="Rate"
+                          [ngClass]="{
+                            'is-invalid': expenseForm.submitted && Rate.invalid
+                          }"
+                          [(ngModel)]="product.Rate"
+                          #Rate="ngModel"
+                          required
+                          readonly
+                          (change)="calcTotal($event)"
+                        />
+                      </td>
+                      <td>
+                        <div class="disabledDiv">
+                          {{ product.Rate! * product.Quantity! || "" }}
+                        </div>
+                      </td>
+                      <td>0.00</td>
+                      <td>0.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- <button
+            class="btn btn-primary text-uppercase"
+            type="button"
+            (click)="openNewItem()"
+          >
+            ADD ITEM<i class="fa fa-plus ms-3"></i>
+          </button> -->
+          <!-- <table class="table table-hover table-responsive">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Qty</th>
+                <th>Rate (Ksh)</th>
+                <th>Amount</th>
+                <th>Tax</th>
+                <th>Tax</th>
+                <!- <th>Project Name</th> ->
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table" *ngFor="let item of itemData">
+                <td id="ItemName">{{ item.ItemName }}</td>
+                <td id="Quantity">{{ item.Quantity }}</td>
+                <td id="Rate">{{ item.Rate }}</td>
+                <td id="Amount">{{ item.Amount }}</td>
+                <td id="Tax">{{ item.Tax }}</td>
+                <td id="Tax">{{ item.Tax }}</td>
+                <!- <td id="ProjectName">{{ item.project.ProjectName }}</td> ->
+              </tr>
+            </tbody>
+          </table> -->
+        </div>
+
         <div class="col-12 mt-4">
-          <button class="btn btn-primary text-uppercase" type="submit">
+          <button
+            class="btn btn-primary text-uppercase"
+            type="submit"
+            (click)="expenseForm.valid ? onSubmit() : ''"
+          >
             CREATE EXPENSE<i class="fa fa-plane ms-3"></i>
           </button>
+          <a routerLink="/admin/suppliers" class="btn btn-link">Cancel</a>
         </div>
       </div>
     </form>
   </div>
 </div>
+
+<p-dialog
+  [(visible)]="resultDialog"
+  [style]="{ width: '500px' }"
+  header="Choose Action"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <button
+      pButton
+      pRipple
+      label="Download Invoice"
+      icon="pi pi-download"
+      class="p-button-text"
+      (click)="expenseForm.valid ? generatePDF('download') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Print Invoice"
+      icon="pi pi-print"
+      class="p-button-text"
+      (click)="expenseForm.valid ? generatePDF('print') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Open Invoice"
+      icon="pi pi-file-pdf"
+      class="p-button-text"
+      (click)="expenseForm.valid ? generatePDF() : ''"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="itemDialog"
+  [style]="{ width: '450px' }"
+  header="Add Item"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="field mb-2">
+      <label for="ItemID">Item Name</label>
+      <p-dropdown
+        [(ngModel)]="item.ItemID"
+        inputId="ItemID"
+        [options]="items"
+        placeholder="Select Item"
+      >
+        <ng-template let-option pTemplate="item">
+          <span>{{ option.ItemName }}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="field mb-2">
+      <label for="name">Quantity</label>
+      <input
+        type="number"
+        pInputText
+        id="Quantity"
+        [(ngModel)]="item.Quantity"
+        required
+        autofocus
+      />
+      <small class="p-error" *ngIf="submittedItem && !item.Quantity"
+        >Quantity is required.</small
+      >
+    </div>
+
+    <div class="field mb-2">
+      <label for="Rate">Rate</label>
+      <input
+        type="number"
+        id="Rate"
+        pInputText
+        [(ngModel)]="item.Rate"
+        required
+      />
+    </div>
+
+    <div class="field mb-2">
+      <label for="Tax">Amount</label>
+      <p-inputNumber
+        id="Amount"
+        [(ngModel)]="item.Amount"
+        mode="currency"
+        currency="KSH"
+        locale="en-KE"
+      ></p-inputNumber>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col mb-2">
+        <label for="Tax">Tax</label>
+        <p-inputNumber id="Tax" [(ngModel)]="item.Tax"></p-inputNumber>
+      </div>
+      <div class="field col mb-2">
+        <label for="Tax">Tax</label>
+        <p-inputNumber id="Tax" [(ngModel)]="item.Tax"></p-inputNumber>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveProduct()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
