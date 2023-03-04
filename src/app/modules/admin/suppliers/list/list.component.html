@@ -1,4 +1,4 @@
-<p-tabView>
+<p-tabView [(activeIndex)]="index">
   <p-tabPanel header="Suppliers" leftIcon="pi pi-calendar" tooltip="1972">
     <div class="row">
       <button
@@ -122,6 +122,7 @@
   </p-tabPanel>
   <p-tabPanel header="Create Expense" rightIcon="pi pi-inbox" tooltip="1974">
     <!-- <app-receive-bill></app-receive-bill> -->
+    <!-- (newItemEvent)="addItem($event)" -->
     <app-create-expense></app-create-expense>
   </p-tabPanel>
   <p-tabPanel
@@ -130,7 +131,7 @@
     rightIcon="pi pi-star-fill"
     tooltip="1990"
   >
-    <app-pay-bill></app-pay-bill>
+    <app-pay-bill [tabIndex]="index" [invoice]="invoice"></app-pay-bill>
   </p-tabPanel>
   <p-tabPanel
     header="Receive Debit Note"

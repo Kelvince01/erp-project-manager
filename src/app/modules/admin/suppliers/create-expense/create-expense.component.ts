@@ -1,6 +1,6 @@
 import { IAccount } from '@models/account.model';
 import { EmployeesService } from '@services/employees.service';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { ClassOfTransactionService } from '@services/class-of-transaction.service';
 import { BankingService } from '@services/banking.service';
 import { JournalsService } from '@services/journals.service';
@@ -22,7 +22,7 @@ import { IJournal } from '@models/journal.model';
 import { IAccountPosting } from '@models/account-posting.model';
 // import {DOCUMENT} from '@angular/platform-browser';
 
-class Product {
+export class Product {
   ItemName?: string;
   ItemID?: number;
   Description?: string;
@@ -33,7 +33,7 @@ class Product {
   CurrentRate?: number;
 }
 
-class Invoice {
+export class Invoice {
   AccountID?: number;
   ClassID?: number;
   SupplierID?: number;
@@ -86,6 +86,10 @@ export class CreateExpenseComponent implements OnInit {
   user: any;
   ItemByName: any;
 
+  @Output() index = new EventEmitter<number>();
+  @Output() indexValue: number = 0;
+  @Output() newItemEvent = new EventEmitter<Invoice>();
+
   constructor(
     private supplierService: EmployeesService,
     private classOfTransService: ClassOfTransactionService,
@@ -117,13 +121,11 @@ export class CreateExpenseComponent implements OnInit {
 
     this.invoice.RefNo = this.createId();
     this.invoice.JournalNo = this.createId();
-
-    // console.log(this.invoice);
+    this.invoice.Date = new Date();
   }
 
   onSubmit() {
     this.submitted = true;
-    // console.log(this.invoice);
 
     let data: IJournal = {
       JournalNo: this.invoice.JournalNo,
@@ -193,7 +195,7 @@ export class CreateExpenseComponent implements OnInit {
       DepartmentID: 1,
       GrantID: 1,
       ObjectiveID: 1,
-      // [Level:]	0,
+      Level: 0,
       Authorised: true,
       Stamped: true,
       CheckedStatusID: 3,
@@ -236,7 +238,7 @@ export class CreateExpenseComponent implements OnInit {
         ProjectID: this.invoice.ProjectID,
         PatientID: 0,
         GrantID: 0,
-        // [Level:]	1,
+        Level: 1,
         AmtDue: 0,
         QuanBal: 0,
       };
@@ -337,6 +339,13 @@ export class CreateExpenseComponent implements OnInit {
       });
 
     this.afterResult();
+    // this.openNext();
+  }
+
+  openNext() {
+    this.indexValue = this.indexValue === 2 ? 0 : this.indexValue + 1;
+    this.index.emit(this.indexValue);
+    this.newItemEvent.emit(this.invoice);
   }
 
   openNewItem() {
@@ -576,6 +585,7 @@ export class CreateExpenseComponent implements OnInit {
     }
 
     this.resultDialog = false;
+    this.openNext();
     this.invoice = { products: [new Product()] };
   }
 
