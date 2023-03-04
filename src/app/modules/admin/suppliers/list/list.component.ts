@@ -4,7 +4,7 @@ import { UpsertComponent } from './../items/upsert/upsert.component';
 import { MessageService } from 'primeng/api';
 import { AddClassOfTransComponent } from './../add-class-of-trans/add-class-of-trans.component';
 import { ISupplier } from '@models/supplier.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { first } from 'rxjs';
 import { Paginated } from '@feathersjs/feathers';
 import { EmployeesService } from '@services/employees.service';
@@ -13,6 +13,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IClassOfTransaction } from '@models/class-of-transaction.model';
 import { IItem } from '@models/item.model';
 import { IITemStatus } from '@models/item-status.model';
+import { Invoice } from '../create-expense/create-expense.component';
 
 @Component({
   selector: 'app-list-suppliers',
@@ -22,6 +23,8 @@ import { IITemStatus } from '@models/item-status.model';
 export class ListComponent implements OnInit {
   suppliers: ISupplier[] = [];
   selectedSuppliers: ISupplier[] = [];
+  @Input() index: number = 0;
+  @Input() invoice = new Invoice();
 
   constructor(
     private suppliersService: EmployeesService,

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAccount } from '@models/account.model';
 import { IClassOfTransaction } from '@models/class-of-transaction.model';
@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { DOCUMENT } from '@angular/common';
 import { IPaymentMethod } from '@models/payment-method.model';
+import { Invoice } from '../create-expense/create-expense.component';
 
 @Component({
   selector: 'app-pay-bill',
@@ -41,6 +42,9 @@ export class PayBillComponent implements OnInit {
   user: any;
   refNo: any;
   amountTotal: any;
+
+  // @Input() invoice?: Invoice;
+  @Input() invoice = new Invoice();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -162,7 +166,7 @@ export class PayBillComponent implements OnInit {
       DepartmentID: 1,
       GrantID: 1,
       ObjectiveID: 1,
-      // [Level:]	0,
+      Level: 0,
       Authorised: true,
       Stamped: true,
       CheckedStatusID: 3,
@@ -206,7 +210,7 @@ export class PayBillComponent implements OnInit {
         ClassID: 2,
         Approved: true,
         GrantID: 1,
-        //: [Level,	0	0
+        Level: 0,
         isBudget: false,
         ProjectID: journal.ProjectID,
         ObjectiveID: 0,
@@ -422,6 +426,37 @@ export class PayBillComponent implements OnInit {
         {
           text: 'Billed',
           style: 'sectionHeader',
+        },
+        {
+          columns: [
+            [
+              {
+                text: `Project: ${this.invoice?.ProjectID}`,
+                bold: true,
+              },
+              { text: `Class: ${this.invoice?.ClassID}` },
+              { text: `Supplier: ${this.invoice?.SupplierID}` },
+              { text: `Amount: ${this.invoice?.AmountTotal}` },
+              {
+                text: `Address: ${this.invoice?.Address}`,
+                margin: [0, 0, 0, 10],
+              },
+            ],
+            [
+              {
+                text: `Expenses Report: ${(Math.random() * 1000).toFixed(0)}`,
+                alignment: 'right',
+              },
+              {
+                text: `Date : ${new Date().toLocaleString()}`,
+                alignment: 'right',
+              },
+              {
+                text: `Currency : ${'Kenya Shillings'}`,
+                alignment: 'right',
+              },
+            ],
+          ],
         },
         {
           table: {
