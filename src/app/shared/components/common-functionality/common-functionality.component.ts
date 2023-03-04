@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-common-functionality',
-  templateUrl: './common-functionality.component.html',
+  template: '<div></div>',
   styleUrls: ['./common-functionality.component.css'],
 })
 export class CommonFunctionalityComponent implements OnInit {

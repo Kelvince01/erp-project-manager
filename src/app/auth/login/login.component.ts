@@ -1,7 +1,5 @@
 import { first } from 'rxjs';
-import { LocalService } from './../../shared/services/local.service';
 import { IRole } from '@models/role.model';
-import { RolesService } from './../../data/services/roles.service';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -17,6 +15,8 @@ import { AuthService } from '@services/auth.service';
 import { MessageService } from 'primeng/api';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { IUser } from '@models/user.model';
+import { LocalService } from '@shared/services/local.service';
+import { RolesService } from '@services/roles.service';
 
 @Component({
   selector: 'app-login',

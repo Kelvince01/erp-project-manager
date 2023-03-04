@@ -8,9 +8,13 @@ import { AuthService } from '@services/auth.service';
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent {
+  user: any;
+
   constructor(private router: Router, private accountService: AuthService) {
     // redirect to home if already logged in
-    if (this.accountService.isAuthenticated()) {
+    this.user = accountService.userValue as any;
+
+    if (this.user) {
       this.router.navigate(['/']);
     }
   }

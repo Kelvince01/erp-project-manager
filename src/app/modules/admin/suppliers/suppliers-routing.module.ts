@@ -1,4 +1,3 @@
-import { ReceiveBillComponent } from './receive-bill/receive-bill.component';
 import { ReceiveRefundComponent } from './receive-refund/receive-refund.component';
 import { ReceiveDebitNoteComponent } from './receive-debit-note/receive-debit-note.component';
 import { SuppliersComponent } from './suppliers.component';
@@ -23,10 +22,6 @@ const routes: Routes = [
       {
         path: 'edit/:id',
         component: UpsertComponent,
-      },
-      {
-        path: 'receive-bill',
-        component: ReceiveBillComponent,
       },
       {
         path: 'receive-debit-note',

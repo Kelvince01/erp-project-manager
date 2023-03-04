@@ -7,7 +7,6 @@ import { SuppliersComponent } from './suppliers.component';
 import { ListComponent } from './list/list.component';
 import { UpsertComponent } from './upsert/upsert.component';
 import { UpsertComponent as UpsertItemComponent } from './items/upsert/upsert.component';
-import { ReceiveBillComponent } from './receive-bill/receive-bill.component';
 import { PayBillComponent } from './pay-bill/pay-bill.component';
 import { ReceiveDebitNoteComponent } from './receive-debit-note/receive-debit-note.component';
 import { ReceiveRefundComponent } from './receive-refund/receive-refund.component';
@@ -21,7 +20,6 @@ import { AddTypeComponent } from './items/add-type/add-type.component';
     SuppliersComponent,
     ListComponent,
     UpsertComponent,
-    ReceiveBillComponent,
     PayBillComponent,
     ReceiveDebitNoteComponent,
     ReceiveRefundComponent,

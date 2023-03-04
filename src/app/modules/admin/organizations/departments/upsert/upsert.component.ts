@@ -1,10 +1,10 @@
-import { CompanyInfoService } from '../../../../../data/services/company-info.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { selectDepartmentById } from '@departments-store/department.selector';
 import { select, Store } from '@ngrx/store';
+import { CompanyInfoService } from '@services/company-info.service';
 import { first, switchMap } from 'rxjs';
-import { selectDepartmentById } from 'src/app/data/departments/department.selector';
 import {
   invokeSaveNewDepartmentAPI,
   invokeUpdateDepartmentAPI,

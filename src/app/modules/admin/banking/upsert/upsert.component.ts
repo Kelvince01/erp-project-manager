@@ -1,8 +1,5 @@
 import { UpsertAccountTypeComponent } from './../upsert-account-type/upsert-account-type.component';
-import { IMainAccount } from './../../../../data/models/main-account.model';
 import { ICurrency } from '@models/currency.model';
-import { IAccountType } from './../../../../data/models/account-type.model';
-import { BankingService } from './../../../../data/services/banking.service';
 import { MessageService } from 'primeng/api';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +8,9 @@ import { MustMatch } from '@utils/must-match.validator';
 import { first } from 'rxjs';
 import { CurrenciesService } from '@services/currencies.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { IAccountType } from '@models/account-type.model';
+import { IMainAccount } from '@models/main-account.model';
+import { BankingService } from '@services/banking.service';
 
 @Component({
   selector: 'app-upsert',

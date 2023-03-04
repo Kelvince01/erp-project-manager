@@ -23,7 +23,6 @@ export class FooterComponent implements OnInit {
 
   subscribe() {
     if (this.newsletterForm.valid) {
-      // console.log(this.newsletterForm.value);
     }
   }
 }

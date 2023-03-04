@@ -174,27 +174,4 @@
   </p-footer>
 </p-dialog>
 
-<!-- <span class="count"
-  >Number of users online: {{ (users$ | async)?.length }}</span
->
-<div class="user thumbail" *ngFor="let user of users$ | async">
-  <button
-    type="button"
-    class="close"
-    aria-label="Close"
-    (click)="deleteUser(user)"
-  >
-    <span aria-hidden="true">&times;</span></button
-  ><br />
-  <img
-    class="img-circle center-block"
-    src="assets/images/default-profile.png"
-  /><br />
-  <div class="info">
-    <span><strong>Name: </strong>{{ user.FirstName }}</span>
-    <span><strong>Email: </strong>{{ user.Email }}</span>
-  </div>
-  <a class="btn btn-default">Hire {{ user.FirstName }}</a>
-</div> -->
-
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

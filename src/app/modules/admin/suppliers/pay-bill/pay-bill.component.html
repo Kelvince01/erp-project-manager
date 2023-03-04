@@ -106,7 +106,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="text"
@@ -121,7 +121,7 @@
             <label>Ref No</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="date"
@@ -137,7 +137,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="date"
@@ -165,13 +165,15 @@
               [ngClass]="{
                 'is-invalid': submitted && f.PaymentMethodID.errors
               }"
+              (change)="itemSelectChangeHandler($event)"
             >
               <option [ngValue]="null" disabled>Select Payment Method</option>
               <option
-                *ngFor="let project of paymentMethods"
-                [ngValue]="project.ProjectID"
+                *ngFor="let payment of paymentMethods"
+                [ngValue]="payment.PymtMethodID"
+                [value]="payment.PymtMethodID"
               >
-                <!-- {{ project.ProjectName }} -->
+                {{ payment.PymtMethod }}
               </option>
             </select>
             <div
@@ -185,7 +187,8 @@
             <label>Payment Method</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12" *ngIf="isCheque">
+
+        <div class="col-lg-6 col-md-6" *ngIf="isCheque">
           <div class="form-floating">
             <input
               type="text"
@@ -196,7 +199,7 @@
             <label>Cheque No</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12" *ngIf="isCheque">
+        <div class="col-lg-6 col-md-6" *ngIf="isCheque">
           <div class="form-check form-check-inline mb-3">
             <input
               class="form-check-input"
@@ -212,7 +215,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="text"
@@ -223,7 +226,7 @@
             <label>Unpaid Amount Due</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="text"
@@ -234,7 +237,7 @@
             <label>Unused Credits</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <input
               type="text"
@@ -245,7 +248,8 @@
             <label>Credits BF</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-12">
+
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <textarea formControlName="Memo" class="form-control"></textarea>
             <label>Memo</label>
@@ -267,36 +271,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="table">
-                <td id="firstname1">Fuel</td>
-                <td id="lastname1">2</td>
-                <td id="email1">1.0</td>
-                <td id="email1">10,000</td>
-                <td id="email1">1</td>
-                <td id="email1">1</td>
-                <td id="email1">Construction</td>
-                <td id="email1">Construction</td>
+              <tr class="table" *ngFor="let item of journals">
+                <!-- <td id="Applied">{{ item.Applied }}</td> -->
+                <td id="Applied">
+                  <input type="checkbox" class="form-check-control" />
+                </td>
+                <td id="DateDue">{{ item.DateDue }}</td>
+                <td id="RefNo">{{ item.JournalNo }}</td>
+                <td id="Description">{{ item.CustMsg }}</td>
+                <td id="TotalAmount">{{ item.TotalAmt }}</td>
+                <td id="AmountDue">{{ item.AmtDue }}</td>
+                <td id="Credits">{{ item.Credits }}</td>
+                <td id="Payment">{{ item.Payment }}</td>
                 <!-- <td id="1" style="cursor: pointer; font-weight: bold">Show</td> -->
-              </tr>
-              <tr class="table">
-                <td id="firstname1">Fuel</td>
-                <td id="lastname1">2</td>
-                <td id="email1">1.0</td>
-                <td id="email1">10,000</td>
-                <td id="email1">1</td>
-                <td id="email1">1</td>
-                <td id="email1">Construction</td>
-                <td id="email1">Construction</td>
-              </tr>
-              <tr class="table">
-                <td id="firstname1">Fuel</td>
-                <td id="lastname1">2</td>
-                <td id="email1">1.0</td>
-                <td id="email1">10,000</td>
-                <td id="email1">1</td>
-                <td id="email1">1</td>
-                <td id="email1">Construction</td>
-                <td id="email1">Construction</td>
               </tr>
             </tbody>
           </table>

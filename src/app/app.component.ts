@@ -7,12 +7,6 @@ import { SeoService } from '@shared/services/seo.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { filter, map, mergeMap } from 'rxjs';
 
-// import * as $ from 'jquery';
-
-// window['$'] = window['jQuery'] = $;
-
-// "node_modules/@popperjs/core/dist/esm/popper.min.js",
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

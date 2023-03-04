@@ -2,8 +2,17 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-page-not-found',
-  templateUrl: './page-not-found.component.html',
-  styleUrls: ['./page-not-found.component.css'],
+  template: `<div class="container text-center">
+    <h2>{{ title }}</h2>
+    <img
+      alt="Page not found"
+      class="img-responsive"
+      src="assets/images/404-Page-Not-Found.png"
+      class="text-center"
+    />
+    <h4>{{ message }}</h4>
+  </div>`,
+  styles: [''],
 })
 export class PageNotFoundComponent implements OnInit {
   title!: string;
