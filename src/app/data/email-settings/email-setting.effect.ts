@@ -56,7 +56,7 @@ export class EmailSettingsEffect {
         if (emailSettingFormStore.length > 0) {
           return EMPTY;
         }
-        return this.emailSettingsService.get().pipe(
+        return this.emailSettingsService.emailSettings$().pipe(
           retry(2),
           // map((response: Paginated<any>) => response.data)
           map((data: Paginated<any>) =>

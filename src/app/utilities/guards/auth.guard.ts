@@ -1,3 +1,4 @@
+import { MessageService } from 'primeng/api';
 import { Injectable } from '@angular/core';
 import {
   Router,
@@ -21,7 +22,11 @@ export class AuthGuard
   // result = new Subject<boolean>();
   result: boolean = false;
 
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private toastService: MessageService
+  ) {}
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -66,6 +71,11 @@ export class AuthGuard
         // () => this.checkUserLogin(route, url)
       )
       .catch(() => {
+        this.toastService.add({
+          severity: 'error',
+          summary: 'Access denied',
+          detail: 'Please login to continue access',
+        });
         this.router.navigate(['/accounts/login']);
         return false;
       });

@@ -1,4 +1,4 @@
-<p-table [value]="users" dataKey="FirstName" editMode="row">
+<p-table [value]="users" dataKey="FirstName">
   <!-- [value]="users$ | async"  -->
   <ng-template pTemplate="caption">
     List of Users
@@ -27,12 +27,7 @@
       <th>Actions</th>
     </tr>
   </ng-template>
-  <ng-template
-    pTemplate="body"
-    let-rowData
-    let-editing="editing"
-    let-ri="rowIndex"
-  >
+  <ng-template pTemplate="body" let-rowData>
     <tr [pEditableRow]="rowData">
       <td>
         {{ rowData.Username }}
@@ -41,14 +36,7 @@
         {{ rowData.FirstName }}
       </td>
       <td>
-        <p-cellEditor>
-          <ng-template pTemplate="input">
-            <input pInputText type="text" [(ngModel)]="rowData.Surname" />
-          </ng-template>
-          <ng-template pTemplate="output">
-            {{ rowData.Surname }}
-          </ng-template>
-        </p-cellEditor>
+        {{ rowData.Surname }}
       </td>
       <td>
         {{ rowData.Surname }}
@@ -57,14 +45,7 @@
         {{ rowData.Surname }}
       </td>
       <td>
-        <p-cellEditor>
-          <ng-template pTemplate="input">
-            <input pInputText type="text" [(ngModel)]="rowData.Email" />
-          </ng-template>
-          <ng-template pTemplate="output">
-            {{ rowData.Email }}
-          </ng-template>
-        </p-cellEditor>
+        {{ rowData.Email }}
       </td>
       <td style="text-align: center">
         <p-button
@@ -76,7 +57,6 @@
         <!-- style="margin-right: 0.5em" -->
 
         <button
-          *ngIf="!editing"
           pButton
           type="button"
           pInitEditableRow
@@ -85,7 +65,6 @@
           (click)="onRowEditInit(rowData)"
         ></button>
         <button
-          *ngIf="editing"
           pButton
           type="button"
           pSaveEditableRow
@@ -96,13 +75,12 @@
         <!-- style="margin-right: 0.5em" -->
 
         <button
-          *ngIf="editing"
           pButton
           type="button"
           pCancelEditableRow
           icon="pi pi-times"
           class="ui-button-danger"
-          (click)="onRowEditCancel(rowData, ri)"
+          (click)="onRowEditCancel(rowData)"
         ></button>
       </td>
     </tr>

@@ -1,4 +1,3 @@
-import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -14,6 +13,7 @@ import { CreateExpenseComponent } from './create-expense/create-expense.componen
 import { AddClassOfTransComponent } from './add-class-of-trans/add-class-of-trans.component';
 import { AddStatusComponent } from './items/add-status/add-status.component';
 import { AddTypeComponent } from './items/add-type/add-type.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [

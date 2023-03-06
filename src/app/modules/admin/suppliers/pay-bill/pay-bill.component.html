@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container-fluid">
   <div class="card mt-0">
-    <form [formGroup]="payExpenseForm" (ngSubmit)="onSubmit()">
+    <form #payExpenseForm="ngForm">
       <div class="row g-3">
         <div class="col-12 mb-2">
           <h4>Pay Bill</h4>
@@ -11,8 +11,11 @@
           <div class="form-floating">
             <select
               class="form-select"
-              formControlName="AccountID"
-              [ngClass]="{ 'is-invalid': submitted && f.AccountID.errors }"
+              id="AccountID"
+              name="AccountID"
+              [ngModel]="invoice.AccountID"
+              #AccountID="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && AccountID.errors }"
             >
               <option
                 *ngFor="let account of accounts"
@@ -21,11 +24,8 @@
                 {{ account.AccountNo }}
               </option>
             </select>
-            <div
-              *ngIf="submitted && f.AccountID.errors"
-              class="invalid-feedback"
-            >
-              <div *ngIf="f.AccountID.errors.required">
+            <div *ngIf="submitted && AccountID.errors" class="invalid-feedback">
+              <div *ngIf="AccountID.errors['required']">
                 Account is required.
               </div>
             </div>
@@ -36,55 +36,63 @@
           <div class="form-floating">
             <select
               class="form-select"
-              formControlName="SupplierID"
-              [ngClass]="{ 'is-invalid': submitted && f.SupplierID.errors }"
+              name="SupplierID"
+              [ngModel]="invoice.SupplierID"
+              #SupplierID="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && SupplierID.errors }"
+              (change)="selectChangeHandler($event)"
             >
               <option [ngValue]="null" disabled>Select Supplier</option>
               <option
                 *ngFor="let supplier of suppliers"
                 [ngValue]="supplier.EmployeeID"
+                [value]="supplier.EmployeeID"
               >
-                {{ supplier.FirstName }} {{ supplier.Surname }}
+                {{ supplier.CompanyName }} {{ supplier.Surname }}
               </option>
             </select>
             <div
-              *ngIf="submitted && f.SupplierID.errors"
+              *ngIf="submitted && SupplierID.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.SupplierID.errors.required">
+              <div *ngIf="SupplierID.errors['required']">
                 Supplier is required.
               </div>
             </div>
             <label>Supplier</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6">
+        <div class="col-lg-6 col-md-6 disabledDiv">
           <div class="form-floating">
             <input
               type="text"
               placeholder="Amount Paid"
-              formControlName="AmountPaid"
+              name="AmountPaid"
+              [ngModel]="invoice.AmountPaid"
+              #AmountPaid="ngModel"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.AmountPaid.errors }"
+              [ngClass]="{ 'is-invalid': submitted && AmountPaid.errors }"
             />
             <div
-              *ngIf="submitted && f.AmountPaid.errors"
+              *ngIf="submitted && AmountPaid.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.AmountPaid.errors.required">
+              <div *ngIf="AmountPaid.errors['required']">
                 Amount paid is required.
               </div>
             </div>
             <label>Amount Paid</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 disabledDiv">
+        <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <select
               class="form-select"
-              formControlName="PaymentAccountID"
+              name="PaymentAccountID"
+              [ngModel]="invoice.PaymentAccountID"
+              #PaymentAccountID="ngModel"
               [ngClass]="{
-                'is-invalid': submitted && f.PaymentAccountID.errors
+                'is-invalid': submitted && PaymentAccountID.errors
               }"
             >
               <option
@@ -95,10 +103,10 @@
               </option>
             </select>
             <div
-              *ngIf="submitted && f.PaymentAccountID.errors"
+              *ngIf="submitted && PaymentAccountID.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.PaymentAccountID.errors.required">
+              <div *ngIf="PaymentAccountID.errors['required']">
                 Payment Account is required.
               </div>
             </div>
@@ -111,12 +119,14 @@
             <input
               type="text"
               placeholder="Ref No"
-              formControlName="RefNo"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.RefNo.errors }"
+              name="RefNo"
+              [ngModel]="invoice.RefNo"
+              #RefNo="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && RefNo.errors }"
             />
-            <div *ngIf="submitted && f.RefNo.errors" class="invalid-feedback">
-              <div *ngIf="f.RefNo.errors.required">Ref No is required.</div>
+            <div *ngIf="submitted && RefNo.errors" class="invalid-feedback">
+              <div *ngIf="RefNo.errors['required']">Ref No is required.</div>
             </div>
             <label>Ref No</label>
           </div>
@@ -126,12 +136,17 @@
             <input
               type="date"
               placeholder="Date"
-              formControlName="Date"
+              name="Date"
+              [ngModel]="invoice.Date | date : 'yyyy-MM-dd'"
+              (ngModelChange)="invoice.Date = $event"
+              #Date="ngModel"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.Date.errors }"
+              [ngClass]="{ 'is-invalid': submitted && Date.errors }"
             />
-            <div *ngIf="submitted && f.Date.errors" class="invalid-feedback">
-              <div *ngIf="f.Date.errors.required">Date is required.</div>
+            <!-- value="{{ actualDateFormGroup | date : 'yyyy-MM-dd' }}"
+              (change)="onMyDateChange($event)" name="Date" -->
+            <div *ngIf="submitted && Date.errors" class="invalid-feedback">
+              <div *ngIf="Date.errors['required']">Date is required.</div>
             </div>
             <label>Date</label>
           </div>
@@ -142,15 +157,19 @@
             <input
               type="date"
               placeholder="Payable Date"
-              formControlName="PayableDate"
+              name="PayableDate"
+              #PayableDate="ngModel"
+              [ngModel]="invoice.PayableDate | date : 'yyyy-MM-dd'"
+              (ngModelChange)="invoice.PayableDate = $event"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && f.PayableDate.errors }"
+              [ngClass]="{ 'is-invalid': submitted && PayableDate.errors }"
             />
+            <!-- value="{{ actualDateFormGroup | date : 'yyyy-MM-dd' }}" -->
             <div
-              *ngIf="submitted && f.PayableDate.errors"
+              *ngIf="submitted && PayableDate.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.PayableDate.errors.required">
+              <div *ngIf="PayableDate.errors['required']">
                 Payable Date is required.
               </div>
             </div>
@@ -161,9 +180,11 @@
           <div class="form-floating">
             <select
               class="form-select"
-              formControlName="PaymentMethodID"
+              name="PaymentMethodID"
+              [ngModel]="invoice.PaymentMethodID"
+              #PaymentMethodID="ngModel"
               [ngClass]="{
-                'is-invalid': submitted && f.PaymentMethodID.errors
+                'is-invalid': submitted && PaymentMethodID.errors
               }"
               (change)="itemSelectChangeHandler($event)"
             >
@@ -177,10 +198,10 @@
               </option>
             </select>
             <div
-              *ngIf="submitted && f.PaymentMethodID.errors"
+              *ngIf="submitted && PaymentMethodID.errors"
               class="invalid-feedback"
             >
-              <div *ngIf="f.PaymentMethodID.errors.required">
+              <div *ngIf="PaymentMethodID.errors['required']">
                 Payment Method is required.
               </div>
             </div>
@@ -193,7 +214,9 @@
             <input
               type="text"
               placeholder="Cheque Number"
-              formControlName="ChequeNo"
+              name="ChequeNo"
+              [ngModel]="invoice.ChequeNo"
+              #ChequeNo="ngModel"
               class="form-control"
             />
             <label>Cheque No</label>
@@ -206,8 +229,9 @@
               type="checkbox"
               name="IssueCheque"
               id="IssueCheque"
+              [ngModel]="invoice.IssueCheque"
+              #IssueCheque="ngModel"
               value="false"
-              formControlName="IssueCheque"
             />
             <label class="form-check-label" for="IssueCheque"
               >Issue Cheque</label
@@ -220,7 +244,9 @@
             <input
               type="text"
               placeholder="Unpaid Amount Due"
-              formControlName="UnpaidAmountDue"
+              name="UnpaidAmountDue"
+              [ngModel]="invoice.UnpaidAmountDue"
+              #UnpaidAmountDue="ngModel"
               class="form-control"
             />
             <label>Unpaid Amount Due</label>
@@ -231,7 +257,9 @@
             <input
               type="text"
               placeholder="Unused Credits"
-              formControlName="UnUsedCredits"
+              name="UnUsedCredits"
+              [ngModel]="invoice.UnUsedCredits"
+              #UnUsedCredits="ngModel"
               class="form-control"
             />
             <label>Unused Credits</label>
@@ -242,7 +270,9 @@
             <input
               type="text"
               placeholder="Credits BF"
-              formControlName="CreditsBF"
+              name="CreditsBF"
+              [ngModel]="invoice.CreditsBF"
+              #CreditsBF="ngModel"
               class="form-control"
             />
             <label>Credits BF</label>
@@ -251,7 +281,18 @@
 
         <div class="col-lg-6 col-md-6">
           <div class="form-floating">
-            <textarea formControlName="Memo" class="form-control"></textarea>
+            <textarea
+              name="Memo"
+              [ngModel]="invoice.Memo"
+              #Memo="ngModel"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': submitted && Memo.errors
+              }"
+            ></textarea>
+            <div *ngIf="submitted && Memo.errors" class="invalid-feedback">
+              <div *ngIf="Memo.errors['required']">Memo is required.</div>
+            </div>
             <label>Memo</label>
           </div>
         </div>
@@ -260,21 +301,42 @@
           <table class="table table-hover table-responsive">
             <thead>
               <tr>
-                <th>Applied</th>
+                <th>
+                  <div class="row">
+                    <input
+                      type="checkbox"
+                      hidden
+                      class="form-check-control"
+                      [checked]="isAllCheckBoxChecked()"
+                      (change)="checkAllCheckBox($event)"
+                    />
+                    <label>Applied</label>
+                  </div>
+                </th>
                 <th>Date Due</th>
                 <th>Ref No</th>
                 <th>Description</th>
                 <th>Total Amount</th>
                 <th>Amount Due (Ksh)</th>
                 <th>Credits (Ksh)</th>
-                <th>Payment (Ksh)</th>
+                <th style="width: 15%">Payment (Ksh)</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="table" *ngFor="let item of journals">
+              <tr
+                class="table"
+                *ngFor="let item of invoice.products; let i = index"
+              >
                 <!-- <td id="Applied">{{ item.Applied }}</td> -->
-                <td id="Applied">
-                  <input type="checkbox" class="form-check-control" />
+                <td id="checked">
+                  <input
+                    type="checkbox"
+                    id="checked"
+                    name="checked{{ i }}"
+                    [(ngModel)]="item.checked"
+                    #checked="ngModel"
+                    class="form-check-control"
+                  />
                 </td>
                 <td id="DateDue">{{ item.DateDue }}</td>
                 <td id="RefNo">{{ item.JournalNo }}</td>
@@ -282,7 +344,22 @@
                 <td id="TotalAmount">{{ item.TotalAmt }}</td>
                 <td id="AmountDue">{{ item.AmtDue }}</td>
                 <td id="Credits">{{ item.Credits }}</td>
-                <td id="Payment">{{ item.Payment }}</td>
+                <td>
+                  <input
+                    type="number"
+                    id="Payment"
+                    name="Payment{{ i }}"
+                    [(ngModel)]="item.Payment"
+                    #Payment="ngModel"
+                    [ngClass]="{
+                      'is-invalid': submitted && Payment.errors
+                    }"
+                    class="form-control"
+                    (change)="paymentChanged($event, i)"
+                  />
+                </td>
+                <!-- <td id="Payment">{{ item.Payment }}</td> -->
+                <!-- value="{{ item.Payment }}" -->
                 <!-- <td id="1" style="cursor: pointer; font-weight: bold">Show</td> -->
               </tr>
             </tbody>
@@ -301,7 +378,11 @@
         </div>
 
         <div class="col-12 mt-4">
-          <button class="btn btn-primary text-uppercase" type="submit">
+          <button
+            class="btn btn-primary text-uppercase"
+            type="submit"
+            (click)="payExpenseForm.valid ? onSubmit() : ''"
+          >
             PAY BILL<i class="fa fa-plane ms-3"></i>
           </button>
         </div>

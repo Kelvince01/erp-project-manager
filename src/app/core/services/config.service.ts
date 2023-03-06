@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IConfig } from '@core/models/config.model';
 // import Config from '@core/models/core.config';
@@ -57,5 +57,12 @@ export class ConfigService {
         return of(false);
       })
     );
+  }
+
+  getAppData() {
+    //const currentLocation = window.location.origin;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get('./assets/data/app.data.json', { headers });
+    //return this.http.get(currentLocation + '/assets/data/results.json', { headers });
   }
 }

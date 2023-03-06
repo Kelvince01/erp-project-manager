@@ -42,7 +42,8 @@ export class Invoice {
   Address?: string;
   RefNo?: string;
   JournalNo?: string;
-  Date?: Date;
+  Date?: Date = new Date();
+  // Date?: any = new Date().toISOString().substring(0, 10);
   Memo?: string;
 
   products: Product[] = [];
@@ -124,14 +125,25 @@ export class CreateExpenseComponent implements OnInit {
     this.invoice.Date = new Date();
   }
 
+  parseDate(dateString: string): Date {
+    if (dateString) {
+      return new Date(dateString);
+    }
+    return null as any;
+  }
+
+  jRes1: any;
+  jRes2: any;
   onSubmit() {
     this.submitted = true;
 
     let data: IJournal = {
       JournalNo: this.invoice.JournalNo,
+      PONo: 'PONo',
+      ChequeNo: 'CheqNo',
       Dated: new Date(),
       DateDue: new Date(),
-      TransTypeID: 4,
+      TransTypeID: 2,
       AccountID: this.invoice.AccountID,
       TotalAmt: this.invoice.AmountTotal,
       ClassID: this.invoice.ClassID,
@@ -139,6 +151,7 @@ export class CreateExpenseComponent implements OnInit {
       PymtMethodID: 1,
       Address: this.invoice.Address,
       Memo: this.invoice.Memo,
+      CustMsg: this.invoice.Memo,
       AmountPaid: 0,
       Balance: 0,
       AmtDue: this.invoice.AmountTotal,
@@ -151,7 +164,7 @@ export class CreateExpenseComponent implements OnInit {
       UnDepositedGrp: false,
       DepositedTo: false,
       ActDepositedTo: 21,
-      DrCrID: 1,
+      DrCrID: 2,
       CustomerID: 0,
       TenantID: 0,
       LandLordID: 0,
@@ -188,6 +201,7 @@ export class CreateExpenseComponent implements OnInit {
       isReversed: false,
       isReverse: false,
       ProjectID: this.invoice.ProjectID,
+      ClientName: 'Supplier',
       AmtTendered: 0,
       ChangeDue: 0,
       isForward: false,
@@ -213,7 +227,131 @@ export class CreateExpenseComponent implements OnInit {
       AmmendID: 0,
     };
 
+    let data2: IJournal = {
+      JournalNo: this.createId(),
+      PONo: this.invoice.JournalNo,
+      ChequeNo: 'CheqNo',
+      Dated: new Date(),
+      DateDue: new Date(),
+      TransTypeID: 4,
+      AccountID: this.invoice.AccountID,
+      TotalAmt: this.invoice.AmountTotal,
+      ClassID: this.invoice.ClassID,
+      ProviderID: this.invoice.SupplierID,
+      PymtMethodID: 0,
+      Address: this.invoice.Address,
+      Memo: this.invoice.Memo,
+      CustMsg: this.invoice.Memo,
+      AmountPaid: 0,
+      Balance: 0,
+      AmtDue: this.invoice.AmountTotal,
+      Credits: 0,
+      CreditsBF: 0,
+      Payment: 0,
+      NameID: this.invoice.SupplierID,
+      TableID: 2,
+      TableName: 'Supplier',
+      UnDepositedGrp: false,
+      DepositedTo: false,
+      ActDepositedTo: 21,
+      DrCrID: 1,
+      CustomerID: 0,
+      TenantID: 0,
+      LandLordID: 0,
+      BillRecd: false,
+      Billed: true,
+      Credit: false,
+      InclVAT: true,
+      ToBePrinted: true,
+      Undeposited: true,
+      Delivered: true,
+      Paid: false,
+      Void: false,
+      Refundable: true,
+      Refunded: false,
+      Reconciled: false,
+      Opening: false,
+      Posted: false,
+      Active: true,
+      FYClosed: false,
+      ConvertedJID: 17,
+      Converted: false,
+      IsMemo: false,
+      ExchangeRate: 1,
+      CurrencyID: 1,
+      ForeignCurrency: false,
+      CompanyID: 1,
+      StaffID: this.user.UsersID,
+      Approved: false,
+      Edited: false,
+      EditedBy: this.user.UsersID,
+      ComputerName: this.document.location.hostname,
+      Locked: false,
+      SlipID: 0,
+      isReversed: false,
+      isReverse: false,
+      ProjectID: this.invoice.ProjectID,
+      AmtTendered: 0,
+      ChangeDue: 0,
+      isForward: false,
+      BankExchangeRate: 1,
+      DepartmentID: 1,
+      GrantID: 1,
+      ObjectiveID: 1,
+      Level: 0,
+      Authorised: true,
+      Stamped: true,
+      CheckedStatusID: 3,
+      CheckedByID: this.user.UsersID,
+      CheckedDate: new Date(),
+      ApprovedStatusID: 1,
+      ApprovedByID: this.user.UsersID,
+      AuthorisedStatusID: 1,
+      AuthorisedByID: this.user.UsersID,
+      ClearedStatusID: 1,
+      ClearedByID: this.user.UsersID,
+      AuditedStatusID: 1,
+      AuditedByID: this.user.UsersID,
+      DaysRate: 1,
+      AmmendID: 0,
+      ChequeIssued: false,
+    };
+
     const journalBsData = (id: any, item: Product) => {
+      let itemBs: IJournalBS = {
+        JournalID: id,
+        ItemID: item.ItemID,
+        Description: item.Description,
+        Quan: item.Quantity,
+        QuanDelivered: 0,
+        QuantsNow: 0,
+        Rate: item.Rate,
+        ExchangeRate: 1,
+        CurrencyID: 1,
+        ForeignCurrency: false,
+        Amount: this.invoice.AmountTotal,
+        TaxID: 1,
+        TaxAmt: 0,
+        AccountID: 30,
+        DrCrID: 1,
+        TransTypeID: 2,
+        Reconciled: false,
+        PackedWeight: 0,
+        PackedVolume: 0,
+        DeliveryModeID: 1,
+        ProjectID: this.invoice.ProjectID,
+        PatientID: 0,
+        GrantID: 0,
+        Level: 1,
+        AmtDue: this.invoice.AmountTotal,
+        QuanBal: item.Quantity,
+      };
+
+      return itemBs;
+    };
+
+    // second journal row
+    const journalBsData2 = (id: any, item: Product) => {
       let itemBs: IJournalBS = {
         JournalID: id,
         ItemID: item.ItemID,
@@ -236,7 +374,6 @@ export class CreateExpenseComponent implements OnInit {
         PackedVolume: 0,
         DeliveryModeID: 1,
         ProjectID: this.invoice.ProjectID,
-        PatientID: 0,
         GrantID: 0,
         Level: 1,
         AmtDue: 0,
@@ -272,7 +409,57 @@ export class CreateExpenseComponent implements OnInit {
         ClassID: 2,
         Approved: true,
         GrantID: 1,
-        //: [Level,	0	0
+        Level: 0,
+        isBudget: false,
+        ProjectID: this.invoice.ProjectID,
+        ObjectiveID: 0,
+        BudgetCode: '0',
+        Frequency: 0,
+        Number: 0,
+        Rate: 0,
+        isProposal: false,
+        isDonorBudget: false,
+        isOwnerBudget: false,
+        isForward: false,
+        PayeeNameID: 0,
+        ChequeIssued: false,
+        BankExchangeRate: 1,
+        Authorised: true,
+        Stamped: true,
+        DaysRate: 1,
+        AmmendID: 0,
+      };
+
+      return actPost;
+    };
+
+    const actPosting2 = (id: any, post: Product, bs: any) => {
+      let actPost: IAccountPosting = {
+        JournalID: id,
+        Description: post.Description,
+        JournalBSID: bs.JournalBSID,
+        JournalPLID: 0,
+        JournalNo: this.invoice.JournalNo,
+        Dated: new Date(),
+        TransTypeID: 4,
+        AccountID: 6,
+        DrCrID: 1,
+        Amount: this.invoice.AmountTotal,
+        Posted: true,
+        ClosedFY: false,
+        NameID: this.invoice.SupplierID,
+        TableID: 2,
+        TableName: 'Supplier',
+        StaffID: this.user.UsersID,
+        Reconciled: false,
+        ExchangeRate: 1,
+        CurrencyID: 1,
+        Active: 1,
+        CompanyID: 1,
+        ClassID: 2,
+        Approved: true,
+        GrantID: 1,
+        Level: 0,
         isBudget: false,
         ProjectID: this.invoice.ProjectID,
         ObjectiveID: 0,
@@ -301,41 +488,70 @@ export class CreateExpenseComponent implements OnInit {
     this.journalService
       .create(data)
       .pipe(first())
-      .subscribe((res: any) => {
+      .subscribe((res1: any) => {
         this.invoice.products.forEach((item: any) => {
-          let itemData = journalBsData(res.JournalID, item);
-          let accountData = actPosting(res.JournalID, item);
+          let itemData = journalBsData(res1.JournalID, item);
+          let accountData = actPosting(res1.JournalID, item);
 
           this.journalService
             .createBS(itemData)
             .pipe(first())
-            .subscribe((res) => {
+            .subscribe((res11) => {
               console.log('Done');
+
+              this.journalService
+                .createBS(itemData)
+                .pipe(first())
+                .subscribe((res2) => {
+                  console.log('Done');
+                });
             });
 
           this.accountService
             .createAccountPosting(accountData)
             .pipe(first())
-            .subscribe((res) => {
+            .subscribe((res12) => {
               console.log('Done');
             });
-        });
 
-        this.messageService.add({
-          severity: 'success',
-          detail: 'Journal created.',
-        });
-        this.router.navigateByUrl('/admin/suppliers');
+          this.journalService
+            .create(data2)
+            .pipe(first())
+            .subscribe((res13: any) => {
+              let itemData2 = journalBsData2(res13.JournalID, item);
 
-        (error: any) => {
-          this.submitting = false;
+              this.journalService
+                .createBS(itemData2)
+                .pipe(first())
+                .subscribe((res22) => {
+                  let accountData2 = actPosting2(res1.JournalID, item, res22);
+                  this.accountService
+                    .createAccountPosting(accountData2)
+                    .pipe(first())
+                    .subscribe((res) => {
+                      console.log('Done');
+                    });
+
+                  console.log('Done');
+                });
+            });
 
           this.messageService.add({
-            severity: 'error',
-            detail: error,
-            // detail: 'Could not create journal!',
+            severity: 'success',
+            detail: 'Journal created.',
           });
-        };
+          this.router.navigateByUrl('/admin/suppliers');
+
+          (error: any) => {
+            this.submitting = false;
+
+            this.messageService.add({
+              severity: 'error',
+              detail: error,
+              // detail: 'Could not create journal!',
+            });
+          };
+        });
       });
 
     this.afterResult();

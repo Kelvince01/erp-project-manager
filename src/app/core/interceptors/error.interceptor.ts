@@ -8,6 +8,10 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '@services/auth.service';
+import { Logger } from '@core/services/logger.service';
+import { environment } from '@envs/environment';
+
+const log = new Logger('ErrorHandlerInterceptor');
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -23,10 +27,20 @@ export class ErrorInterceptor implements HttpInterceptor {
         // auto logout if 401 or 403 response returned from api
         // this.accountService.logout();
         // }
+        this.errorHandler(err);
 
         const error = err.error?.message || err.statusText;
         return throwError(() => error);
       })
     );
+  }
+
+  // Customize the default error handler here if needed
+  private errorHandler(response: HttpEvent<any>): Observable<HttpEvent<any>> {
+    if (!environment.production) {
+      // Do something with the error
+      log.error('Request error', response);
+    }
+    throw response;
   }
 }

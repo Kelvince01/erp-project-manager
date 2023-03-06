@@ -40,10 +40,10 @@ export class UpsertComponent implements OnInit {
       Country: ['', Validators.required],
     });
 
-    this.title = 'Add Program';
+    this.title = 'Add Project';
     if (this.id) {
       // edit mode
-      this.title = 'Edit Program';
+      this.title = 'Edit Project';
       this.loading = true;
       this.projectsService
         .getById(this.id)

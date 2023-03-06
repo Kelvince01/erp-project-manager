@@ -58,7 +58,7 @@ export class FilesService {
       columns: exportColumns,
       body: items,
       didDrawPage: (dataArg) => {
-        doc.text('Suppliers List', dataArg.settings.margin.left, 10);
+        doc.text(filename, dataArg.settings.margin.left, 10);
       },
     });
     doc.save(`${filename}.pdf`);

@@ -110,4 +110,5 @@ export interface IJournal {
   AmmendID?: number;
   LastUpdated?: Date;
   SSMA_TimeStamp?: Date;
+  checked?: boolean;
 }
