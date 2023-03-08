@@ -16,7 +16,12 @@
       </a>
       <hr class="sidebar-divider my-0" />
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+        <a
+          class="nav-link"
+          routerLink="/admin"
+          routerLinkActive="active"
+          (click)="visibleSidebar1 = false"
+        >
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a
         >
@@ -32,6 +37,7 @@
           data-target="#collapseBootstrap"
           aria-expanded="true"
           aria-controls="collapseBootstrap"
+          (click)="visibleSidebar1 = false"
         >
           <i class="far fa-fw fa-window-maximize"></i>
           <span>Organization Info</span>
@@ -46,9 +52,10 @@
           data-target="#collapseForm"
           aria-expanded="true"
           aria-controls="collapseForm"
+          (click)="visibleSidebar1 = false"
         >
           <i class="fab fa-fw fa-wpforms"></i>
-          <span>Programs</span>
+          <span>Projects</span>
         </a>
       </li>
       <li class="nav-item">
@@ -60,6 +67,7 @@
           data-target="#collapseTable"
           aria-expanded="true"
           aria-controls="collapseTable"
+          (click)="visibleSidebar1 = false"
         >
           <i class="fas fa-fw fa-table"></i>
           <span>Employees</span>
@@ -70,6 +78,7 @@
           class="nav-link"
           routerLink="/admin/suppliers"
           routerLinkActive="active"
+          (click)="visibleSidebar1 = false"
         >
           <i class="fas fa-fw fa-palette"></i>
           <span>Purchases & Expenses</span>
@@ -80,6 +89,7 @@
           class="nav-link"
           routerLink="/admin/banking"
           routerLinkActive="active"
+          (click)="visibleSidebar1 = false"
         >
           <i class="fas fa-fw fa-palette"></i>
           <span>Banking</span>
@@ -90,13 +100,19 @@
           class="nav-link"
           routerLink="/admin/budgets"
           routerLinkActive="active"
+          (click)="visibleSidebar1 = false"
         >
           <i class="fas fa-fw fa-palette"></i>
           <span>Budgets</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/admin/users" routerLinkActive="active">
+        <a
+          class="nav-link"
+          routerLink="/admin/users"
+          routerLinkActive="active"
+          (click)="visibleSidebar1 = false"
+        >
           <i class="fas fa-fw fa-palette"></i>
           <span>Users</span>
         </a>
@@ -112,13 +128,19 @@
           data-target="#collapsePage"
           aria-expanded="true"
           aria-controls="collapsePage"
+          (click)="visibleSidebar1 = false"
         >
           <i class="fas fa-fw fa-columns"></i>
           <span>Reports</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+        <a
+          class="nav-link"
+          routerLink="/admin"
+          routerLinkActive="active"
+          (click)="visibleSidebar1 = false"
+        >
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Charts</span>
         </a>
@@ -138,10 +160,11 @@
         class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top"
       >
         <button
+          pButton
           type="button"
           (click)="toggleSidebar()"
           id="sidebarToggleTop"
-          class="btn btn-link rounded-circle mr-3"
+          class="btn btn-primary rounded-circle mr-3"
         >
           <i class="fa fa-bars"></i>
         </button>

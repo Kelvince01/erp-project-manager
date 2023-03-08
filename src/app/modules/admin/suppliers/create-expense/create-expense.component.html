@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
   <div class="card mt-0">
     <form #expenseForm="ngForm">
       <div class="row g-3">
@@ -68,7 +68,7 @@
                 [ngValue]="supplier.EmployeeID"
                 [value]="supplier.EmployeeID"
               >
-                {{ supplier.FirstName }} {{ supplier.Surname }}
+                {{ supplier.CompanyName }} {{ supplier.Surname }}
               </option>
             </select>
             <div
@@ -175,11 +175,17 @@
               placeholder="Date"
               id="Date"
               name="Date"
-              [(ngModel)]="invoice.Date"
+              [ngModel]="invoice.Date | date : 'yyyy-MM-dd'"
+              (ngModelChange)="invoice.Date = $event"
               #Date="ngModel"
               class="form-control"
               [ngClass]="{ 'is-invalid': submitted && Date.errors }"
             />
+            <!-- (input)="invoice.Date = parseDate($event.target.value)"
+            [value]="invoice.Date | date : 'yyyy-MM-dd'"
+              (input)="invoice.Date = $event.target"
+            -->
+
             <div *ngIf="submitted && Date.errors" class="invalid-feedback">
               <div *ngIf="Date.errors['required']">Date is required.</div>
             </div>
@@ -393,6 +399,14 @@
       icon="pi pi-file-pdf"
       class="p-button-text"
       (click)="expenseForm.valid ? generatePDF() : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideResultDialog()"
     ></button>
   </ng-template>
 </p-dialog>

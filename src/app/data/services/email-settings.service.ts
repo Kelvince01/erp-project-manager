@@ -13,7 +13,7 @@ export class EmailSettingsService {
     @Inject(MessageService) private messages: MessageService
   ) {}
 
-  get(): Observable<any> {
+  emailSettings$(): Observable<any> {
     // just returning the observable will query the backend on every subscription
     // using some caching mechanism would be wise in more complex applications
     return from(
@@ -42,7 +42,10 @@ export class EmailSettingsService {
           ...payload,
         })
         .then(() =>
-          this.messages.add({ severity: 'success', detail: 'Email Settings Created.' })
+          this.messages.add({
+            severity: 'success',
+            detail: 'Email Settings Created.',
+          })
         )
         .catch((err: any) =>
           this.messages.add({

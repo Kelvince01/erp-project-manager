@@ -46,12 +46,13 @@ export class JournalsService {
 
   createBS(payload: IJournalBS): Observable<any> {
     return from(
-      this.feathers
-        .service('journal-bs')
-        .create({
-          ...payload,
-        })
-        .then(() =>
+      this.feathers.service('journal-bs').create({
+        ...payload,
+      })
+    );
+
+    /*
+    .then(() =>
           this.messages.add({
             severity: 'success',
             detail: 'Journal BS created.',
@@ -63,7 +64,7 @@ export class JournalsService {
             detail: 'Could not create journal bs!',
           })
         )
-    );
+    */
   }
 
   getBSById(id: string): Observable<any> {

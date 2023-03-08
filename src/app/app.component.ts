@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ConfigService } from '@core/services/config.service';
+import { Logger } from '@core/services/logger.service';
+import { environment } from '@envs/environment';
 import { IUser } from '@models/user.model';
 import { AuthService } from '@services/auth.service';
 import { SeoService } from '@shared/services/seo.service';
 import { PrimeNGConfig } from 'primeng/api';
 import { filter, map, mergeMap } from 'rxjs';
+
+const log = new Logger('App');
 
 @Component({
   selector: 'app-root',
@@ -16,6 +20,7 @@ export class AppComponent implements OnInit {
   title = 'ERP-PROJECT MANAGER';
   user?: IUser | null;
   myKey?: string;
+  appData?: any;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -29,8 +34,19 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Setup logger
+    if (environment.production) {
+      Logger.enableProductionMode();
+    }
+
+    log.debug('init');
+
     this.primengConfig.ripple = true;
     this.myKey = ConfigService.Config.MyKey;
+
+    this.configService.getAppData().subscribe((sr) => {
+      Object.assign(this.appData, sr);
+    });
 
     this.router.events
       .pipe(

@@ -1,5 +1,4 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IAccount } from '@models/account.model';
 import { IClassOfTransaction } from '@models/class-of-transaction.model';
 import { ISupplier } from '@models/supplier.model';
@@ -16,9 +15,49 @@ import { IAccountPosting } from '@models/account-posting.model';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, formatDate } from '@angular/common';
 import { IPaymentMethod } from '@models/payment-method.model';
 import { Invoice } from '../create-expense/create-expense.component';
+
+interface PayJournal extends IJournal {}
+
+export class PayInvoice {
+  AccountID?: number;
+  PaymentAccountID?: number;
+  ClassID?: number;
+  SupplierID?: number;
+  ProjectID?: number;
+  AmountPaid?: number;
+  Address?: string;
+  SupplierName?: string;
+  ProjectName?: string;
+  ClassName?: string = 'Service';
+  RefNo?: string;
+  JournalNo?: string;
+  Date?: Date = new Date();
+  PayableDate?: Date = new Date();
+  // Date?: any = new Date().toISOString().substring(0, 10);
+  Memo?: string;
+  PaymentMethodID?: number;
+  ChequeNo?: string;
+  IssueCheque?: boolean;
+  UnpaidAmountDue?: number;
+  UnUsedCredits?: number;
+  CreditsBF?: number;
+
+  products: PayJournal[] = [];
+
+  constructor() {
+    // Initially one empty product row we will show
+    // this.products.push(new PayJournal());
+    // this.AmountTotal = Number(
+    //   this.products
+    //     .reduce((sum, p) => sum + p.Quantity! * p.Rate!, 0)
+    //     .toFixed(2)
+    // );
+    this.Date = new Date();
+  }
+}
 
 @Component({
   selector: 'app-pay-bill',
@@ -26,7 +65,6 @@ import { Invoice } from '../create-expense/create-expense.component';
   styleUrls: ['./pay-bill.component.css'],
 })
 export class PayBillComponent implements OnInit {
-  payExpenseForm: any = FormGroup;
   submitted = false;
   submitting = false;
   accounts: IAccount[] = [];
@@ -42,12 +80,18 @@ export class PayBillComponent implements OnInit {
   user: any;
   refNo: any;
   amountTotal: any;
+  employeeId: any;
+  amtDue: any;
+  amountPaid: any;
+  payments: any;
+  unpaidAmountPaid: any;
+  unusedCredits: any;
+  Address: any = '';
 
-  // @Input() invoice?: Invoice;
-  @Input() invoice = new Invoice();
+  @Input() intialInvoice?: Invoice;
+  @Input() invoice = new PayInvoice();
 
   constructor(
-    private formBuilder: FormBuilder,
     private accountService: BankingService,
     private supplierService: EmployeesService,
     private classOfTransService: ClassOfTransactionService,
@@ -66,122 +110,123 @@ export class PayBillComponent implements OnInit {
     this.getSuppliers();
     this.getAccounts();
     this.getPaymentMethods();
-    this.getJournals();
-
-    //Add form validations
-    this.payExpenseForm = this.formBuilder.group({
-      AccountID: ['', [Validators.required]],
-      SupplierID: ['', [Validators.required]],
-      AmountPaid: ['', [Validators.required]],
-      PaymentAccountID: ['', [Validators.required]],
-      RefNo: ['', [Validators.required]],
-      Date: ['', [Validators.required]],
-      PayableDate: ['', [Validators.required]],
-      PaymentMethodID: ['', [Validators.required]],
-      ChequeNo: [],
-      IssueCheque: [''],
-      UnpaidAmountDue: [''],
-      UnUsedCredits: [''],
-      CreditsBF: [''],
-      Memo: [''],
-    });
 
     this.refNo = this.createId();
-    this.payExpenseForm.patchValue({ RefNo: this.createId() });
+    this.invoice.RefNo = this.refNo;
+    this.invoice.Date = new Date();
+    this.invoice.PayableDate = new Date();
+    this.invoice.CreditsBF = 0.0;
+
+    // this.payExpenseForm.controls.Date.setValue(
+    //   formatDate(new Date(), 'yyyy-MM-dd', 'en-US')
+    // );
   }
 
-  //Add user form actions
-  get f() {
-    return this.payExpenseForm.controls;
+  checkAllCheckBox(ev: any) {
+    this.invoice.products.forEach((x) => {
+      x.checked = ev.target.checked;
+    });
+  }
+
+  isAllCheckBoxChecked() {
+    return this.invoice.products.every((p) => {
+      p.checked;
+    });
+  }
+
+  hideResultDialog() {
+    this.resultDialog = false;
+    this.invoice = { products: [new PayInvoice()] };
   }
 
   onSubmit() {
     this.submitted = true;
-
-    let data: IJournal = {
-      JournalNo: this.createId(),
-      Dated: new Date(),
-      DateDue: new Date(),
-      TransTypeID: 4,
-      // AccountID: this.invoice.AccountID,
-      // TotalAmt: this.invoice.AmountTotal,
-      // ClassID: this.invoice.ClassID,
-      // ProviderID: this.invoice.SupplierID,
-      PymtMethodID: 1,
-      // Address: this.invoice.Address,
-      // Memo: this.invoice.Memo,
-      AmountPaid: 0,
-      Balance: 0,
-      // AmtDue: this.invoice.AmountTotal,
-      Credits: 0,
-      CreditsBF: 0,
-      Payment: 0,
-      // NameID: this.invoice.SupplierID,
-      TableID: 2,
-      TableName: 'Supplier',
-      UnDepositedGrp: false,
-      DepositedTo: false,
-      ActDepositedTo: 21,
-      DrCrID: 1,
-      CustomerID: 0,
-      TenantID: 0,
-      LandLordID: 0,
-      BillRecd: true,
-      Billed: true,
-      Credit: false,
-      InclVAT: true,
-      ToBePrinted: true,
-      Undeposited: true,
-      Delivered: true,
-      Paid: false,
-      Void: false,
-      Refundable: true,
-      Refunded: false,
-      Reconciled: false,
-      Opening: false,
-      Posted: true,
-      Active: true,
-      FYClosed: false,
-      ConvertedJID: 0,
-      Converted: false,
-      IsMemo: false,
-      ExchangeRate: 1,
-      CurrencyID: 1,
-      ForeignCurrency: false,
-      CompanyID: 1,
-      StaffID: this.user.UsersID,
-      Approved: true,
-      Edited: false,
-      EditedBy: this.user.UsersID,
-      ComputerName: this.document.location.hostname,
-      Locked: false,
-      SlipID: 0,
-      isReversed: false,
-      isReverse: false,
-      // ProjectID: this.invoice.ProjectID,
-      AmtTendered: 0,
-      ChangeDue: 0,
-      isForward: false,
-      BankExchangeRate: 1,
-      DepartmentID: 1,
-      GrantID: 1,
-      ObjectiveID: 1,
-      Level: 0,
-      Authorised: true,
-      Stamped: true,
-      CheckedStatusID: 3,
-      CheckedByID: this.user.UsersID,
-      CheckedDate: new Date(),
-      ApprovedStatusID: 1,
-      ApprovedByID: this.user.UsersID,
-      AuthorisedStatusID: 1,
-      AuthorisedByID: this.user.UsersID,
-      ClearedStatusID: 1,
-      ClearedByID: this.user.UsersID,
-      AuditedStatusID: 1,
-      AuditedByID: this.user.UsersID,
-      DaysRate: 1,
-      AmmendID: 0,
+    const data = () => {
+      return {
+        JournalNo: this.createId(),
+        Dated: this.invoice.Date,
+        DateDue: this.invoice.PayableDate,
+        TransTypeID: 4,
+        AccountID: this.invoice.AccountID,
+        TotalAmt: this.invoice.AmountPaid,
+        ClassID: 1,
+        ProviderID: this.invoice.SupplierID,
+        PymtMethodID: 1,
+        Address: this.invoice.Address,
+        Memo: this.invoice.Memo,
+        AmountPaid: 0,
+        Balance: 0,
+        AmtDue: this.invoice.AmountPaid,
+        Credits: 0,
+        CreditsBF: 0,
+        Payment: 0,
+        NameID: this.invoice.SupplierID,
+        TableID: 2,
+        TableName: 'Supplier',
+        UnDepositedGrp: false,
+        DepositedTo: false,
+        ActDepositedTo: 21,
+        DrCrID: 1,
+        CustomerID: 0,
+        TenantID: 0,
+        LandLordID: 0,
+        BillRecd: true,
+        Billed: true,
+        Credit: false,
+        InclVAT: true,
+        ToBePrinted: true,
+        Undeposited: true,
+        Delivered: true,
+        Paid: false,
+        Void: false,
+        Refundable: true,
+        Refunded: false,
+        Reconciled: false,
+        Opening: false,
+        Posted: true,
+        Active: true,
+        FYClosed: false,
+        ConvertedJID: 0,
+        Converted: false,
+        IsMemo: false,
+        ExchangeRate: 1,
+        CurrencyID: 1,
+        ForeignCurrency: false,
+        CompanyID: 1,
+        StaffID: this.user.UsersID,
+        Approved: true,
+        Edited: false,
+        EditedBy: this.user.UsersID,
+        ComputerName: this.document.location.hostname,
+        Locked: false,
+        SlipID: 0,
+        isReversed: false,
+        isReverse: false,
+        ProjectID: this.invoice.ProjectID,
+        AmtTendered: 0,
+        ChangeDue: 0,
+        isForward: false,
+        BankExchangeRate: 1,
+        DepartmentID: 1,
+        GrantID: 1,
+        ObjectiveID: 1,
+        Level: 0,
+        Authorised: true,
+        Stamped: true,
+        CheckedStatusID: 3,
+        CheckedByID: this.user.UsersID,
+        CheckedDate: new Date(),
+        ApprovedStatusID: 1,
+        ApprovedByID: this.user.UsersID,
+        AuthorisedStatusID: 1,
+        AuthorisedByID: this.user.UsersID,
+        ClearedStatusID: 1,
+        ClearedByID: this.user.UsersID,
+        AuditedStatusID: 1,
+        AuditedByID: this.user.UsersID,
+        DaysRate: 1,
+        AmmendID: 0,
+      } as IJournal;
     };
 
     const actPosting = (journal: any, post: any) => {
@@ -198,7 +243,7 @@ export class PayBillComponent implements OnInit {
         Amount: journal.TotalAmount,
         Posted: true,
         ClosedFY: false,
-        NameID: this.payExpenseForm.get('SupplierID').value,
+        NameID: this.invoice.SupplierID,
         TableID: 2,
         TableName: 'Supplier',
         StaffID: this.user.UsersID,
@@ -234,19 +279,29 @@ export class PayBillComponent implements OnInit {
       return actPost;
     };
 
-    // stop here if form is invalid
-    if (this.payExpenseForm.invalid) {
-      return;
-    }
-
     this.submitting = true;
 
     this.journalService
-      .create(data)
+      .create(data())
       .pipe(first())
       .subscribe((res: any) => {
-        this.journals.forEach((item: any) => {
+        this.invoice.products.forEach((item: any) => {
+          // if (item.checked) {
           let accountData = actPosting(res.JournalID, item);
+
+          let due = this.calcTotal() - this.invoice.AmountPaid!;
+
+          let upData: Partial<IJournal> = {
+            TransTypeID: 3,
+            AmtDue: due > 0 ? due : 0,
+          };
+
+          this.journalService
+            .update(item.JournalID, upData)
+            .pipe(first())
+            .subscribe((res) => {
+              console.log('Updated!');
+            });
 
           this.accountService
             .createAccountPosting(accountData)
@@ -254,6 +309,7 @@ export class PayBillComponent implements OnInit {
             .subscribe((res) => {
               console.log('Done');
             });
+          // }
         });
 
         this.messageService.add({
@@ -267,17 +323,13 @@ export class PayBillComponent implements OnInit {
 
           this.messageService.add({
             severity: 'error',
-            detail: error,
-            // detail: 'Could not create journal!',
+            // detail: error,
+            detail: 'Could not create journal!',
           });
         };
       });
 
     this.afterResult();
-    //True if all the fields are filled
-    if (this.submitted) {
-      alert('Great!!');
-    }
   }
 
   afterResult() {
@@ -295,9 +347,7 @@ export class PayBillComponent implements OnInit {
       .subscribe((res) => {
         this.paymentAccounts = res.data;
         if (res.total > 0) {
-          this.payExpenseForm.patchValue({
-            PaymentAccountID: res.data[0].AccountID,
-          });
+          this.invoice.PaymentAccountID = res.data[0].AccountID;
         }
       });
   }
@@ -322,9 +372,7 @@ export class PayBillComponent implements OnInit {
       .subscribe((res: any) => {
         this.accounts = res.data;
         if (res.total > 0) {
-          this.payExpenseForm.patchValue({
-            AccountID: res.data[0].AccountID,
-          });
+          this.invoice.AccountID = res.data[0].AccountID;
         }
       });
   }
@@ -338,24 +386,58 @@ export class PayBillComponent implements OnInit {
       });
   }
 
-  getJournals() {
+  getJournals(supplierId: any) {
     let query = {
       TransTypeID: 4,
+      ProviderID: supplierId,
+      TableID: 2,
+      AmtDue: {
+        $gt: 0,
+      },
     };
 
     return this.journalService
       .journals$(query)
       .pipe(first())
       .subscribe((res) => {
-        this.journals = res.data;
-        // this.journals.forEach((journal: IJournal) => {
-        let total = this.journals
+        this.invoice.products = res.data;
+
+        // this.invoice.products.forEach((journal: IJournal) => {
+        let total = this.invoice.products
           .reduce((sum, p) => sum + p.TotalAmt!, 0)
           .toFixed(2);
         // })
         this.amountTotal = total;
-        this.payExpenseForm.patchValue({ AmountPaid: this.amountTotal });
+        // this.payExpenseForm.patchValue({ AmountPaid: this.amountTotal });
       });
+  }
+
+  paymentChanged(e: any, index: any) {
+    // this.payments = +this.invoice.products[index].Payment!;
+    this.invoice.products[index].AmtDue =
+      this.invoice.products[index].AmtDue! -
+      this.invoice.products[index].Payment!;
+    this.invoice.AmountPaid = this.payments;
+    if (this.invoice.products[index].Payment! > 0) {
+      this.invoice.products[index].checked;
+    }
+
+    this.calcTotalPaid();
+    this.invoice.UnpaidAmountDue = this.calcTotal() - this.invoice.AmountPaid!;
+    let unused = this.invoice.AmountPaid! - this.calcTotal();
+    this.invoice.UnUsedCredits = unused > 0 ? unused : 0;
+  }
+
+  calcTotalPaid() {
+    this.invoice.AmountPaid = Number(
+      this.invoice.products.reduce((sum, p) => sum + p.Payment!, 0).toFixed(2)
+    );
+  }
+
+  calcTotal() {
+    return Number(
+      this.invoice.products.reduce((sum, p) => sum + p.TotalAmt!, 0).toFixed(2)
+    );
   }
 
   itemSelectChangeHandler(event: any) {
@@ -366,6 +448,25 @@ export class PayBillComponent implements OnInit {
     } else {
       this.isCheque = false;
     }
+  }
+
+  selectChangeHandler(event: any) {
+    //update the ui
+    this.employeeId = event.target.value;
+
+    this.supplierService
+      .getById(Number(this.employeeId))
+      .pipe(first())
+      .subscribe((res) => {
+        let address = `${res.POBox + ', ' ? res.POBox : ''} ${
+          res.PostalCode + ', ' ? res.PostalCode : ''
+        }, ${res.Estate + ', ' ? res.Estate : ''}, ${res.Town ? res.Town : ''}`;
+
+        this.invoice.Address = address;
+        this.invoice.SupplierName = res.CompanyName;
+      });
+
+    this.getJournals(this.employeeId);
   }
 
   async generatePDF(action = 'open') {
@@ -430,13 +531,13 @@ export class PayBillComponent implements OnInit {
         {
           columns: [
             [
-              {
-                text: `Project: ${this.invoice?.ProjectID}`,
-                bold: true,
-              },
-              { text: `Class: ${this.invoice?.ClassID}` },
-              { text: `Supplier: ${this.invoice?.SupplierID}` },
-              { text: `Amount: ${this.invoice?.AmountTotal}` },
+              // {
+              //   text: `Project: ${this.invoice?.ProjectID}`,
+              //   bold: true,
+              // },
+              { text: `Class: ${this.invoice?.ClassName}` },
+              { text: `Supplier: ${this.invoice?.SupplierName}` },
+              { text: `Amount: ${this.invoice?.AmountPaid}` },
               {
                 text: `Address: ${this.invoice?.Address}`,
                 margin: [0, 0, 0, 10],
@@ -471,22 +572,24 @@ export class PayBillComponent implements OnInit {
                 'Tax Tax Amount',
                 'Total Amount',
               ],
-              ...this.journals.map((p) => [
+              ...this.invoice.products.map((p) => [
                 p.TableName,
-                2, // p.Quantity,
-                300,
-                300, // p.TotalAmt!.toFixed(2),
-                1, // p.TotalAmt,
-                3000, // p.TotalAmt!.toFixed(2),
+                1, // p.Quantity,
+                p.AmtDue,
+                p.TotalAmt!.toFixed(2),
+                1,
+                p.TotalAmt!.toFixed(2),
               ]),
-              // [
-              //   { text: 'Total Amount', colSpan: 3 },
-              //   {},
-              //   {},
-              //   this.journals
-              //     .reduce((sum, p) => sum + p.TotalAmt!, 0)
-              //     .toFixed(2),
-              // ],
+              [
+                { text: 'Total Amount', colSpan: 3 },
+                {},
+                {},
+                {},
+                {},
+                this.invoice.products
+                  .reduce((sum, p) => sum + p.TotalAmt!, 0)
+                  .toFixed(2),
+              ],
             ],
           },
         },

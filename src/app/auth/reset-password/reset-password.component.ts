@@ -53,21 +53,21 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     this.loading = true;
-    this.accountService
-      .resetPassword(this.f['password'].value, this.f['confirmPassword'].value)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.toastr.add({
-            severity: 'success',
-            detail: 'Password reset successful, you can now login',
-          });
-          this.router.navigate(['../login'], { relativeTo: this.route });
-        },
-        error: (error) => {
-          this.toastr.add({ severity: 'error', detail: error });
-          this.loading = false;
-        },
-      });
+    // this.accountService
+    //   .resetPassword(this.f['password'].value, this.f['confirmPassword'].value)
+    //   .pipe(first())
+    //   .subscribe({
+    //     next: () => {
+    //       this.toastr.add({
+    //         severity: 'success',
+    //         detail: 'Password reset successful, you can now login',
+    //       });
+    //       this.router.navigate(['../login'], { relativeTo: this.route });
+    //     },
+    //     error: (error) => {
+    //       this.toastr.add({ severity: 'error', detail: error });
+    //       this.loading = false;
+    //     },
+    //   });
   }
 }

@@ -15,24 +15,25 @@ export class UserService {
     @Inject(MessageService) private messages: MessageService
   ) {}
 
-  users$(): Observable<any> {
+  users$(query?: any): Observable<any> {
     // just returning the observable will query the backend on every subscription
     // using some caching mechanism would be wise in more complex applications
     return from(
-      (<any>this.feathers // todo: remove 'any' assertion when feathers-reactive typings are up-to-date with buzzard
-        .service('users'))
+      this.feathers
+        .service('users')
         // .watch()
         .find({
           query: {
             $sort: { LastUpdated: -1 },
             $limit: 25,
+            ...query,
           },
         })
     );
   }
 
-  getById(id: number) {
-    return this.http.get<IUser>(`http://localhost:3030/users/${id}`);
+  getById(id: number): Observable<any> {
+    return from(this.feathers.service('users').get(id));
   }
 
   signup(data: any): Observable<any> {
@@ -52,15 +53,12 @@ export class UserService {
     );
   }
 
-  update(payload: IUser) {
-    return this.http.patch<IUser>(
-      `http://localhost:3030/users/${payload.UsersID}`,
-      payload
-    );
+  update(payload: Partial<IUser>): Observable<any> {
+    return from(this.feathers.service('sms').update(payload.UsersID!, payload));
   }
 
-  delete(id: number) {
-    return this.http.delete(`http://localhost:3030/users/${id}`);
+  delete(id: number): Observable<any> {
+    return from(this.feathers.service('sms').remove(id));
   }
 
   /*updateOld(id: number, params: any) {

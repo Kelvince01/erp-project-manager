@@ -2,7 +2,7 @@ import { IUser } from '@models/user.model';
 import { UserService } from 'src/app/data/services/user.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable, map, first } from 'rxjs';
 import { selectAppState } from 'src/app/data/selectors/app.selector';
 import { setAPIStatus } from 'src/app/data/stores/app.action';
 import { Appstate } from 'src/app/data/stores/appstate';
@@ -24,11 +24,12 @@ declare var window: any;
 export class ListComponent implements OnInit {
   users$ = this.store.pipe(select(selectUsers))! as any;
   users: IUser[] = [];
+  // users: IUser[] = [];
   // messages$: Observable<any[]>;
   // users2$!: Observable<any[]>;
   displayDialog: any;
   userForDialog: any;
-  clonedUsers: { [s: string]: IUser } = {};
+  // clonedUsers: { [s: string]: IUser } = {};
 
   constructor(
     private store: Store,
@@ -54,24 +55,36 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUsers();
+
     this.store.dispatch(invokeUsersAPI());
     // console.log(globalThis);
-    this.usersService.users$().subscribe((users) => (this.users = users.data));
+    // console.log(this.users);
+  }
+
+  getUsers() {
+    this.usersService
+      .users$()
+      .pipe(first())
+      .subscribe((res: any) => {
+        this.users = res.data;
+        // console.log(this.users);
+      });
   }
 
   onUserAdd() {}
   onRowEditInit(data: any) {
-    this.clonedUsers[data.name] = { ...data };
+    // this.clonedUsers[data.name] = { ...data };
   }
   onRowEditSave(data: any) {
-    this.usersService.update(data).subscribe((data) => {
-      this.ngOnInit();
-      alert('User Updated successfully.');
-    });
+    // this.usersService.update(data).subscribe((data) => {
+    //   this.ngOnInit();
+    //   alert('User Updated successfully.');
+    // });
   }
-  onRowEditCancel(data: any, index: any) {
-    this.users$[index] = this.clonedUsers[data.name];
-    delete this.clonedUsers[data.name];
+  onRowEditCancel(data: any) {
+    // this.users$[index] = this.clonedUsers[data.name];
+    // delete this.clonedUsers[data.name];
   }
 
   saveUser() {}

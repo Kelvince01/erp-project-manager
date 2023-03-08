@@ -1,6 +1,6 @@
 <p-tabView [(activeIndex)]="index">
   <p-tabPanel header="Suppliers" leftIcon="pi pi-calendar" tooltip="1972">
-    <div class="row">
+    <!-- <div class="row">
       <button
         type="button"
         pButton
@@ -45,7 +45,7 @@
         pTooltip="Add Item Status"
         tooltipPosition="bottom"
       ></button>
-    </div>
+    </div> -->
 
     <div class="row">
       <div class="col-md-12">
@@ -131,7 +131,7 @@
     rightIcon="pi pi-star-fill"
     tooltip="1990"
   >
-    <app-pay-bill [tabIndex]="index" [invoice]="invoice"></app-pay-bill>
+    <app-pay-bill [tabIndex]="index" [intialInvoice]="invoice"></app-pay-bill>
   </p-tabPanel>
   <p-tabPanel
     header="Receive Debit Note"

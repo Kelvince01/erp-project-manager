@@ -42,13 +42,13 @@ export class ListComponent implements OnInit {
 
     this.cols = [
       {
-        field: 'FirstName',
-        header: 'FirstName',
-        customExportHeader: 'First Name',
-        dataKey: 'FirstName',
+        field: 'CompanyName',
+        header: 'CompanyName',
+        customExportHeader: 'Company Name',
+        dataKey: 'CompanyName',
       },
-      { field: 'Surname', header: 'Surname', dataKey: 'Surname' },
-      { field: 'IDNo', header: 'IDNo', dataKey: 'IDNo' },
+      { field: 'Residence', header: 'Residence', dataKey: 'Residence' },
+      { field: 'Mobile', header: 'Mobile', dataKey: 'Mobile' },
       { field: 'Town', header: 'Town', dataKey: 'Town' },
     ];
 

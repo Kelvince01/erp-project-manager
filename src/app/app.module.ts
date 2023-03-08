@@ -14,15 +14,15 @@ import { AdminModule } from '@admin/admin.module';
 import { MainModule } from '@main/main.module';
 import { AuthModule } from '@auth/auth.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ErrorInterceptor } from '@utils/interceptors/error.interceptor';
-import { JwtInterceptor } from '@utils/interceptors/jwt.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { SpinnerInterceptor } from '@utils/interceptors/spinner.interceptor';
 import { FeathersService } from '@services/feathers.service';
 import { AuthService } from '@services/auth.service';
 import { AuthGuard } from '@utils/guards/auth.guard';
 import { configFactory, ConfigService } from '@core/services/config.service';
 import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
+import { JwtInterceptor } from '@core/interceptors/jwt.interceptor';
+import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
+import { SpinnerInterceptor } from '@core/interceptors/spinner.interceptor';
 
 export function appInitializer(accountService: AuthService) {
   return () =>
@@ -44,7 +44,7 @@ export function appInitializer(accountService: AuthService) {
     NgxSpinnerModule.forRoot({ type: 'ball-spin-clockwise-fade' }),
     StoreModule.forRoot({ appState: appReducer }),
     SharedModule,
-    CoreModule,
+    CoreModule.forRoot(),
     AuthModule,
     MainModule,
     AdminModule,
