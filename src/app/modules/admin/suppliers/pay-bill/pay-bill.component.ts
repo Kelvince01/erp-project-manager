@@ -29,6 +29,9 @@ export class PayInvoice {
   ProjectID?: number;
   AmountPaid?: number;
   Address?: string;
+  SupplierName?: string;
+  ProjectName?: string;
+  ClassName?: string = 'Service';
   RefNo?: string;
   JournalNo?: string;
   Date?: Date = new Date();
@@ -83,7 +86,7 @@ export class PayBillComponent implements OnInit {
   payments: any;
   unpaidAmountPaid: any;
   unusedCredits: any;
-  prevJournal: any;
+  Address: any = '';
 
   @Input() intialInvoice?: Invoice;
   @Input() invoice = new PayInvoice();
@@ -131,9 +134,14 @@ export class PayBillComponent implements OnInit {
     });
   }
 
+  hideResultDialog() {
+    this.resultDialog = false;
+    this.invoice = { products: [new PayInvoice()] };
+  }
+
   onSubmit() {
     this.submitted = true;
-    const data = (prevJournal?: any) => {
+    const data = () => {
       return {
         JournalNo: this.createId(),
         Dated: this.invoice.Date,
@@ -144,7 +152,7 @@ export class PayBillComponent implements OnInit {
         ClassID: 1,
         ProviderID: this.invoice.SupplierID,
         PymtMethodID: 1,
-        Address: this.prevJournal.Address,
+        Address: this.invoice.Address,
         Memo: this.invoice.Memo,
         AmountPaid: 0,
         Balance: 0,
@@ -278,30 +286,30 @@ export class PayBillComponent implements OnInit {
       .pipe(first())
       .subscribe((res: any) => {
         this.invoice.products.forEach((item: any) => {
-          if (item.checked) {
-            let accountData = actPosting(res.JournalID, item);
+          // if (item.checked) {
+          let accountData = actPosting(res.JournalID, item);
 
-            let due = this.calcTotal() - this.invoice.AmountPaid!;
+          let due = this.calcTotal() - this.invoice.AmountPaid!;
 
-            let upData: Partial<IJournal> = {
-              TransTypeID: 3,
-              AmtDue: due > 0 ? due : 0,
-            };
+          let upData: Partial<IJournal> = {
+            TransTypeID: 3,
+            AmtDue: due > 0 ? due : 0,
+          };
 
-            this.journalService
-              .update(item.JournalID, upData)
-              .pipe(first())
-              .subscribe((res) => {
-                console.log('Updated!');
-              });
+          this.journalService
+            .update(item.JournalID, upData)
+            .pipe(first())
+            .subscribe((res) => {
+              console.log('Updated!');
+            });
 
-            this.accountService
-              .createAccountPosting(accountData)
-              .pipe(first())
-              .subscribe((res) => {
-                console.log('Done');
-              });
-          }
+          this.accountService
+            .createAccountPosting(accountData)
+            .pipe(first())
+            .subscribe((res) => {
+              console.log('Done');
+            });
+          // }
         });
 
         this.messageService.add({
@@ -450,12 +458,12 @@ export class PayBillComponent implements OnInit {
       .getById(Number(this.employeeId))
       .pipe(first())
       .subscribe((res) => {
-        // console.log(res);
         let address = `${res.POBox + ', ' ? res.POBox : ''} ${
           res.PostalCode + ', ' ? res.PostalCode : ''
         }, ${res.Estate + ', ' ? res.Estate : ''}, ${res.Town ? res.Town : ''}`;
 
-        this.prevJournal.Address = address;
+        this.invoice.Address = address;
+        this.invoice.SupplierName = res.CompanyName;
       });
 
     this.getJournals(this.employeeId);
@@ -523,12 +531,12 @@ export class PayBillComponent implements OnInit {
         {
           columns: [
             [
-              {
-                text: `Project: ${this.invoice?.ProjectID}`,
-                bold: true,
-              },
-              { text: `Class: ${this.invoice?.ClassID}` },
-              { text: `Supplier: ${this.invoice?.SupplierID}` },
+              // {
+              //   text: `Project: ${this.invoice?.ProjectID}`,
+              //   bold: true,
+              // },
+              { text: `Class: ${this.invoice?.ClassName}` },
+              { text: `Supplier: ${this.invoice?.SupplierName}` },
               { text: `Amount: ${this.invoice?.AmountPaid}` },
               {
                 text: `Address: ${this.invoice?.Address}`,
@@ -566,20 +574,22 @@ export class PayBillComponent implements OnInit {
               ],
               ...this.invoice.products.map((p) => [
                 p.TableName,
-                2, // p.Quantity,
-                300,
-                300, // p.TotalAmt!.toFixed(2),
-                1, // p.TotalAmt,
-                3000, // p.TotalAmt!.toFixed(2),
+                1, // p.Quantity,
+                p.AmtDue,
+                p.TotalAmt!.toFixed(2),
+                1,
+                p.TotalAmt!.toFixed(2),
               ]),
-              // [
-              //   { text: 'Total Amount', colSpan: 3 },
-              //   {},
-              //   {},
-              //   this.invoice.products
-              //     .reduce((sum, p) => sum + p.TotalAmt!, 0)
-              //     .toFixed(2),
-              // ],
+              [
+                { text: 'Total Amount', colSpan: 3 },
+                {},
+                {},
+                {},
+                {},
+                this.invoice.products
+                  .reduce((sum, p) => sum + p.TotalAmt!, 0)
+                  .toFixed(2),
+              ],
             ],
           },
         },

@@ -69,7 +69,122 @@ export class AuthService {
     return this.roleAs;
   }
 
-  verifyEmail(token: string) {
+  isToken(): boolean {
+    return !!localStorage.getItem('auth-jwt');
+    // return !!localStorage.getItem('auth-jwt') && !!localStorage.getItem('ID');
+  }
+
+  async isAuth(): Promise<boolean> {
+    try {
+      const auth = await this.logIn();
+      if (!auth || !this.isToken()) {
+        this.logOut();
+        return false;
+      }
+      return true;
+    } catch (error) {
+      this.logOut();
+      return false;
+    }
+  }
+
+  async isLogin(): Promise<boolean> {
+    try {
+      const auth = await this.logIn();
+      if (!auth) {
+        return true;
+      }
+      this.router.navigate(['/']);
+      return false;
+    } catch (error) {
+      return true;
+    }
+  }
+
+  isLogged() {
+    const isLogged = localStorage.getItem('auth-jwt') !== null;
+    return isLogged;
+  }
+
+  getToken(): any {
+    return window.localStorage.getItem('auth-jwt');
+  }
+
+  setToken(token: string): void {
+    window.localStorage.setItem('auth-jwt', token);
+  }
+
+  getIdClient(): any {
+    return window.localStorage.getItem('ID');
+  }
+
+  setIdClient(id: string): void {
+    window.localStorage.setItem('ID', id);
+  }
+
+  async sendResetPwd(email: string): Promise<boolean> {
+    try {
+      let token = this.getToken();
+      const options = {
+        action: 'sendResetPwd',
+        value: { email }, // {email}, {token: verifyToken}
+        notifierOptions: {}, // options passed to options.notifier, e.g. {preferredComm: 'email'}
+      };
+      await this.feathers.service('authManagement').create(options);
+      // this.notification.createNotificationSuccess();
+      return true;
+    } catch (error: any) {
+      // this.notification.createNotificationError(error.message);
+      return false;
+    }
+  }
+
+  async resetPwdLong(token: any, password: string): Promise<boolean> {
+    try {
+      const options = {
+        action: 'resetPwdLong',
+        value: {
+          token, // compares to .resetToken
+          password, // new password
+        },
+      };
+      await this.feathers.service('authManagement').create(options);
+      // this.notification.createNotificationSuccess();
+      return true;
+    } catch (error: any) {
+      // this.notification.createNotificationError(error.message);
+      return false;
+    }
+  }
+
+  async changePassword(
+    _id: string,
+    email: string,
+    oldPassword: string,
+    password: string
+  ): Promise<boolean> {
+    try {
+      if (!email || !oldPassword || !password) {
+        return false;
+      }
+      const options = {
+        action: 'passwordChange',
+        value: {
+          user: { email, _id },
+          oldPassword,
+          password,
+        },
+      };
+      await this.feathers.service('authManagement').create(options);
+      // this.notification.createNotificationSuccess();
+      return true;
+    } catch (error: any) {
+      // this.notification.createNotificationError(error.message);
+      return false;
+    }
+  }
+
+  /*verifyEmail(token: string) {
     return this.http.post(`${this.baseUrl}/verify-email`, { token });
   }
 
@@ -86,7 +201,7 @@ export class AuthService {
       password,
       confirmPassword,
     });
-  }
+  }*/
 
   public logOut() {
     this.feathers.logout();

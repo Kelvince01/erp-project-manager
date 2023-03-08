@@ -358,23 +358,9 @@
                     (change)="paymentChanged($event, i)"
                   />
                 </td>
-                <!-- <td id="Payment">{{ item.Payment }}</td> -->
-                <!-- value="{{ item.Payment }}" -->
-                <!-- <td id="1" style="cursor: pointer; font-weight: bold">Show</td> -->
               </tr>
             </tbody>
           </table>
-          <!-- <ng-container *ngFor="let item of items">
-            <tr>
-              <td>{{ item.ItemName }}</td>
-              <td>{{ item.location | titlecase }}</td>
-              <td>{{ item.location }}</td>
-              <td>{{ item.location }}</td>
-              <td>{{ item.dates.startdate }}</td>
-              <td><button class="btn btn-outline-dark">Details</button></td>
-              <!- (click)="modalService.open();" ->
-            </tr>
-          </ng-container> -->
         </div>
 
         <div class="col-12 mt-4">
@@ -422,6 +408,14 @@
       icon="pi pi-file-pdf"
       class="p-button-text"
       (click)="payExpenseForm.valid ? generatePDF() : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideResultDialog()"
     ></button>
   </ng-template>
 </p-dialog>

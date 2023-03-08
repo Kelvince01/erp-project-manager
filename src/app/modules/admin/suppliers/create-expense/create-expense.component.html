@@ -400,6 +400,14 @@
       class="p-button-text"
       (click)="expenseForm.valid ? generatePDF() : ''"
     ></button>
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideResultDialog()"
+    ></button>
   </ng-template>
 </p-dialog>
 

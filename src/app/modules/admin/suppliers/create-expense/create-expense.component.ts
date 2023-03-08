@@ -437,7 +437,7 @@ export class CreateExpenseComponent implements OnInit {
       let actPost: IAccountPosting = {
         JournalID: id,
         Description: post.Description,
-        JournalBSID: bs.JournalBSID,
+        JournalBSID: bs,
         JournalPLID: 0,
         JournalNo: this.invoice.JournalNo,
         Dated: new Date(),
@@ -489,6 +489,7 @@ export class CreateExpenseComponent implements OnInit {
       .create(data)
       .pipe(first())
       .subscribe((res1: any) => {
+        let initialJournal = res1;
         this.invoice.products.forEach((item: any) => {
           let itemData = journalBsData(res1.JournalID, item);
           let accountData = actPosting(res1.JournalID, item);
@@ -499,19 +500,12 @@ export class CreateExpenseComponent implements OnInit {
             .subscribe((res11) => {
               console.log('Done');
 
-              this.journalService
-                .createBS(itemData)
+              this.accountService
+                .createAccountPosting(accountData)
                 .pipe(first())
-                .subscribe((res2) => {
+                .subscribe((res12) => {
                   console.log('Done');
                 });
-            });
-
-          this.accountService
-            .createAccountPosting(accountData)
-            .pipe(first())
-            .subscribe((res12) => {
-              console.log('Done');
             });
 
           this.journalService
@@ -524,11 +518,16 @@ export class CreateExpenseComponent implements OnInit {
                 .createBS(itemData2)
                 .pipe(first())
                 .subscribe((res22) => {
-                  let accountData2 = actPosting2(res1.JournalID, item, res22);
+                  let accountData2 = actPosting2(
+                    initialJournal.JournalID,
+                    item,
+                    res22.JournalBSID
+                  );
+
                   this.accountService
-                    .createAccountPosting(accountData2)
+                    .createAccountPosting({ ...accountData2 })
                     .pipe(first())
-                    .subscribe((res) => {
+                    .subscribe((res23) => {
                       console.log('Done');
                     });
 
