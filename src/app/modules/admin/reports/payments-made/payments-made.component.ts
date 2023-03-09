@@ -1,25 +1,25 @@
-import { EmployeesService } from '@services/employees.service';
 import { Component, OnInit } from '@angular/core';
-import { IJournal } from '@models/journal.model';
-import { JournalsService } from '@services/journals.service';
-import { first } from 'rxjs';
-import { FilesService } from '@services/files.service';
-import { Table } from 'primeng/table';
-import { CurrenciesService } from '@services/currencies.service';
 import { ICurrency } from '@models/currency.model';
+import { IJournal } from '@models/journal.model';
 import { ITransactionType } from '@models/transaction-type.model';
+import { CurrenciesService } from '@services/currencies.service';
+import { EmployeesService } from '@services/employees.service';
+import { FilesService } from '@services/files.service';
+import { JournalsService } from '@services/journals.service';
 import { TransactionTypesService } from '@services/transaction-types.service';
+import { Table } from 'primeng/table';
+import { first } from 'rxjs/operators';
 
 interface IFilterJournal extends IJournal {
   SupplierName?: string;
 }
 
 @Component({
-  selector: 'app-supplier-reports',
-  templateUrl: './supplier-reports.component.html',
-  styleUrls: ['./supplier-reports.component.css'],
+  selector: 'app-payments-made',
+  templateUrl: './payments-made.component.html',
+  styleUrls: ['./payments-made.component.css'],
 })
-export class SupplierReportsComponent implements OnInit {
+export class PaymentsMadeComponent implements OnInit {
   journals: IFilterJournal[] = [];
   transTypes: ITransactionType[] = [];
   currencies: ICurrency[] = [];
@@ -53,7 +53,7 @@ export class SupplierReportsComponent implements OnInit {
       TransTypeID: 4,
       TableID: 2,
       AmtDue: {
-        $lte: 0,
+        $gt: 0,
       },
       ..._query,
     };

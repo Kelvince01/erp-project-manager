@@ -9,6 +9,7 @@ import autoTable from 'jspdf-autotable';
 export class FilesService {
   pdfMake: any;
   jsPdf: any;
+  htmt2Canvas: any;
 
   constructor() {}
 
@@ -28,6 +29,13 @@ export class FilesService {
     }
   }
 
+  async loadHtml2Canvas() {
+    if (!this.htmt2Canvas) {
+      const htmt2CanvasModule = await import('html2canvas');
+      this.htmt2Canvas = htmt2CanvasModule.default;
+    }
+  }
+
   async generatePdf() {
     await this.loadPdfMaker();
 
@@ -43,14 +51,22 @@ export class FilesService {
     return this.pdfMake.createPdf(docDefinition);
   }
 
+  async openPdf(DATA: any, filename: string) {
+    await this.loadHtml2Canvas();
+    await this.loadJsPdf();
+
+    this.htmt2Canvas(DATA).then((canvas: any) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new this.jsPdf('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+      PDF.save(`${filename}.pdf`);
+    });
+  }
+
   async exportPdf(exportColumns: any, items: any, filename: string) {
-    /*import('jspdf').then((jsPDF) => {
-      import('jspdf-autotable').then((x) => {
-        const doc = new jsPDF.default(0, 0);
-        doc.autoTable(exportColumns, items);
-        doc.save(`${filename}.pdf`);
-      });
-    });*/
     await this.loadJsPdf();
 
     const doc = new this.jsPdf('p', 'pt');
@@ -58,7 +74,13 @@ export class FilesService {
       columns: exportColumns,
       body: items,
       didDrawPage: (dataArg) => {
-        doc.text(filename, dataArg.settings.margin.left, 10);
+        doc.text(
+          filename,
+          dataArg.settings.margin.left,
+          dataArg.settings.margin.top,
+          dataArg.settings.margin.bottom,
+          10
+        );
       },
     });
     doc.save(`${filename}.pdf`);

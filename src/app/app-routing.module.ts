@@ -10,25 +10,6 @@ const routes: Routes = [
     path: '',
     loadChildren: () =>
       import('./modules/main/main.module').then((m) => m.MainModule),
-    data: {
-      seo: {
-        title: 'Onster Group PM',
-        metaTags: [
-          { name: 'description', content: 'Onster Group PM' },
-          { property: 'og:title', content: 'Authentication' },
-          {
-            proprety: 'og:description',
-            content: 'Onster Group Project Manager',
-          },
-          {
-            property: 'og:image',
-            content: environment.appUrl + 'assets/images/company-logo.png',
-          },
-          { property: 'og:url', content: environment.appUrl + '' },
-          { name: 'twitter:card', content: 'summary_large_image' },
-        ],
-      },
-    },
   },
   {
     path: 'accounts',

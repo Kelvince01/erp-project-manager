@@ -292,21 +292,23 @@ export class PayBillComponent implements OnInit {
           let due = this.calcTotal() - this.invoice.AmountPaid!;
 
           let upData: Partial<IJournal> = {
-            TransTypeID: 3,
+            TransTypeID: due <= 0 ? 3 : 4,
             AmtDue: due > 0 ? due : 0,
+            // ProviderID: item.ProviderID,
+            // TableID: 2,
           };
 
           this.journalService
             .update(item.JournalID, upData)
             .pipe(first())
-            .subscribe((res) => {
+            .subscribe((res2) => {
               console.log('Updated!');
             });
 
           this.accountService
             .createAccountPosting(accountData)
             .pipe(first())
-            .subscribe((res) => {
+            .subscribe((res3) => {
               console.log('Done');
             });
           // }

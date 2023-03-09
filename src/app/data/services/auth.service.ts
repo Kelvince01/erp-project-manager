@@ -122,6 +122,20 @@ export class AuthService {
     window.localStorage.setItem('ID', id);
   }
 
+  changePassword(
+    oldPassword: string,
+    password: string,
+    id?: string,
+    email?: string
+  ) {
+    from(
+      this.feathers.service('authentication/changePassword').create({
+        password: password,
+        oldPassword: oldPassword,
+      })
+    );
+  }
+
   async sendResetPwd(email: string): Promise<boolean> {
     try {
       let token = this.getToken();
@@ -157,7 +171,7 @@ export class AuthService {
     }
   }
 
-  async changePassword(
+  async changePassword2(
     _id: string,
     email: string,
     oldPassword: string,

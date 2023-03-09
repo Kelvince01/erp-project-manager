@@ -525,7 +525,7 @@ export class CreateExpenseComponent implements OnInit {
                   );
 
                   this.accountService
-                    .createAccountPosting({ ...accountData2 })
+                    .createAccountPosting(accountData2)
                     .pipe(first())
                     .subscribe((res23) => {
                       console.log('Done');
@@ -539,15 +539,15 @@ export class CreateExpenseComponent implements OnInit {
             severity: 'success',
             detail: 'Journal created.',
           });
-          this.router.navigateByUrl('/admin/suppliers');
+          // this.router.navigateByUrl('/admin/suppliers');
 
           (error: any) => {
             this.submitting = false;
 
             this.messageService.add({
               severity: 'error',
-              detail: error,
-              // detail: 'Could not create journal!',
+              // detail: error,
+              detail: 'Could not create journal!',
             });
           };
         });

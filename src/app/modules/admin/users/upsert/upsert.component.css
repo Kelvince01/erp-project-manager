@@ -2,3 +2,8 @@
   pointer-events: none;
   opacity: 0.4;
 }
+
+.form-label {
+  padding-left: 0;
+  padding-top: 10px;
+}

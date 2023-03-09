@@ -1,5 +1,5 @@
 <p-tabView [(activeIndex)]="index">
-  <p-tabPanel header="Suppliers" leftIcon="pi pi-calendar" tooltip="1972">
+  <p-tabPanel header="Suppliers" leftIcon="pi pi-calendar" tooltip="Suppliers">
     <!-- <div class="row">
       <button
         type="button"
@@ -120,7 +120,11 @@
       </div>
     </div>
   </p-tabPanel>
-  <p-tabPanel header="Create Expense" rightIcon="pi pi-inbox" tooltip="1974">
+  <p-tabPanel
+    header="Create Expense"
+    rightIcon="pi pi-inbox"
+    tooltip="Create Expense"
+  >
     <!-- <app-receive-bill></app-receive-bill> -->
     <!-- (newItemEvent)="addItem($event)" -->
     <app-create-expense></app-create-expense>
@@ -129,7 +133,7 @@
     header="Pay Bill"
     leftIcon="pi pi-user"
     rightIcon="pi pi-star-fill"
-    tooltip="1990"
+    tooltip="Pay Bill"
   >
     <app-pay-bill [tabIndex]="index" [intialInvoice]="invoice"></app-pay-bill>
   </p-tabPanel>
@@ -137,7 +141,7 @@
     header="Receive Debit Note"
     leftIcon="pi pi-user"
     rightIcon="pi pi-star-fill"
-    tooltip="1990"
+    tooltip="Receive Debit Note"
   >
     <app-receive-debit-note></app-receive-debit-note>
   </p-tabPanel>
@@ -145,7 +149,7 @@
     header="Receive Refund"
     leftIcon="pi pi-user"
     rightIcon="pi pi-star-fill"
-    tooltip="1990"
+    tooltip="Receive Refund"
   >
     <app-receive-refund></app-receive-refund>
   </p-tabPanel>

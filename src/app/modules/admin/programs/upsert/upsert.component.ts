@@ -78,9 +78,9 @@ export class UpsertComponent implements OnInit {
         next: () => {
           this.alertService.add({
             severity: 'success',
-            detail: 'Program saved',
+            detail: 'Project saved',
           });
-          this.router.navigateByUrl('/admin/programs');
+          this.router.navigateByUrl('/admin/projects');
         },
         error: (error: any) => {
           this.alertService.add({ severity: 'error', detail: error });

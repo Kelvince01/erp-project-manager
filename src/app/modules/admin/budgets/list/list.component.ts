@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import { FilesService } from '@services/files.service';
 
 @Component({
   selector: 'app-list-budgets',
@@ -9,7 +7,10 @@ import autoTable from 'jspdf-autotable';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent {
-  //custom data
+  budgets: any;
+
+  constructor(private fileService: FilesService) {}
+
   sales = [
     {
       brand: 'Apple',
@@ -82,6 +83,7 @@ export class ListComponent {
       thisYearProfit: '$12,533',
     },
   ];
+
   columns = [
     { title: 'Brands', dataKey: 'brand' },
     { title: 'Last Year Sale', dataKey: 'lastYearSale' },
@@ -89,17 +91,8 @@ export class ListComponent {
     { title: 'Last Year Profit', dataKey: 'lastYearProfit' },
     { title: 'This Year Profit', dataKey: 'thisYearProfit' },
   ];
-  //pdf button functionality
-  exportPdf() {
-    const doc = new jsPDF('p', 'pt');
 
-    autoTable(doc, {
-      columns: this.columns,
-      body: this.sales,
-      didDrawPage: (dataArg) => {
-        doc.text('Sales', dataArg.settings.margin.left, 10);
-      },
-    });
-    doc.save('sales.pdf');
+  exportPdf() {
+    this.fileService.exportPdf(this.columns, this.sales, 'Budget List');
   }
 }

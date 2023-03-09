@@ -14,6 +14,25 @@ const routes: Routes = [
       {
         path: '',
         component: HomeComponent,
+        data: {
+          seo: {
+            title: 'Onster Group PM',
+            metaTags: [
+              { name: 'description', content: 'Onster Group PM Home' },
+              { property: 'og:title', content: 'Home' },
+              {
+                proprety: 'og:description',
+                content: 'Onster Group Project Manager | Home',
+              },
+              {
+                property: 'og:image',
+                content: environment.appUrl + 'assets/images/company-logo.png',
+              },
+              { property: 'og:url', content: environment.appUrl + '' },
+              { name: 'twitter:card', content: 'summary_large_image' },
+            ],
+          },
+        },
       },
       {
         path: 'about',

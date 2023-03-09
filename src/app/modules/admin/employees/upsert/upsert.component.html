@@ -1,8 +1,5 @@
-<p-tabView
-  class="surface-card p-2 m-0 list-none flex overflow-x-auto select-none"
->
+<p-tabView>
   <p-tabPanel
-    class="flex align-items-center"
     header="Employee Details"
     leftIcon="pi pi-calendar"
     tooltip="Employee Details"
@@ -25,7 +22,9 @@
               <select
                 formControlName="TitleID"
                 class="form-control"
-                [ngClass]="{ 'is-invalid': submitted && f['TitleID'].errors }"
+                [ngClass]="{
+                  'is-invalid': submitted && f['TitleID'].errors
+                }"
               >
                 <option [ngValue]="null" disabled>Select Title</option>
                 <option *ngFor="let title of titles" [ngValue]="title.TitleID">
@@ -278,7 +277,9 @@
                 type="email"
                 class="form-control"
                 formControlName="NextEmail"
-                [ngClass]="{ 'is-invalid': submitted && f['NextEmail'].errors }"
+                [ngClass]="{
+                  'is-invalid': submitted && f['NextEmail'].errors
+                }"
               />
               <div
                 *ngIf="submitted && f['NextEmail'].errors"

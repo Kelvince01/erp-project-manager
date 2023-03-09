@@ -63,8 +63,8 @@ export class UpsertComponent implements OnInit {
       {
         EmployeeID: ['', Validators.required],
         isEmployee: ['', Validators.required],
-        FirstName: ['', Validators.required],
-        Surname: ['', Validators.required],
+        FirstName: [''],
+        Surname: [''],
         UserName: ['', Validators.required],
         Email: ['', [Validators.required, Validators.email]],
         RoleID: ['', Validators.required],
