@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { IDepartment } from '../models/department.model';
+import { IDepartment } from '@models/department.model';
 import {
   deleteDepartmentAPISuccess,
   departmentsFetchAPISuccess,

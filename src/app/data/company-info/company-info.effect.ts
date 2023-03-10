@@ -13,8 +13,8 @@ import {
   updateCompanyInfoAPISucess,
 } from './company-info.action';
 import { CompanyInfoService } from '@services/company-info.service';
-import { setAPIStatus } from '../stores/app.action';
-import { Appstate } from '../stores/appstate';
+import { setAPIStatus } from '@stores/app.action';
+import { Appstate } from '@stores/appstate';
 import { selectCompanyInfos } from './company-info.selector';
 
 @Injectable()

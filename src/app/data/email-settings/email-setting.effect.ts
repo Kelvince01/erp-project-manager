@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, map, mergeMap, retry, switchMap, withLatestFrom } from 'rxjs';
-import { EmailSettingsService } from '../services/email-settings.service';
+import { EmailSettingsService } from '@services/email-settings.service';
 import {
   deleteEmailSettingAPISuccess,
   emailSettingsFetchAPISuccess,
@@ -13,8 +13,8 @@ import {
   saveNewEmailSettingAPISuccess,
   updateEmailSettingAPISuccess,
 } from './email-setting.action';
-import { setAPIStatus } from '../stores/app.action';
-import { Appstate } from '../stores/appstate';
+import { setAPIStatus } from '@stores/app.action';
+import { Appstate } from '@stores/appstate';
 import { selectEmailSettings } from './email-setting.selector';
 import { Paginated } from '@feathersjs/feathers';
 

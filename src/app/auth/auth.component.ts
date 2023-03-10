@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
+import {IUser} from "@models/user.model";
 
 @Component({
   selector: 'app-auth',
@@ -8,7 +9,7 @@ import { AuthService } from '@services/auth.service';
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent {
-  user: any;
+  user: IUser;
 
   constructor(private router: Router, private accountService: AuthService) {
     // redirect to home if already logged in
@@ -16,6 +17,8 @@ export class AuthComponent {
 
     if (this.user) {
       this.router.navigate(['/']);
+    } else {
+      this.router.navigate(['/accounts/login']);
     }
   }
 }

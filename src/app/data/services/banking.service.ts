@@ -1,4 +1,4 @@
-import { IAccount } from './../models/account.model';
+import { IAccount } from '@models/account.model';
 import { Injectable } from '@angular/core';
 import { IBank } from '@models/bank.model';
 import { Observable, from } from 'rxjs';

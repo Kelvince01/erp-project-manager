@@ -9,6 +9,7 @@ import { CurrenciesService } from '@services/currencies.service';
 import { ICurrency } from '@models/currency.model';
 import { ITransactionType } from '@models/transaction-type.model';
 import { TransactionTypesService } from '@services/transaction-types.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 interface IFilterJournal extends IJournal {
   SupplierName?: string;
@@ -25,6 +26,8 @@ export class SupplierReportsComponent implements OnInit {
   currencies: ICurrency[] = [];
   defaultCurrency = 'Kenyan Shillings';
   loading: boolean = true;
+  query = {};
+  searchBillsForm!: FormGroup;
 
   constructor(
     private journalService: JournalsService,
@@ -46,6 +49,13 @@ export class SupplierReportsComponent implements OnInit {
     this.getJournals();
     this.getCurrencies();
     this.getTransactionTypes();
+
+    this.searchBillsForm = new FormGroup({
+      TransTypeID: new FormControl(),
+      CurrencyID: new FormControl(),
+      DateDueFrom: new FormControl(),
+      DateDueTo: new FormControl(),
+    });
   }
 
   getJournals(_query?: any) {
@@ -53,7 +63,7 @@ export class SupplierReportsComponent implements OnInit {
       TransTypeID: 4,
       TableID: 2,
       AmtDue: {
-        $lte: 0,
+        $gt: 0,
       },
       ..._query,
     };
@@ -83,6 +93,59 @@ export class SupplierReportsComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     // ... etc...
+  }
+
+  clearSearchForm() {
+    this.searchBillsForm.reset();
+    this.getJournals();
+  }
+
+  selectChangeHandler(event: any) {
+    //update the ui
+    let value = event.target.value;
+
+    if (
+      event.target.attributes.getNamedItem('ng-reflect-name').value ==
+      'TransTypeID'
+    ) {
+      this.query = {
+        ...this.query,
+        TransTypeID: value,
+      };
+    }
+    if (
+      event.target.attributes.getNamedItem('ng-reflect-name').value ==
+      'CurrencyID'
+    ) {
+      this.query = {
+        ...this.query,
+        CurrencyID: value,
+      };
+    }
+    if (
+      event.target.attributes.getNamedItem('ng-reflect-name').value ==
+      'DateDueFrom'
+    ) {
+      this.query = {
+        ...this.query,
+        DateDue: {
+          $gte: value,
+        },
+      };
+    }
+    if (
+      event.target.attributes.getNamedItem('ng-reflect-name').value ==
+      'DateDueTo'
+    ) {
+      this.query = {
+        ...this.query,
+        DateDue: {
+          $lte: value,
+        },
+      };
+    }
+
+    this.getJournals(this.query);
   }
 
   clear(table: Table) {

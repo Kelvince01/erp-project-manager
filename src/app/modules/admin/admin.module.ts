@@ -14,7 +14,7 @@ import { AdminComponent } from './admin.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { SidebarComponent } from './common/sidebar/sidebar.component';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminProfileComponent } from './common/profile/admin-profile.component';
 import { AdminSettingsComponent } from './common/admin-settings/admin-settings.component';

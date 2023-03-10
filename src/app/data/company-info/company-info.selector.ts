@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ICompanyInfo } from '../models/company-info.model';
+import { ICompanyInfo } from '@models/company-info.model';
 
 export const selectCompanyInfos =
   // createFeatureSelector<ICompanyInfo[]>('company-info');

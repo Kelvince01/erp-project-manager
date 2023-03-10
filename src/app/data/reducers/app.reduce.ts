@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { setAPIStatus } from '../stores/app.action';
-import { Appstate } from '../stores/appstate';
+import { setAPIStatus } from '@stores/app.action';
+import { Appstate } from '@stores/appstate';
 
 export const initialState: Readonly<Appstate> = {
   apiResponseMessage: '',

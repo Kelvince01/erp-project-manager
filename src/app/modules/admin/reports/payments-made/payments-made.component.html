@@ -16,14 +16,19 @@
   [tableStyle]="{ 'min-width': '75rem' }"
 >
   <ng-template pTemplate="caption">
-    <div class="row mb-3">
+    <div class="row mb-3" [formGroup]="paymentsMadeForm">
       <div class="col-md-6">
         <label class="form-label">Select Transaction Type</label>
-        <select formControlName="CurrencyID" class="form-control">
+        <select
+          class="form-control"
+          formControlName="TransTypeID"
+          (change)="selectChangeHandler($event)"
+        >
           <option [ngValue]="null" disabled>Select Transaction Type</option>
           <option
             *ngFor="let mainAccount of transTypes"
             [ngValue]="mainAccount.TransTypeID"
+            [value]="mainAccount.TransTypeID"
           >
             {{ mainAccount.TransType }}
           </option>
@@ -31,15 +36,25 @@
       </div>
       <div class="col-md-6">
         <label class="form-label">From Date</label>
-        <input type="date" class="form-control" />
+        <input
+          type="date"
+          class="form-control"
+          formControlName="DateDueFrom"
+          (change)="selectChangeHandler($event)"
+        />
       </div>
       <div class="col-md-6">
         <label class="form-label">Currency</label>
-        <select formControlName="CurrencyID" class="form-control">
+        <select
+          class="form-control"
+          formControlName="CurrencyID"
+          (change)="selectChangeHandler($event)"
+        >
           <option [ngValue]="null" disabled>Select Currency</option>
           <option
             *ngFor="let mainAccount of currencies"
             [ngValue]="mainAccount.CurrencyID"
+            [value]="mainAccount.CurrencyID"
           >
             {{ mainAccount.Currency }}
           </option>
@@ -47,7 +62,12 @@
       </div>
       <div class="col-md-6">
         <label class="form-label">To Date</label>
-        <input type="date" class="form-control" />
+        <input
+          type="date"
+          class="form-control"
+          formControlName="DateDueTo"
+          (change)="selectChangeHandler($event)"
+        />
       </div>
     </div>
     <div class="row">
@@ -56,12 +76,27 @@
           type="button"
           pButton
           pRipple
+          label="Export Records"
           icon="pi pi-file-pdf"
           (click)="exportPdf()"
           class="p-button-warning p-mr-2"
           pTooltip="PDF"
           tooltipPosition="bottom"
         ></button>
+
+        <div class="p-d-flex col-md-3">
+          <button
+            type="button"
+            pButton
+            pRipple
+            icon="pi pi-close"
+            (click)="clearSearchForm()"
+            class="p-button-secondary p-mr-2"
+            label="Clear Search Form"
+            pTooltip="Clear Form"
+            tooltipPosition="bottom"
+          ></button>
+        </div>
       </div>
     </div>
   </ng-template>
@@ -69,8 +104,8 @@
     <tr>
       <th>S/No</th>
       <th>Currency</th>
-      <th pSortableColumn="Date">
-        Date <p-sortIcon field="Date"></p-sortIcon>
+      <th pSortableColumn="Dated">
+        Date <p-sortIcon field="Dated"></p-sortIcon>
       </th>
       <th>Bill No</th>
       <th>Supplier</th>

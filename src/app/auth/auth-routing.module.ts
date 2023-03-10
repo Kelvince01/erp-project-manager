@@ -59,7 +59,7 @@ const routes: Routes = [
               },
               { property: 'og:title', content: 'Register' },
               {
-                proprety: 'og:description',
+                property: 'og:description',
                 content: 'Onster Group PM Register',
               },
               {
@@ -88,7 +88,7 @@ const routes: Routes = [
               },
               { property: 'og:title', content: 'Forgot Password' },
               {
-                proprety: 'og:description',
+                property: 'og:description',
                 content: 'Onster Group PM Forgot Password',
               },
               {
@@ -117,7 +117,7 @@ const routes: Routes = [
               },
               { property: 'og:title', content: 'Reset Password' },
               {
-                proprety: 'og:description',
+                property: 'og:description',
                 content: 'Onster Group PM Reset Password',
               },
               {

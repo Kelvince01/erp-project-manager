@@ -1,7 +1,7 @@
-import { IGroup } from './../models/group.model';
+import { IGroup } from '@models/group.model';
 import { from, Observable } from 'rxjs';
 import { FeathersService } from '@services/feathers.service';
-import { IDepartment } from './../models/department.model';
+import { IDepartment } from '@models/department.model';
 import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { IDepartmentSection } from '@models/department-section.model';

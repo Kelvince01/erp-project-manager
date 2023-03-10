@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { ICompanyInfo } from '../models/company-info.model';
+import { ICompanyInfo } from '@models/company-info.model';
 import {
   companyInfosFetchAPISuccess,
   deleteCompanyInfoAPISuccess,
   saveNewCompanyInfoAPISucess,
   updateCompanyInfoAPISucess,
-} from '../company-info/company-info.action';
+} from '@company-store/company-info.action';
 
 export const initialState: ReadonlyArray<ICompanyInfo> = [];
 

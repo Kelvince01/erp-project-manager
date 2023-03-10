@@ -6,9 +6,8 @@ import { Component, OnInit } from '@angular/core';
     <h2>{{ title }}</h2>
     <img
       alt="Page not found"
-      class="img-responsive"
-      src="assets/images/404-Page-Not-Found.png"
-      class="text-center"
+      class="img-responsive text-center"
+      src="../../../../assets/images/404-Page-Not-Found.png"
     />
     <h4>{{ message }}</h4>
   </div>`,

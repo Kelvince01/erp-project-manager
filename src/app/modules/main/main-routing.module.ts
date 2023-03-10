@@ -21,7 +21,7 @@ const routes: Routes = [
               { name: 'description', content: 'Onster Group PM Home' },
               { property: 'og:title', content: 'Home' },
               {
-                proprety: 'og:description',
+                property: 'og:description',
                 content: 'Onster Group Project Manager | Home',
               },
               {
@@ -47,7 +47,7 @@ const routes: Routes = [
               },
               { property: 'og:title', content: 'About' },
               {
-                proprety: 'og:description',
+                property: 'og:description',
                 content: 'Onster Group PM About',
               },
               {
@@ -73,7 +73,7 @@ const routes: Routes = [
               },
               { property: 'og:title', content: 'Contact' },
               {
-                proprety: 'og:description',
+                property: 'og:description',
                 content: 'Onster Group PM Contact',
               },
               {

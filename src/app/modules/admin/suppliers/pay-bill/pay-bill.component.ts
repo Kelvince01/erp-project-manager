@@ -291,11 +291,9 @@ export class PayBillComponent implements OnInit {
 
           let due = this.calcTotal() - this.invoice.AmountPaid!;
 
-          let upData: Partial<IJournal> = {
+          let upData = {
             TransTypeID: due <= 0 ? 3 : 4,
             AmtDue: due > 0 ? due : 0,
-            // ProviderID: item.ProviderID,
-            // TableID: 2,
           };
 
           this.journalService

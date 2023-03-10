@@ -36,7 +36,7 @@ export class JournalsService {
 
   // update(id: number, payload: Partial<IJournal>): Observable<any> {
   update(id: number, payload: any): Observable<any> {
-    return from(this.feathers.service('journals').update(id, payload));
+    return from(this.feathers.service('journals').patch(id, payload));
   }
 
   delete(id: number): Observable<any> {
