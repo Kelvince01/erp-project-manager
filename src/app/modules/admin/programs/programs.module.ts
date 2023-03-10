@@ -1,4 +1,4 @@
-import { SharedModule } from './../../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { MilestonesListComponent } from './milestones-list/milestones-list.component';
 import { ActivitiesListComponent } from './activities-list/activities-list.component';
 import { NgModule } from '@angular/core';

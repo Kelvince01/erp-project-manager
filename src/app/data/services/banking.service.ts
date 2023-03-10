@@ -1,4 +1,4 @@
-import { IAccount } from './../models/account.model';
+import { IAccount } from '@models/account.model';
 import { Injectable } from '@angular/core';
 import { IBank } from '@models/bank.model';
 import { Observable, from } from 'rxjs';
@@ -192,7 +192,10 @@ export class BankingService {
           ...payload,
         })
         .then(() =>
-          this.messages.add({ severity: 'success', detail: 'Payment method created.' })
+          this.messages.add({
+            severity: 'success',
+            detail: 'Payment method created.',
+          })
         )
         .catch((err: any) =>
           this.messages.add({
@@ -215,9 +218,14 @@ export class BankingService {
     );
   }
 
-  updatePaymentMethod(id: string, payload: Partial<IPaymentMethod>): Observable<any> {
+  updatePaymentMethod(
+    id: string,
+    payload: Partial<IPaymentMethod>
+  ): Observable<any> {
     return from(
-      this.feathers.service('payment-methods').update(payload.PymtMethodID!, payload)
+      this.feathers
+        .service('payment-methods')
+        .update(payload.PymtMethodID!, payload)
     );
   }
 
@@ -227,23 +235,21 @@ export class BankingService {
 
   createAccountPosting(payload: IAccountPosting): Observable<any> {
     return from(
-      this.feathers
-        .service('account-posting')
-        .create({
-          ...payload,
-        })
-        .then(() =>
-          this.messages.add({
-            severity: 'success',
-            detail: 'Account posting created.',
-          })
-        )
-        .catch((err: any) =>
-          this.messages.add({
-            severity: 'error',
-            detail: 'Could not create account posting!',
-          })
-        )
+      this.feathers.service('account-posting').create({
+        ...payload,
+      })
+      // .then(() =>
+      //   this.messages.add({
+      //     severity: 'success',
+      //     detail: 'Account posting created.',
+      //   })
+      // )
+      // .catch((err: any) =>
+      //   this.messages.add({
+      //     severity: 'error',
+      //     detail: 'Could not create account posting!',
+      //   })
+      // )
     );
   }
 

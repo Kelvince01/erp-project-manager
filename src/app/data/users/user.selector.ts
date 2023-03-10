@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { IUser } from '../models/user.model';
+import { IUser } from '@models/user.model';
 
 export const selectUsers = createFeatureSelector<IUser[]>('users');
 

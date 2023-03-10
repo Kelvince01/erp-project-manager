@@ -1,33 +1,33 @@
-import { EmployeesService } from '@services/employees.service';
 import { Component, OnInit } from '@angular/core';
-import { IJournal } from '@models/journal.model';
-import { JournalsService } from '@services/journals.service';
-import { first } from 'rxjs';
-import { FilesService } from '@services/files.service';
-import { Table } from 'primeng/table';
-import { CurrenciesService } from '@services/currencies.service';
-import { ICurrency } from '@models/currency.model';
-import { ITransactionType } from '@models/transaction-type.model';
-import { TransactionTypesService } from '@services/transaction-types.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ICurrency } from '@models/currency.model';
+import { IJournal } from '@models/journal.model';
+import { ITransactionType } from '@models/transaction-type.model';
+import { CurrenciesService } from '@services/currencies.service';
+import { EmployeesService } from '@services/employees.service';
+import { FilesService } from '@services/files.service';
+import { JournalsService } from '@services/journals.service';
+import { TransactionTypesService } from '@services/transaction-types.service';
+import { Table } from 'primeng/table';
+import { first } from 'rxjs/operators';
 
 interface IFilterJournal extends IJournal {
   SupplierName?: string;
 }
 
 @Component({
-  selector: 'app-supplier-reports',
-  templateUrl: './supplier-reports.component.html',
-  styleUrls: ['./supplier-reports.component.css'],
+  selector: 'app-payments-made',
+  templateUrl: './payments-made.component.html',
+  styleUrls: ['./payments-made.component.css'],
 })
-export class SupplierReportsComponent implements OnInit {
+export class PaymentsMadeComponent implements OnInit {
   journals: IFilterJournal[] = [];
   transTypes: ITransactionType[] = [];
   currencies: ICurrency[] = [];
   defaultCurrency = 'Kenyan Shillings';
   loading: boolean = true;
   query = {};
-  searchBillsForm!: FormGroup;
+  paymentsMadeForm!: FormGroup;
 
   constructor(
     private journalService: JournalsService,
@@ -50,7 +50,7 @@ export class SupplierReportsComponent implements OnInit {
     this.getCurrencies();
     this.getTransactionTypes();
 
-    this.searchBillsForm = new FormGroup({
+    this.paymentsMadeForm = new FormGroup({
       TransTypeID: new FormControl(),
       CurrencyID: new FormControl(),
       DateDueFrom: new FormControl(),
@@ -60,10 +60,10 @@ export class SupplierReportsComponent implements OnInit {
 
   getJournals(_query?: any) {
     let query = {
-      TransTypeID: 4,
+      TransTypeID: 3,
       TableID: 2,
       AmtDue: {
-        $gt: 0,
+        $lte: 0,
       },
       ..._query,
     };
@@ -88,16 +88,6 @@ export class SupplierReportsComponent implements OnInit {
         this.journals = res.data;
         this.loading = false;
       });
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    // ... etc...
-  }
-
-  clearSearchForm() {
-    this.searchBillsForm.reset();
-    this.getJournals();
   }
 
   selectChangeHandler(event: any) {
@@ -146,6 +136,16 @@ export class SupplierReportsComponent implements OnInit {
     }
 
     this.getJournals(this.query);
+  }
+
+  clearSearchForm() {
+    this.paymentsMadeForm.reset();
+    this.getJournals();
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    // ... etc...
   }
 
   clear(table: Table) {

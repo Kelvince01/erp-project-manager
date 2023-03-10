@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IDepartment, IDepartmentLite } from './../models/department.model';
+import { IDepartment, IDepartmentLite } from '@models/department.model';
 
 export const invokeDepartmentsAPI = createAction(
   '[Departments API] Invoke Departments Fetch API'

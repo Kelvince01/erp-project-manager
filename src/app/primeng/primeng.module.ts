@@ -41,6 +41,8 @@ import { BadgeModule } from 'primeng/badge';
 import { FieldsetModule } from 'primeng/fieldset';
 import { BlockUIModule } from 'primeng/blockui';
 import { PanelModule } from 'primeng/panel';
+import { MenubarModule } from 'primeng/menubar';
+import { TabMenuModule } from 'primeng/tabmenu';
 
 @NgModule({
   declarations: [],
@@ -86,6 +88,8 @@ import { PanelModule } from 'primeng/panel';
     FieldsetModule,
     BlockUIModule,
     PanelModule,
+    MenubarModule,
+    TabMenuModule,
   ],
   exports: [
     AccordionModule,
@@ -127,6 +131,8 @@ import { PanelModule } from 'primeng/panel';
     FieldsetModule,
     BlockUIModule,
     PanelModule,
+    MenubarModule,
+    TabMenuModule,
   ],
 })
 export class PrimengModule {}

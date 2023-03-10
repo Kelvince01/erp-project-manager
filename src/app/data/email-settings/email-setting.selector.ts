@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { IEmailSetting } from '../models/email-setting.model';
+import { IEmailSetting } from '@models/email-setting.model';
 
 export const selectEmailSettings = createFeatureSelector<any>('email-settings');
 // createFeatureSelector<IEmailSetting[]>('email-settings');

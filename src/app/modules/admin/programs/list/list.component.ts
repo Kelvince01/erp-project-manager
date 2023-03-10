@@ -1,13 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IProject } from '@models/project.model';
+import { FilesService } from '@services/files.service';
 import { ProjectsService } from '@services/projects.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
-
-// import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-programs',
@@ -15,14 +11,15 @@ import { jsPDF } from 'jspdf';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent {
-  @ViewChild('htmlData') htmlData!: ElementRef;
+  @ViewChild('pdfTable') pdfTable!: ElementRef;
   programs!: IProject[];
   isDeleting = false;
 
   constructor(
     private programService: ProjectsService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private fileService: FilesService
   ) {}
 
   ngOnInit() {
@@ -62,15 +59,8 @@ export class ListComponent {
   }
 
   public openPDF(): void {
-    let DATA: any = document.getElementById('htmlData');
-    html2canvas(DATA).then((canvas) => {
-      let fileWidth = 208;
-      let fileHeight = (canvas.height * fileWidth) / canvas.width;
-      const FILEURI = canvas.toDataURL('image/png');
-      let PDF = new jsPDF('p', 'mm', 'a4');
-      let position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-      PDF.save('angular-demo.pdf');
-    });
+    let DATA: any = document.getElementById('pdfTable');
+
+    this.fileService.openPdf(DATA, 'Programs List');
   }
 }

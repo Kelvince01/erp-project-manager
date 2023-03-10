@@ -6,7 +6,7 @@ import { AppModule } from './app/app.module';
 //   .catch((err) => console.error(err));
 
 import { enableProdMode } from '@angular/core';
-import { environment } from './environments/environment';
+import { environment } from '@envs/environment';
 import { hmrBootstrap } from './hmr';
 if (environment.production) {
   enableProdMode();

@@ -1,8 +1,5 @@
-<p-tabView
-  class="surface-card p-2 m-0 list-none flex overflow-x-auto select-none"
->
+<p-tabView>
   <p-tabPanel
-    class="flex align-items-center"
     header="Organization Info"
     leftIcon="pi pi-calendar"
     tooltip="Organization Info"
@@ -63,7 +60,7 @@
               *ngIf="selectedFile.status === 'ok'"
               class="alert alert-success"
             >
-              Image Uploaded Succesfuly!
+              Image Uploaded Successfully!
             </div>
             <div
               *ngIf="selectedFile.status === 'fail'"
@@ -159,6 +156,7 @@
           <div class="col-md-6 p-4">
             <p-checkbox
               class="mr-3"
+              id="isOrgRegistered"
               formControlName="isOrgRegistered"
               [binary]="true"
               inputId="isOrgRegistered"
@@ -266,7 +264,6 @@
                 class="form-control"
                 type="button"
                 (click)="emailSettings()"
-                pButton
                 icon="pi pi-info-circle"
                 label="Email Settings"
               ></button>
@@ -306,7 +303,7 @@
             ></span>
             Save
           </button>
-          <a routerLink="/admin/programs" class="btn btn-link">Cancel</a>
+          <a routerLink="/admin/organizations" class="btn btn-link">Cancel</a>
         </div>
       </div>
     </form>

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { IDepartment } from '../models/department.model';
+import { IDepartment } from '@models/department.model';
 
 export const selectDepartments = createFeatureSelector<any>('departments');
 // createFeatureSelector<IDepartment[]>('departments');

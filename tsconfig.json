@@ -39,6 +39,7 @@
       "@email-setting-store/*": ["src/app/data/email-settings/*"],
       "@utils/*": ["src/app/utilities/*"],
       "@shared/*": ["src/app/shared/*"],
+      "@primeng/*": ["src/app/primeng/*"],
       "@envs/*": ["src/environments/*"],
       "@angular/core/src/metadata/*": ["./node_modules/@angular/core"],
       "lodash/*": ["node_modules/@types/lodash-es/*"]

@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, map, mergeMap, retry, switchMap, withLatestFrom } from 'rxjs';
-import { DepartmentsService } from '../services/departments.service';
+import { DepartmentsService } from '@services/departments.service';
 import {
   deleteDepartmentAPISuccess,
   departmentsFetchAPISuccess,
@@ -13,8 +13,8 @@ import {
   saveNewDepartmentAPISuccess,
   updateDepartmentAPISuccess,
 } from './departments.action';
-import { setAPIStatus } from '../stores/app.action';
-import { Appstate } from '../stores/appstate';
+import { setAPIStatus } from '@stores/app.action';
+import { Appstate } from '@stores/appstate';
 import { selectDepartments } from './department.selector';
 import { Paginated } from '@feathersjs/feathers';
 

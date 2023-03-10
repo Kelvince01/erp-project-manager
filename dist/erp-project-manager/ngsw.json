@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1678308456156,
+  "timestamp": 1678440989249,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,6 +11,7 @@
         "ignoreVary": true
       },
       "urls": [
+        "/159.0dd07ffd63f0f594.js",
         "/493.6b80e510b5f8cd75.js",
         "/566.34f9516a9b3d6296.js",
         "/574.037fb437302b848b.js",
@@ -18,12 +19,12 @@
         "/735.52d504522bde36e5.js",
         "/favicon.ico",
         "/index.html",
-        "/main.9abcae3e41efae27.js",
+        "/main.aeaae446bb9fd933.js",
         "/manifest.webmanifest",
         "/polyfills.5418aa1c1f39e76c.js",
-        "/runtime.3db9461257dff823.js",
+        "/runtime.01902df194f4a718.js",
         "/scripts.749d37f2a0652c4a.js",
-        "/styles.35cc94b142c38454.css"
+        "/styles.14817480c10d6cef.css"
       ],
       "patterns": []
     },
@@ -69,10 +70,8 @@
         "/assets/images/girl.png",
         "/assets/images/hero-1.png",
         "/assets/images/hero-bg.jpg",
-        "/assets/images/hyper.png",
         "/assets/images/man.png",
         "/assets/js/bootstrap.bundle.min.js",
-        "/assets/js/chart-area-demo.js",
         "/assets/js/jassa-admin.min.js",
         "/assets/js/jquery.easing.min.js",
         "/assets/js/jquery.min.js",
@@ -95,6 +94,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/159.0dd07ffd63f0f594.js": "4f4fd6e951c82d5b7a754df1690f00799279c57f",
     "/493.6b80e510b5f8cd75.js": "fe79fd045fda8c821541b0f73bcbf69772e5e0fb",
     "/566.34f9516a9b3d6296.js": "33fbd4ca9cc650d529dd1fd2ab1a42e0ffd67325",
     "/574.037fb437302b848b.js": "7733161bb7b3f6858a294887ab3f72a879a74d80",
@@ -134,10 +134,8 @@
     "/assets/images/girl.png": "cc47f090288afcb1fc98fefc4f649ab7fbcfb282",
     "/assets/images/hero-1.png": "b772448e6bf23674acde465a4d196ffbb692b621",
     "/assets/images/hero-bg.jpg": "4a142797f796c47873019d68eb26382fe987a046",
-    "/assets/images/hyper.png": "fbd1ee58a5bd80fde74c205402e694e8f256cfb6",
     "/assets/images/man.png": "edebfe5d24ccd596ce10c351aad0740a4a21a9df",
     "/assets/js/bootstrap.bundle.min.js": "265a733cb7fbc481fd2510a659a85ad55c93c895",
-    "/assets/js/chart-area-demo.js": "6fa8a592ee754a3c3469d44c13afabab8732c613",
     "/assets/js/jassa-admin.min.js": "490219f725e03940d61f8f0838e3f6c71efc5d07",
     "/assets/js/jquery.easing.min.js": "bde98133f735398b27339c423a817e755329f7d1",
     "/assets/js/jquery.min.js": "88523924351bac0b5d560fe0c5781e2556e7693d",
@@ -151,17 +149,17 @@
     "/fontawesome-webfont.da909aa098b0ee2d.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "/fontawesome-webfont.e9955780856cf8aa.woff2": "d6f48cba7d076fb6f2fd6ba993a75b9dc1ecbf0c",
     "/hue.8b1818380241e6ac.png": "f81ae627637a684614aa726e206c73ce099a01fd",
-    "/index.html": "6345616704cbe7c3b052487aa454809d1216826f",
-    "/main.9abcae3e41efae27.js": "d3cc31dc5274ba2dbd7265ecd085f821103de9c1",
+    "/index.html": "f7b4afcb16a219dc0cf20fffe2b0e8ef0842ef63",
+    "/main.aeaae446bb9fd933.js": "c915d7a456737c2fc74f3b97fb6f99e1389d4d82",
     "/manifest.webmanifest": "c9a054c99d8b7dc56d003177e68b81d9c6f4d8b4",
     "/polyfills.5418aa1c1f39e76c.js": "473c5343884236f350707f0c58a2838b947a52b4",
     "/primeicons.0112589c5695a9ed.ttf": "ceeb46d594fde5cc507cdf8b70e38e78fe47653c",
     "/primeicons.943ab24c43224d29.svg": "d3332a45242b8f6edbf3f3c7176a280e7edcd961",
     "/primeicons.ba3f916dfb64be8c.woff2": "55a4b2a5f02e362405d8d874903af0b5f6a6c15d",
     "/primeicons.f8b9e8a4e401b603.woff": "b1648b50be13350fde8b5d9a6fe78354ddcc43e4",
-    "/runtime.3db9461257dff823.js": "7d0eb3c634bc9abd6a25b6c37a59174e472911a9",
+    "/runtime.01902df194f4a718.js": "d5f82ed51011658bbd849ba0d8d353b258b5261f",
     "/scripts.749d37f2a0652c4a.js": "792e035a5cf261fcf6981b2ba23f270851a9a456",
-    "/styles.35cc94b142c38454.css": "bf6fc08115648c2faf970ea9f0e279148007899f"
+    "/styles.14817480c10d6cef.css": "5086338068de5c9db2b7e3725111c2620ffccccf"
   },
   "navigationUrls": [
     {

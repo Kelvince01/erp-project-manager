@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { IUser } from '../models/user.model';
+import { IUser } from '@models/user.model';
 import {
   deleteUserAPISuccess,
   usersFetchAPISuccess,

@@ -1,4 +1,4 @@
-<h3 class="ml-3">Bills</h3>
+<h3 class="ml-3">Payments Made</h3>
 <p-table
   #dt
   [value]="journals"
@@ -16,12 +16,12 @@
   [tableStyle]="{ 'min-width': '75rem' }"
 >
   <ng-template pTemplate="caption">
-    <div class="row mb-3" [formGroup]="searchBillsForm">
+    <div class="row mb-3" [formGroup]="paymentsMadeForm">
       <div class="col-md-6">
         <label class="form-label">Select Transaction Type</label>
         <select
-          formControlName="TransTypeID"
           class="form-control"
+          formControlName="TransTypeID"
           (change)="selectChangeHandler($event)"
         >
           <option [ngValue]="null" disabled>Select Transaction Type</option>
@@ -46,8 +46,8 @@
       <div class="col-md-6">
         <label class="form-label">Currency</label>
         <select
-          formControlName="CurrencyID"
           class="form-control"
+          formControlName="CurrencyID"
           (change)="selectChangeHandler($event)"
         >
           <option [ngValue]="null" disabled>Select Currency</option>
@@ -64,39 +64,39 @@
         <label class="form-label">To Date</label>
         <input
           type="date"
-          formControlName="DateDueTo"
           class="form-control"
+          formControlName="DateDueTo"
           (change)="selectChangeHandler($event)"
         />
       </div>
     </div>
     <div class="row">
-      <div class="p-d-flex col-md-2">
+      <div class="p-d-flex">
         <button
           type="button"
           pButton
           pRipple
+          label="Export Records"
           icon="pi pi-file-pdf"
           (click)="exportPdf()"
-          label="Export Records"
           class="p-button-warning p-mr-2"
           pTooltip="PDF"
           tooltipPosition="bottom"
         ></button>
-      </div>
 
-      <div class="p-d-flex col-md-3">
-        <button
-          type="button"
-          pButton
-          pRipple
-          icon="pi pi-close"
-          (click)="clearSearchForm()"
-          class="p-button-secondary p-mr-2"
-          label="Clear Search Form"
-          pTooltip="Clear Form"
-          tooltipPosition="bottom"
-        ></button>
+        <div class="p-d-flex col-md-3">
+          <button
+            type="button"
+            pButton
+            pRipple
+            icon="pi pi-close"
+            (click)="clearSearchForm()"
+            class="p-button-secondary p-mr-2"
+            label="Clear Search Form"
+            pTooltip="Clear Form"
+            tooltipPosition="bottom"
+          ></button>
+        </div>
       </div>
     </div>
   </ng-template>

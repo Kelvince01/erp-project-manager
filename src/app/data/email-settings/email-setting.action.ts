@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IEmailSetting } from './../models/email-setting.model';
+import { IEmailSetting } from '@models/email-setting.model';
 
 export const invokeEmailSettingsAPI = createAction(
   '[Email Settings API] Invoke EmailSettings Fetch API'

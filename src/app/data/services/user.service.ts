@@ -10,7 +10,6 @@ import { IUser } from '@models/user.model';
 })
 export class UserService {
   constructor(
-    private http: HttpClient,
     private feathers: FeathersService,
     @Inject(MessageService) private messages: MessageService
   ) {}

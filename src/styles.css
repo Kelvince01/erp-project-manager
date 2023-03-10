@@ -2,7 +2,9 @@
 
 html,
 body {
-  font-family: "Muli";
+   /*font-family: "Open Sans", sans-serif;*/
+   font-family: "Raleway", sans-serif;
+  color: #444444;
 }
 
 .app-container {
@@ -10,15 +12,10 @@ body {
   overflow: hidden;
 }
 
-.btn-delete-user {
-  width: 40px;
-  text-align: center;
-  box-sizing: content-box;
-}
-
 .card-header:first-child {
   border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
 }
+
 .card-header {
   position: relative;
   padding: 2rem 2rem;
@@ -27,6 +24,7 @@ body {
   box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
   z-index: 2;
 }
+
 .card {
   position: relative;
   display: flex;
@@ -60,6 +58,7 @@ h6,
 .h6 {
   font-weight: 700;
   line-height: 1.2;
+  /* font-family: "Raleway", sans-serif; */
 }
 .text-muted {
   color: #6c757d;
@@ -75,6 +74,7 @@ h3,
 .h3 {
   font-size: 1.575rem;
 }
+
 .page-holder {
   display: flex;
   overflow-x: hidden;
@@ -83,32 +83,14 @@ h3,
 
   flex-wrap: wrap;
 }
+
 a {
-  color: #4650dd;
-  text-decoration: underline;
   cursor: pointer;
-}
-
-body {
-  font-family: "Open Sans", sans-serif;
-  color: #444444;
-}
-
-a {
   color: #1977cc;
   text-decoration: none;
 }
 
 a:hover {
   color: #3291e6;
-  text-decoration: none;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Raleway", sans-serif;
+  text-decoration: underline;
 }

@@ -13,8 +13,8 @@ import {
   updateUserAPISuccess,
 } from './users.action';
 import { UserService } from '@services/user.service';
-import { setAPIStatus } from '../stores/app.action';
-import { Appstate } from '../stores/appstate';
+import { setAPIStatus } from '@stores/app.action';
+import { Appstate } from '@stores/appstate';
 import { selectUsers } from './user.selector';
 
 @Injectable()

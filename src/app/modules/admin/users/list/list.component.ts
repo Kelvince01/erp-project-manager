@@ -1,20 +1,20 @@
 import { IUser } from '@models/user.model';
 import { UserService } from 'src/app/data/services/user.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+// import { Store, select } from '@ngrx/store';
 import { Observable, map, first } from 'rxjs';
-import { selectAppState } from 'src/app/data/selectors/app.selector';
-import { setAPIStatus } from 'src/app/data/stores/app.action';
-import { Appstate } from 'src/app/data/stores/appstate';
-import { selectUsers } from 'src/app/data/users/user.selector';
-import {
-  invokeUsersAPI,
-  invokeDeleteUserAPI,
-} from 'src/app/data/users/users.action';
+// import { selectAppState } from 'src/app/data/selectors/app.selector';
+// import { setAPIStatus } from 'src/app/data/stores/app.action';
+// import { Appstate } from 'src/app/data/stores/appstate';
+// import { selectUsers } from 'src/app/data/users/user.selector';
+// import {
+//   invokeUsersAPI,
+//   invokeDeleteUserAPI,
+// } from 'src/app/data/users/users.action';
 import { Paginated } from '@feathersjs/feathers';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
-declare var window: any;
+// declare var window: any;
 @Component({
   selector: 'app-list-users',
   templateUrl: './list.component.html',
@@ -22,7 +22,7 @@ declare var window: any;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
-  users$ = this.store.pipe(select(selectUsers))! as any;
+  // users$ = this.store.pipe(select(selectUsers))! as any;
   users: IUser[] = [];
   // users: IUser[] = [];
   // messages$: Observable<any[]>;
@@ -32,8 +32,8 @@ export class ListComponent implements OnInit {
   // clonedUsers: { [s: string]: IUser } = {};
 
   constructor(
-    private store: Store,
-    private appStore: Store<Appstate>,
+    // private store: Store,
+    // private appStore: Store<Appstate>,
     private usersService: UserService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
@@ -54,12 +54,19 @@ export class ListComponent implements OnInit {
     // );
   }
 
-  ngOnInit(): void {
-    this.getUsers();
+  ngOnInit() {
+    this.getBankAccounts();
 
-    this.store.dispatch(invokeUsersAPI());
+    // this.store.dispatch(invokeUsersAPI());
     // console.log(globalThis);
-    // console.log(this.users);
+    console.log(this.users);
+  }
+
+  getBankAccounts() {
+    this.usersService
+      .users$()
+      .pipe(first())
+      .subscribe((banks) => (this.users = banks.data));
   }
 
   getUsers() {
@@ -68,23 +75,8 @@ export class ListComponent implements OnInit {
       .pipe(first())
       .subscribe((res: any) => {
         this.users = res.data;
-        // console.log(this.users);
+        console.log(this.users);
       });
-  }
-
-  onUserAdd() {}
-  onRowEditInit(data: any) {
-    // this.clonedUsers[data.name] = { ...data };
-  }
-  onRowEditSave(data: any) {
-    // this.usersService.update(data).subscribe((data) => {
-    //   this.ngOnInit();
-    //   alert('User Updated successfully.');
-    // });
-  }
-  onRowEditCancel(data: any) {
-    // this.users$[index] = this.clonedUsers[data.name];
-    // delete this.clonedUsers[data.name];
   }
 
   saveUser() {}
@@ -95,21 +87,21 @@ export class ListComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.store.dispatch(
-          invokeDeleteUserAPI({
-            id: Number(user.UsersID),
-          })
-        );
-        let apiStatus$ = this.appStore.pipe(select(selectAppState));
-        apiStatus$.subscribe((apState) => {
-          if (apState.apiStatus == 'success') {
-            this.appStore.dispatch(
-              setAPIStatus({
-                apiStatus: { apiResponseMessage: '', apiStatus: '' },
-              })
-            );
-          }
-        });
+        // this.store.dispatch(
+        //   invokeDeleteUserAPI({
+        //     id: Number(user.UsersID),
+        //   })
+        // );
+        // let apiStatus$ = this.appStore.pipe(select(selectAppState));
+        // apiStatus$.subscribe((apState) => {
+        //   if (apState.apiStatus == 'success') {
+        //     this.appStore.dispatch(
+        //       setAPIStatus({
+        //         apiStatus: { apiResponseMessage: '', apiStatus: '' },
+        //       })
+        //     );
+        //   }
+        // });
 
         this.messageService.add({
           severity: 'success',

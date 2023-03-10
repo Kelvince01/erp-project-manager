@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { IEmailSetting } from '../models/email-setting.model';
+import { IEmailSetting } from '@models/email-setting.model';
 import {
   deleteEmailSettingAPISuccess,
   emailSettingsFetchAPISuccess,

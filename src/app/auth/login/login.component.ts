@@ -1,6 +1,6 @@
 import { first } from 'rxjs';
 import { IRole } from '@models/role.model';
-import { LocalStorageService } from './../../shared/services/local-storage.service';
+import { LocalStorageService } from '@shared/services/local-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

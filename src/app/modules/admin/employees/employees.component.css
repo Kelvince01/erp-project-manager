@@ -1,0 +1,9 @@
+.employees-main {
+  padding: 24px;
+}
+
+@media screen and (max-width: 425px) {
+  .employees-main {
+    padding: 16px;
+  }
+}

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ICompanyInfo } from '../models/company-info.model';
+import { ICompanyInfo } from '@models/company-info.model';
 
 export const invokeCompanyInfosAPI = createAction(
   '[CompanyInfos API] Invoke CompanyInfos Fetch API'
