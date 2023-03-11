@@ -68,7 +68,7 @@ export class EmailsService {
 
   update(payload: Partial<IEmail>): Observable<any> {
     return from(
-      this.feathers.service('emails').update(payload.EmailID!, payload)
+      this.feathers.service('emails').patch(payload.EmailID!, payload)
     );
   }
 

@@ -11,6 +11,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IAccountType } from '@models/account-type.model';
 import { IMainAccount } from '@models/main-account.model';
 import { BankingService } from '@services/banking.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-upsert',
@@ -69,6 +70,10 @@ export class UpsertComponent implements OnInit, OnDestroy {
         .pipe(first())
         .subscribe((x) => {
           this.form.patchValue(x);
+
+          this.form.controls['BalDate'].setValue(
+            formatDate(x.BalDate, 'yyyy-MM-dd', 'en-US')
+          );
           this.loading = false;
         });
     }

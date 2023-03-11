@@ -49,7 +49,7 @@ export class TransactionTypesService {
 
   update(payload: Partial<ITransactionType>): Observable<any> {
     return from(
-      this.feathers.service('trans-types').update(payload.TransTypeID!, payload)
+      this.feathers.service('trans-types').patch(payload.TransTypeID!, payload)
     );
   }
 

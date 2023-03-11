@@ -46,7 +46,7 @@ export class SmsService {
   }
 
   update(payload: Partial<ISms>): Observable<any> {
-    return from(this.feathers.service('sms').update(payload.smsID!, payload));
+    return from(this.feathers.service('sms').patch(payload.smsID!, payload));
   }
 
   delete(id: number): Observable<any> {

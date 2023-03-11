@@ -163,11 +163,7 @@
     </div>
     <div class="col-md-6">
       <label class="form-label">Section</label>
-      <select
-        formControlName="SectionID"
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['SectionID'].errors }"
-      >
+      <select formControlName="SectionID" class="form-control">
         <option [ngValue]="null" disabled>Select Section</option>
         <option
           *ngFor="let section of sections"
@@ -176,9 +172,6 @@
           {{ section.Section }}
         </option>
       </select>
-      <div *ngIf="submitted && f['SectionID'].errors" class="invalid-feedback">
-        <div *ngIf="f['SectionID'].errors['required']">Section is required</div>
-      </div>
     </div>
   </div>
 

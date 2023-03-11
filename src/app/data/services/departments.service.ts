@@ -51,7 +51,7 @@ export class DepartmentsService {
 
   update(payload: Partial<IDepartment>): Observable<any> {
     return from(
-      this.feathers.service('departments').update(payload.DepartID!, payload)
+      this.feathers.service('departments').patch(payload.DepartID!, payload)
     );
   }
 
@@ -139,7 +139,7 @@ export class DepartmentsService {
 
   updateGroup(payload: Partial<IGroup>): Observable<any> {
     return from(
-      this.feathers.service('groups').update(payload.GroupID!, payload)
+      this.feathers.service('groups').patch(payload.GroupID!, payload)
     );
   }
 

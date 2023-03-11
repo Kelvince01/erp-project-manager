@@ -69,7 +69,7 @@ export class UpsertComponent implements OnInit {
         Email: ['', [Validators.required, Validators.email]],
         RoleID: ['', Validators.required],
         GroupID: ['', Validators.required],
-        SectionID: ['', Validators.required],
+        SectionID: [],
         Password: [
           '',
           [
@@ -87,11 +87,17 @@ export class UpsertComponent implements OnInit {
       }
     );
 
+    if (this.isAddMode) {
+      this.form.patchValue({ SectionID: 1 });
+    }
+
     if (!this.isAddMode) {
       this.userService
         .getById(Number(this.id))
         .pipe(first())
-        .subscribe((x) => this.form.patchValue(x));
+        .subscribe((x) => {
+          this.form.patchValue(x);
+        });
     }
   }
 
@@ -184,7 +190,7 @@ export class UpsertComponent implements OnInit {
             detail: 'User added',
             summary: 'Success',
           });
-          this.router.navigate(['../'], { relativeTo: this.route });
+          this.router.navigate(['/admin/users'], { relativeTo: this.route });
         },
         error: (error: any) => {
           this.toastr.add({ severity: 'success', detail: error });
@@ -204,7 +210,7 @@ export class UpsertComponent implements OnInit {
             detail: 'User updated',
             summary: 'Success',
           });
-          this.router.navigate(['../../'], { relativeTo: this.route });
+          this.router.navigate(['/admin/users'], { relativeTo: this.route });
         },
         error: (error: any) => {
           this.toastr.add({ severity: 'error', detail: error });
@@ -212,20 +218,4 @@ export class UpsertComponent implements OnInit {
         },
       });
   }
-  /*
-  filter() {
-    this.store.dispatch({
-      type: FilterACTIONS.UPDATE_FITLER,
-      payload: {
-        name: this.name.value,
-        email: this.email.value,
-      },
-    });
-  }
-
-  clearFilter() {
-    this.store.dispatch({
-      type: FilterACTIONS.CLEAR_FITLER,
-    });
-  }*/
 }

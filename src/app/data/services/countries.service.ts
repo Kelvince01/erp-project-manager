@@ -49,7 +49,7 @@ export class CountriesService {
 
   update(payload: Partial<ICountry>): Observable<any> {
     return from(
-      this.feathers.service('countries').update(payload.CountryID!, payload)
+      this.feathers.service('countries').patch(payload.CountryID!, payload)
     );
   }
 

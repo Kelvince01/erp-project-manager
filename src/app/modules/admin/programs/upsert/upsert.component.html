@@ -129,13 +129,26 @@
           <div class="mb-2">
             <label class="form-label" for="Country">Project Location: </label>
             <div>
-              <input
+              <!-- <input
                 type="text"
                 class="form-control"
                 id="Country"
                 name="Country"
                 formControlName="Country"
-              />
+              /> -->
+              <select
+                formControlName="Country"
+                class="form-select"
+                [ngClass]="{ 'is-invalid': submitted && f['Country'].errors }"
+              >
+                <option [ngValue]="null" disabled>Select Item Location</option>
+                <option
+                  *ngFor="let itemLocation of itemLocations"
+                  [ngValue]="itemLocation.ItemLocation"
+                >
+                  {{ itemLocation.ItemLocation }}
+                </option>
+              </select>
               <!-- <i class="fa fa-clock"></i> -->
             </div>
           </div>

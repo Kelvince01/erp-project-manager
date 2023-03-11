@@ -1,13 +1,12 @@
 <p-table
   #dt
   [value]="users"
-  dataKey="FirstName"
   [rows]="10"
   [paginator]="true"
   [globalFilterFields]="['FirstName']"
   [tableStyle]="{ 'min-width': '75rem' }"
   [rowHover]="true"
-  dataKey="id"
+  dataKey="UsersID"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
   [showCurrentPageReport]="true"
 >
@@ -68,10 +67,9 @@
         <button
           pButton
           type="button"
-          pInitEditableRow
           icon="pi pi-pencil"
           class="ui-button-info"
-          routerLink="/admin/users/edit/{user.UsersID}"
+          routerLink="/admin/users/edit/{{ user.UsersID }}"
         ></button>
         <!-- style="margin-right: 0.5em" -->
       </td>

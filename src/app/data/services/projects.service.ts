@@ -47,7 +47,7 @@ export class ProjectsService {
 
   update(id: string, payload: Partial<IProject>): Observable<any> {
     return from(
-      this.feathers.service('projects').update(payload.ProjectID!, payload)
+      this.feathers.service('projects').patch(payload.ProjectID!, payload)
     );
   }
 

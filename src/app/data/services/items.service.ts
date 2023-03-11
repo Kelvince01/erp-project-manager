@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IItemLocation } from '@models/item-location.model';
 import { IITemStatus } from '@models/item-status.model';
 import { IItemType } from '@models/item-type.model';
 import { IItem } from '@models/item.model';
@@ -43,9 +44,7 @@ export class ItemsService {
   }
 
   update(id: string, payload: Partial<IItem>): Observable<any> {
-    return from(
-      this.feathers.service('items').update(payload.ItemID!, payload)
-    );
+    return from(this.feathers.service('items').patch(payload.ItemID!, payload));
   }
 
   delete(id: number): Observable<any> {
@@ -88,7 +87,7 @@ export class ItemsService {
 
   updateType(id: string, payload: Partial<IItemType>): Observable<any> {
     return from(
-      this.feathers.service('item-types').update(payload.ItemTypeID!, payload)
+      this.feathers.service('item-types').patch(payload.ItemTypeID!, payload)
     );
   }
 
@@ -140,5 +139,54 @@ export class ItemsService {
 
   deleteStatus(id: number): Observable<any> {
     return from(this.feathers.service('item-status').remove(id));
+  }
+
+  createItemLocation(payload: IItemLocation): Observable<any> {
+    return from(
+      this.feathers
+        .service('item-locations')
+        .create({
+          ...payload,
+        })
+        .then(() =>
+          this.messages.add({
+            severity: 'success',
+            detail: 'Item Location created.',
+          })
+        )
+        .catch((err: any) =>
+          this.messages.add({
+            severity: 'error',
+            detail: 'Could not create item location!',
+          })
+        )
+    );
+  }
+
+  getByItemLocation(id: string): Observable<any> {
+    return from(this.feathers.service('item-locations').get(id));
+  }
+
+  itemItemLocations$(query?: any): Observable<any> {
+    return from(
+      this.feathers
+        .service('item-locations')
+        .find({ query: { $limit: 20, ...query } })
+    );
+  }
+
+  updateItemLocation(
+    id: string,
+    payload: Partial<IItemLocation>
+  ): Observable<any> {
+    return from(
+      this.feathers
+        .service('item-locations')
+        .update(payload.ItemLocationID!, payload)
+    );
+  }
+
+  deleteItemLocation(id: number): Observable<any> {
+    return from(this.feathers.service('item-locations').remove(id));
   }
 }

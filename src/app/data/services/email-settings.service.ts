@@ -58,7 +58,7 @@ export class EmailSettingsService {
 
   update(payload: IEmailSetting): Observable<any> {
     return from(
-      this.feathers.service('email-settings').update(payload.ID!, payload)
+      this.feathers.service('email-settings').patch(payload.ID!, payload)
     );
   }
 

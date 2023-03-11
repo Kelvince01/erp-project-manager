@@ -17,6 +17,7 @@ import { TitlesService } from '@services/titles.service';
 import { CountriesService } from '@services/countries.service';
 import { ICountry } from '@models/country.model';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-upsert',
@@ -100,6 +101,14 @@ export class UpsertComponent implements OnInit {
         .pipe(first())
         .subscribe((x: any) => {
           this.form.patchValue(x);
+
+          this.form.controls['DateEmployed'].setValue(
+            formatDate(x.DateEmployed, 'yyyy-MM-dd', 'en-US')
+          );
+          this.form.controls['DateOfBirth'].setValue(
+            formatDate(x.DateOfBirth, 'yyyy-MM-dd', 'en-US')
+          );
+
           this.loading = false;
         });
     }

@@ -47,7 +47,7 @@ export class TitlesService {
 
   update(payload: Partial<ITitle>): Observable<any> {
     return from(
-      this.feathers.service('titles').update(payload.TitleID!, payload)
+      this.feathers.service('titles').patch(payload.TitleID!, payload)
     );
   }
 

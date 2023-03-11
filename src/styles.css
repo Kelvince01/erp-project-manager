@@ -2,8 +2,8 @@
 
 html,
 body {
-   /*font-family: "Open Sans", sans-serif;*/
-   font-family: "Raleway", sans-serif;
+  /*font-family: "Open Sans", sans-serif;*/
+  font-family: "Raleway", sans-serif;
   color: #444444;
 }
 
@@ -92,5 +92,5 @@ a {
 
 a:hover {
   color: #3291e6;
-  text-decoration: underline;
+  text-decoration: none;
 }

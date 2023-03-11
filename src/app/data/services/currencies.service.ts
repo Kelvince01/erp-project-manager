@@ -49,7 +49,7 @@ export class CurrenciesService {
 
   update(payload: Partial<ICurrency>): Observable<any> {
     return from(
-      this.feathers.service('currencies').update(payload.CurrencyID!, payload)
+      this.feathers.service('currencies').patch(payload.CurrencyID!, payload)
     );
   }
 

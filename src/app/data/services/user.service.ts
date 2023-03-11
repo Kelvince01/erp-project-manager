@@ -37,23 +37,21 @@ export class UserService {
 
   signup(data: any): Observable<any> {
     return from(
-      this.feathers
-        .service('users')
-        .create({ ...data })
-        .then(() =>
-          this.messages.add({ severity: 'success', detail: 'User created.' })
-        )
-        .catch((err: any) =>
-          this.messages.add({
-            severity: 'error',
-            detail: 'Could not create user!',
-          })
-        )
+      this.feathers.service('users').create(data)
+      // .then(() =>
+      //   this.messages.add({ severity: 'success', detail: 'User created.' })
+      // )
+      // .catch((err: any) =>
+      //   this.messages.add({
+      //     severity: 'error',
+      //     detail: 'Could not create user!',
+      //   })
+      // )
     );
   }
 
   update(payload: Partial<IUser>): Observable<any> {
-    return from(this.feathers.service('sms').update(payload.UsersID!, payload));
+    return from(this.feathers.service('sms').patch(payload.UsersID!, payload));
   }
 
   delete(id: number): Observable<any> {

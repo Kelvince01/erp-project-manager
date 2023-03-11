@@ -48,9 +48,7 @@ export class BankingService {
   }
 
   update(payload: Partial<IBank>): Observable<any> {
-    return from(
-      this.feathers.service('banks').update(payload.BankID!, payload)
-    );
+    return from(this.feathers.service('banks').patch(payload.BankID!, payload));
   }
 
   delete(id: number): Observable<any> {
@@ -91,7 +89,7 @@ export class BankingService {
 
   updateAccount(payload: Partial<IAccount>): Observable<any> {
     return from(
-      this.feathers.service('accounts').update(payload.AccountID!, payload)
+      this.feathers.service('accounts').patch(payload.AccountID!, payload)
     );
   }
 
@@ -135,7 +133,7 @@ export class BankingService {
     payload: Partial<IMainAccount>
   ): Observable<any> {
     return from(
-      this.feathers.service('main-accounts').update(payload.AccountID!, payload)
+      this.feathers.service('main-accounts').patch(payload.AccountID!, payload)
     );
   }
 
@@ -176,7 +174,7 @@ export class BankingService {
 
   updateAccountType(id: string, payload: Partial<IAccount>): Observable<any> {
     return from(
-      this.feathers.service('account-types').update(payload.ProjectID!, payload)
+      this.feathers.service('account-types').patch(payload.ProjectID!, payload)
     );
   }
 

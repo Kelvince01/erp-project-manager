@@ -81,10 +81,10 @@ export class UpsertComponent implements OnInit {
       Mobile1: ['', [Validators.required]],
     });
 
-    this.title = 'Add Program';
+    this.title = 'Add Organization';
     if (this.id) {
       // edit mode
-      this.title = 'Edit Program';
+      this.title = 'Edit Organization';
       this.loading = true;
       this.companyInfoService
         .getById(this.id)

@@ -44,9 +44,7 @@ export class RolesService {
   }
 
   update(id: string, payload: Partial<IRole>): Observable<any> {
-    return from(
-      this.feathers.service('roles').update(payload.RoleID!, payload)
-    );
+    return from(this.feathers.service('roles').patch(payload.RoleID!, payload));
   }
 
   delete(id: number): Observable<any> {

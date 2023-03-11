@@ -80,7 +80,7 @@ export class JournalsService {
 
   updateBS(id: string, payload: Partial<IJournalBS>): Observable<any> {
     return from(
-      this.feathers.service('journal-bs').update(payload.JournalID!, payload)
+      this.feathers.service('journal-bs').patch(payload.JournalID!, payload)
     );
   }
 

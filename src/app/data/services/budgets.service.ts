@@ -45,7 +45,7 @@ export class BudgetsService {
 
   update(id: string, payload: Partial<IBudget>): Observable<any> {
     return from(
-      this.feathers.service('budgets').update(payload.BudgetID!, payload)
+      this.feathers.service('budgets').patch(payload.BudgetID!, payload)
     );
   }
 

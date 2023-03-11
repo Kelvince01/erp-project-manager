@@ -48,7 +48,7 @@ export class EmployeesService {
 
   update(payload: Partial<IEmployee>): Observable<any> {
     return from(
-      this.feathers.service('employees').update(payload.EmployeeID!, payload)
+      this.feathers.service('employees').patch(payload.EmployeeID!, payload)
     );
   }
 
