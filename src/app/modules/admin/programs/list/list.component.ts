@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { IProject } from '@models/project.model';
 import { FilesService } from '@services/files.service';
 import { ProjectsService } from '@services/projects.service';
@@ -10,7 +10,7 @@ import { first } from 'rxjs/operators';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
   @ViewChild('pdfTable') pdfTable!: ElementRef;
   programs!: IProject[];
   isDeleting = false;

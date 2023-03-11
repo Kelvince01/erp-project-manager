@@ -1,0 +1,9 @@
+.suppliers-main {
+  padding: 24px;
+}
+
+@media screen and (max-width: 425px) {
+  .suppliers-main {
+    padding: 16px;
+  }
+}

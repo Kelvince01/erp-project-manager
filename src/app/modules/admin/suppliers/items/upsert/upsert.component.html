@@ -2,11 +2,11 @@
   <div class="mt-0">
     <form [formGroup]="itemForm" (ngSubmit)="saveItem()">
       <div class="row g-3">
-        <!-- <div class="col-12 mb-2">
+        <div class="col-12 mb-2">
           <span class="text-muted"
             >Enter all required fields <b>*</b> and hit <b>SAVE</b></span
           >
-        </div> -->
+        </div>
 
         <div class="col-lg-6 col-md-6">
           <div class="form-floating">
@@ -41,7 +41,7 @@
         <div class="col-lg-6 col-md-6">
           <div class="form-floating">
             <textarea
-              formControlName="Description"
+              formControlName="PurchaseDesc"
               readonly
               class="form-control disabledDiv p-2"
             ></textarea>
@@ -67,6 +67,78 @@
               </div>
             </div>
             <label>Item Name</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="number"
+              placeholder="Buying Price"
+              id="Cost"
+              formControlName="Cost"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['Cost'].errors }"
+            />
+            <div *ngIf="submitted && f['Cost'].errors" class="invalid-feedback">
+              <div *ngIf="f['Cost'].errors['required']">
+                Buying Price is required
+              </div>
+            </div>
+            <label>Buying Price</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Selling Price"
+              id="SalePrice"
+              formControlName="SalePrice"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['SalePrice'].errors }"
+            />
+            <div
+              *ngIf="submitted && f['SalePrice'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['SalePrice'].errors['required']">
+                Selling Price is required
+              </div>
+            </div>
+            <label>Selling Price</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="PymtMethodID"
+              name="PymtMethodID"
+              formControlName="PymtMethodID"
+              [ngClass]="{
+                'is-invalid': submitted && f['PymtMethodID'].errors
+              }"
+            >
+              <option
+                *ngFor="let type of paymentMethods"
+                [ngValue]="type.PymtMethodID"
+                [value]="type.PymtMethodID"
+              >
+                {{ type.PymtMethod }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && f['PymtMethodID'].errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f['PymtMethodID'].errors['required']">
+                Payment Method is required.
+              </div>
+            </div>
+            <label>Payment Method</label>
           </div>
         </div>
 

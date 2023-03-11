@@ -23,8 +23,8 @@ import { Invoice } from '../create-expense/create-expense.component';
 export class ListComponent implements OnInit {
   suppliers: ISupplier[] = [];
   selectedSuppliers: ISupplier[] = [];
-  @Input() index: number = 0;
-  @Input() invoice = new Invoice();
+  // @Input() index: number = 0;
+  // @Input() invoice = new Invoice();
 
   constructor(
     private suppliersService: EmployeesService,

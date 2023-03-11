@@ -17,20 +17,18 @@ export class ItemsService {
 
   create(payload: IItem): Observable<any> {
     return from(
-      this.feathers
-        .service('items')
-        .create({
-          ...payload,
-        })
-        .then(() =>
-          this.messages.add({ severity: 'success', detail: 'Role created.' })
-        )
-        .catch((err: any) =>
-          this.messages.add({
-            severity: 'error',
-            detail: 'Could not create item!',
-          })
-        )
+      this.feathers.service('items').create({
+        ...payload,
+      })
+      // .then(() =>
+      //   this.messages.add({ severity: 'success', detail: 'Role created.' })
+      // )
+      // .catch((err: any) =>
+      //   this.messages.add({
+      //     severity: 'error',
+      //     detail: 'Could not create item!',
+      //   })
+      // )
     );
   }
 

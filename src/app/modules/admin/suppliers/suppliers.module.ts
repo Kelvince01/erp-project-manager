@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SuppliersRoutingModule } from './suppliers-routing.module';
 import { SuppliersComponent } from './suppliers.component';
 import { ListComponent } from './list/list.component';
+import { ListComponent as ItemsListComponent } from './items/list/list.component';
 import { UpsertComponent } from './upsert/upsert.component';
 import { UpsertComponent as UpsertItemComponent } from './items/upsert/upsert.component';
 import { PayBillComponent } from './pay-bill/pay-bill.component';
@@ -19,6 +20,7 @@ import { SharedModule } from '@shared/shared.module';
   declarations: [
     SuppliersComponent,
     ListComponent,
+    ItemsListComponent,
     UpsertComponent,
     PayBillComponent,
     ReceiveDebitNoteComponent,

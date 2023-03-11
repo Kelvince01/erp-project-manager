@@ -1,1 +1,63 @@
-<p>list works!</p>
+<h1>Items</h1>
+<div class="row">
+  <button
+    type="button"
+    pButton
+    pRipple
+    label="Add Item"
+    (click)="addItem()"
+    icon="pi pi-plus"
+    class="p-button-info mb-2 col-md-2 mr-2"
+    pTooltip="Add Item"
+    tooltipPosition="bottom"
+  ></button>
+  <button class="col-md-3 btn btn-sm btn-success mb-2" (click)="openPDF()">
+    Download PDF
+  </button>
+</div>
+<div id="pdfTable" #pdfTable>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>S/No</th>
+        <th>Item Name</th>
+        <th>Purchase Description</th>
+        <th>Est. Cost</th>
+        <th>Cost</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items">
+        <td>{{ item.ItemID }}</td>
+        <td>{{ item.ItemName }}</td>
+        <td>{{ item.PurchaseDesc }}</td>
+        <td>{{ item.Cost }}</td>
+        <td>{{ item.SalePrice }}</td>
+        <td style="white-space: nowrap">
+          <a (click)="addItem(item)" class="btn btn-sm btn-primary me-1"
+            >Edit</a
+          >
+          <button
+            (click)="deleteItem(item)"
+            class="btn btn-sm btn-danger btn-delete-user"
+            [disabled]="isDeleting"
+          >
+            <span
+              *ngIf="isDeleting"
+              class="spinner-border spinner-border-sm"
+            ></span>
+            <span *ngIf="!isDeleting">Delete</span>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="!items">
+        <td colspan="4" class="text-center">
+          <span class="spinner-border spinner-border-lg align-center"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

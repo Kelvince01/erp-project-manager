@@ -88,8 +88,9 @@ export class PayBillComponent implements OnInit {
   unusedCredits: any;
   Address: any = '';
 
-  @Input() intialInvoice?: Invoice;
-  @Input() invoice = new PayInvoice();
+  // @Input() intialInvoice?: Invoice;
+  // @Input() invoice = new PayInvoice();
+  invoice = new PayInvoice();
 
   constructor(
     private accountService: BankingService,

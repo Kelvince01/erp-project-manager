@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListComponent } from './list/list.component';
 import { UpsertComponent } from './upsert/upsert.component';
+import { ListComponent as ItemsListComponent } from './items/list/list.component';
+import { UpsertComponent as ItemUpsertComponent } from './items/upsert/upsert.component';
 
 const routes: Routes = [
   {
@@ -30,6 +32,10 @@ const routes: Routes = [
       {
         path: 'receive-refund',
         component: ReceiveRefundComponent,
+      },
+      {
+        path: 'items',
+        component: ItemsListComponent,
       },
     ],
   },

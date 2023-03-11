@@ -1,0 +1,20 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { UserRoutingModule } from './user-routing.module';
+import { UserComponent } from './user.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SharedModule } from '@shared/shared.module';
+import { NavbarComponent } from './common/navbar/navbar.component';
+import { FooterComponent } from './common/footer/footer.component';
+
+@NgModule({
+  declarations: [
+    UserComponent,
+    DashboardComponent,
+    NavbarComponent,
+    FooterComponent,
+  ],
+  imports: [CommonModule, UserRoutingModule, SharedModule],
+})
+export class UserModule {}

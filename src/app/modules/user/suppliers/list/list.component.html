@@ -1,0 +1,14 @@
+<p-tabView>
+  <p-tabPanel
+    header="Create Expense"
+    rightIcon="pi pi-inbox"
+    tooltip="Create Expense"
+  >
+    <app-create-expense></app-create-expense>
+  </p-tabPanel>
+  <p-tabPanel header="Pay Bill" rightIcon="pi pi-user" tooltip="Pay Bill">
+    <app-pay-bill></app-pay-bill>
+  </p-tabPanel>
+</p-tabView>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

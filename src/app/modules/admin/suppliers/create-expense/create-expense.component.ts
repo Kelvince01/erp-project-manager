@@ -87,9 +87,9 @@ export class CreateExpenseComponent implements OnInit {
   user: any;
   ItemByName: any;
 
-  @Output() index = new EventEmitter<number>();
-  @Output() indexValue: number = 0;
-  @Output() newItemEvent = new EventEmitter<Invoice>();
+  // @Output() index = new EventEmitter<number>();
+  // @Output() indexValue: number = 0;
+  // @Output() newItemEvent = new EventEmitter<Invoice>();
 
   constructor(
     private supplierService: EmployeesService,
@@ -558,9 +558,9 @@ export class CreateExpenseComponent implements OnInit {
   }
 
   openNext() {
-    this.indexValue = this.indexValue === 2 ? 0 : this.indexValue + 1;
-    this.index.emit(this.indexValue);
-    this.newItemEvent.emit(this.invoice);
+    // this.indexValue = this.indexValue === 2 ? 0 : this.indexValue + 1;
+    // this.index.emit(this.indexValue);
+    // this.newItemEvent.emit(this.invoice);
   }
 
   openNewItem() {

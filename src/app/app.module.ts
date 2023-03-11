@@ -23,6 +23,7 @@ import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 import { JwtInterceptor } from '@core/interceptors/jwt.interceptor';
 import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
 import { SpinnerInterceptor } from '@core/interceptors/spinner.interceptor';
+import { UserModule } from '@user/user.module';
 
 export function appInitializer(accountService: AuthService) {
   return () =>
@@ -48,6 +49,7 @@ export function appInitializer(accountService: AuthService) {
     AuthModule,
     MainModule,
     AdminModule,
+    UserModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

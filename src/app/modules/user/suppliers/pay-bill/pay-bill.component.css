@@ -1,0 +1,14 @@
+.card {
+  padding: 24px;
+}
+
+@media screen and (max-width: 425px) {
+  .card {
+    padding: 16px;
+  }
+}
+
+.disabledDiv {
+  pointer-events: none;
+  opacity: 0.4;
+}

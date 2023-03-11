@@ -6,9 +6,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { CommonFunctionalityComponent } from './components/common-functionality/common-functionality.component';
+import { MatchPasswordDirective } from './directives/match-password.directive';
+import { ValidateUserNameDirective } from './directives/validate-user-name.directive';
 
 @NgModule({
-  declarations: [CommonFunctionalityComponent],
+  declarations: [
+    CommonFunctionalityComponent,
+    MatchPasswordDirective,
+    ValidateUserNameDirective,
+  ],
   imports: [
     CommonModule,
     FormsModule,

@@ -1,8 +1,7 @@
-// import { PageNotFoundComponent } from '@shared/components/page-not-found';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@utils/guards/auth.guard';
-import {PageNotFoundComponent} from "@core/components/page-not-found/page-not-found.component";
+import { PageNotFoundComponent } from '@core/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -24,6 +23,19 @@ const routes: Routes = [
       seo: {
         title: 'Onster Group PM | Admin',
         metaTags: [{ name: 'description', content: 'Onster Group PM Admin' }],
+      },
+    },
+  },
+  {
+    path: 'user',
+    loadChildren: () =>
+      import('./modules/user/user.module').then((m) => m.UserModule),
+    canActivate: [AuthGuard],
+    data: {
+      role: 'User',
+      seo: {
+        title: 'Onster Group PM | User',
+        metaTags: [{ name: 'description', content: 'Onster Group PM User' }],
       },
     },
   },

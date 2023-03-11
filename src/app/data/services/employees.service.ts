@@ -15,24 +15,22 @@ export class EmployeesService {
 
   create(payload: IEmployee): Observable<any> {
     return from(
-      this.feathers
-        .service('employees')
-        .create({
-          ...payload,
-        })
-        .then(() =>
-          this.messages.add({
-            severity: 'success',
-            detail: 'Employee created.',
-          })
-        )
-        .catch((err: any) =>
-          this.messages.add({
-            severity: 'error',
-            // detail: 'Could not create employee!',
-            detail: err,
-          })
-        )
+      this.feathers.service('employees').create({
+        ...payload,
+      })
+      // .then(() =>
+      //   this.messages.add({
+      //     severity: 'success',
+      //     detail: 'Employee created.',
+      //   })
+      // )
+      // .catch((err: any) =>
+      //   this.messages.add({
+      //     severity: 'error',
+      //     // detail: 'Could not create employee!',
+      //     detail: err,
+      //   })
+      // )
     );
   }
 

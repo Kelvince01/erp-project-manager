@@ -1,0 +1,423 @@
+<div class="container-fluid">
+  <div class="card mt-0">
+    <form #payExpenseForm="ngForm">
+      <div class="row g-3">
+        <div class="col-12 mb-2">
+          <h4>Pay Bill</h4>
+          <span class="text-muted">Enter all required fields</span>
+        </div>
+
+        <div class="col-lg-6 col-md-6 disabledDiv">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="AccountID"
+              name="AccountID"
+              [ngModel]="invoice.AccountID"
+              #AccountID="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && AccountID.errors }"
+            >
+              <option
+                *ngFor="let account of accounts"
+                [ngValue]="account.AccountID"
+              >
+                {{ account.AccountNo }}
+              </option>
+            </select>
+            <div *ngIf="submitted && AccountID.errors" class="invalid-feedback">
+              <div *ngIf="AccountID.errors['required']">
+                Account is required.
+              </div>
+            </div>
+            <label>Account</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              name="SupplierID"
+              [ngModel]="invoice.SupplierID"
+              #SupplierID="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && SupplierID.errors }"
+              (change)="selectChangeHandler($event)"
+            >
+              <option [ngValue]="null" disabled>Select Supplier</option>
+              <option
+                *ngFor="let supplier of suppliers"
+                [ngValue]="supplier.EmployeeID"
+                [value]="supplier.EmployeeID"
+              >
+                {{ supplier.CompanyName }} {{ supplier.Surname }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && SupplierID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="SupplierID.errors['required']">
+                Supplier is required.
+              </div>
+            </div>
+            <label>Supplier</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 disabledDiv">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Amount Paid"
+              name="AmountPaid"
+              [ngModel]="invoice.AmountPaid"
+              #AmountPaid="ngModel"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && AmountPaid.errors }"
+            />
+            <div
+              *ngIf="submitted && AmountPaid.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="AmountPaid.errors['required']">
+                Amount paid is required.
+              </div>
+            </div>
+            <label>Amount Paid</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              name="PaymentAccountID"
+              [ngModel]="invoice.PaymentAccountID"
+              #PaymentAccountID="ngModel"
+              [ngClass]="{
+                'is-invalid': submitted && PaymentAccountID.errors
+              }"
+            >
+              <option
+                *ngFor="let account of paymentAccounts"
+                [ngValue]="account.AccountID"
+              >
+                {{ account.AccountNo }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && PaymentAccountID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="PaymentAccountID.errors['required']">
+                Payment Account is required.
+              </div>
+            </div>
+            <label>Payment Account</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Ref No"
+              class="form-control"
+              name="RefNo"
+              [ngModel]="invoice.RefNo"
+              #RefNo="ngModel"
+              [ngClass]="{ 'is-invalid': submitted && RefNo.errors }"
+            />
+            <div *ngIf="submitted && RefNo.errors" class="invalid-feedback">
+              <div *ngIf="RefNo.errors['required']">Ref No is required.</div>
+            </div>
+            <label>Ref No</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="date"
+              placeholder="Date"
+              name="Date"
+              [ngModel]="invoice.Date | date : 'yyyy-MM-dd'"
+              (ngModelChange)="invoice.Date = $event"
+              #Date="ngModel"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && Date.errors }"
+            />
+            <!-- value="{{ actualDateFormGroup | date : 'yyyy-MM-dd' }}"
+              (change)="onMyDateChange($event)" name="Date" -->
+            <div *ngIf="submitted && Date.errors" class="invalid-feedback">
+              <div *ngIf="Date.errors['required']">Date is required.</div>
+            </div>
+            <label>Date</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="date"
+              placeholder="Payable Date"
+              name="PayableDate"
+              #PayableDate="ngModel"
+              [ngModel]="invoice.PayableDate | date : 'yyyy-MM-dd'"
+              (ngModelChange)="invoice.PayableDate = $event"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && PayableDate.errors }"
+            />
+            <!-- value="{{ actualDateFormGroup | date : 'yyyy-MM-dd' }}" -->
+            <div
+              *ngIf="submitted && PayableDate.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="PayableDate.errors['required']">
+                Payable Date is required.
+              </div>
+            </div>
+            <label>Payable Date</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              name="PaymentMethodID"
+              [ngModel]="invoice.PaymentMethodID"
+              #PaymentMethodID="ngModel"
+              [ngClass]="{
+                'is-invalid': submitted && PaymentMethodID.errors
+              }"
+              (change)="itemSelectChangeHandler($event)"
+            >
+              <option [ngValue]="null" disabled>Select Payment Method</option>
+              <option
+                *ngFor="let payment of paymentMethods"
+                [ngValue]="payment.PymtMethodID"
+                [value]="payment.PymtMethodID"
+              >
+                {{ payment.PymtMethod }}
+              </option>
+            </select>
+            <div
+              *ngIf="submitted && PaymentMethodID.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="PaymentMethodID.errors['required']">
+                Payment Method is required.
+              </div>
+            </div>
+            <label>Payment Method</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6" *ngIf="isCheque">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Cheque Number"
+              name="ChequeNo"
+              [ngModel]="invoice.ChequeNo"
+              #ChequeNo="ngModel"
+              class="form-control"
+            />
+            <label>Cheque No</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6" *ngIf="isCheque">
+          <div class="form-check form-check-inline mb-3">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="IssueCheque"
+              id="IssueCheque"
+              [ngModel]="invoice.IssueCheque"
+              #IssueCheque="ngModel"
+              value="false"
+            />
+            <label class="form-check-label" for="IssueCheque"
+              >Issue Cheque</label
+            >
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Unpaid Amount Due"
+              name="UnpaidAmountDue"
+              [ngModel]="invoice.UnpaidAmountDue"
+              #UnpaidAmountDue="ngModel"
+              class="form-control"
+            />
+            <label>Unpaid Amount Due</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Unused Credits"
+              name="UnUsedCredits"
+              [ngModel]="invoice.UnUsedCredits"
+              #UnUsedCredits="ngModel"
+              class="form-control"
+            />
+            <label>Unused Credits</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <input
+              type="text"
+              placeholder="Credits BF"
+              name="CreditsBF"
+              [ngModel]="invoice.CreditsBF"
+              #CreditsBF="ngModel"
+              class="form-control"
+            />
+            <label>Credits BF</label>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-floating">
+            <textarea
+              name="Memo"
+              [ngModel]="invoice.Memo"
+              #Memo="ngModel"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': submitted && Memo.errors
+              }"
+            ></textarea>
+            <div *ngIf="submitted && Memo.errors" class="invalid-feedback">
+              <div *ngIf="Memo.errors['required']">Memo is required.</div>
+            </div>
+            <label>Memo</label>
+          </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+          <table class="table table-hover table-responsive">
+            <thead>
+              <tr>
+                <th>
+                  <div class="row">
+                    <input
+                      type="checkbox"
+                      hidden
+                      class="form-check-control"
+                      [checked]="isAllCheckBoxChecked()"
+                      (change)="checkAllCheckBox($event)"
+                    />
+                    <label>Applied</label>
+                  </div>
+                </th>
+                <th>Date Due</th>
+                <th>Ref No</th>
+                <th>Description</th>
+                <th>Total Amount</th>
+                <th>Amount Due (Ksh)</th>
+                <th>Credits (Ksh)</th>
+                <th style="width: 15%">Payment (Ksh)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="table"
+                *ngFor="let item of invoice.products; let i = index"
+              >
+                <!-- <td id="Applied">{{ item.Applied }}</td> -->
+                <td id="checked">
+                  <input
+                    type="checkbox"
+                    id="checked"
+                    name="checked{{ i }}"
+                    [(ngModel)]="item.checked"
+                    #checked="ngModel"
+                    class="form-check-control"
+                  />
+                </td>
+                <td id="DateDue">{{ item.DateDue }}</td>
+                <td id="RefNo">{{ item.JournalNo }}</td>
+                <td id="Description">{{ item.CustMsg }}</td>
+                <td id="TotalAmount">{{ item.TotalAmt }}</td>
+                <td id="AmountDue">{{ item.AmtDue }}</td>
+                <td id="Credits">{{ item.Credits }}</td>
+                <td>
+                  <input
+                    type="number"
+                    id="Payment"
+                    name="Payment{{ i }}"
+                    [(ngModel)]="item.Payment"
+                    #Payment="ngModel"
+                    [ngClass]="{
+                      'is-invalid': submitted && Payment.errors
+                    }"
+                    class="form-control"
+                    (change)="paymentChanged($event, i)"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-12 mt-4">
+          <button
+            class="btn btn-primary text-uppercase"
+            type="submit"
+            (click)="payExpenseForm.valid ? onSubmit() : ''"
+          >
+            PAY BILL<i class="fa fa-plane ms-3"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="resultDialog"
+  [style]="{ width: '500px' }"
+  header="Choose Action"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <button
+      pButton
+      pRipple
+      label="Download Invoice"
+      icon="pi pi-download"
+      class="p-button-text"
+      (click)="payExpenseForm.valid ? generatePDF('download') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Print Invoice"
+      icon="pi pi-print"
+      class="p-button-text"
+      (click)="payExpenseForm.valid ? generatePDF('print') : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Open Invoice"
+      icon="pi pi-file-pdf"
+      class="p-button-text"
+      (click)="payExpenseForm.valid ? generatePDF() : ''"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideResultDialog()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

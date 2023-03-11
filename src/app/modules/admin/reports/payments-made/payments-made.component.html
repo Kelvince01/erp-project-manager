@@ -71,7 +71,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="p-d-flex">
+      <div class="p-d-flex col-md-2">
         <button
           type="button"
           pButton
@@ -83,20 +83,20 @@
           pTooltip="PDF"
           tooltipPosition="bottom"
         ></button>
+      </div>
 
-        <div class="p-d-flex col-md-3">
-          <button
-            type="button"
-            pButton
-            pRipple
-            icon="pi pi-close"
-            (click)="clearSearchForm()"
-            class="p-button-secondary p-mr-2"
-            label="Clear Search Form"
-            pTooltip="Clear Form"
-            tooltipPosition="bottom"
-          ></button>
-        </div>
+      <div class="p-d-flex col-md-3">
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-close"
+          (click)="clearSearchForm()"
+          class="p-button-secondary p-mr-2"
+          label="Clear Search Form"
+          pTooltip="Clear Form"
+          tooltipPosition="bottom"
+        ></button>
       </div>
     </div>
   </ng-template>

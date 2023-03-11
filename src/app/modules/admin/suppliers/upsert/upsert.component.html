@@ -1,159 +1,298 @@
-<!-- <form>
-  <div class="p-field">
-    <label for="FirstName">First Name</label>
-    <input
-      type="text"
-      pInputText
-      id="FirstName"
-      [(ngModel)]="supplier.FirstName"
-      required
-      autofocus
-    />
-    <small class="p-invalid" *ngIf="submitted && !supplier.FirstName"
-      >Name is required.</small
-    >
-  </div>
-  <div class="p-field">
-    <label for="Surname">Last Name</label>
-    <input
-      id="Surname"
-      type="text"
-      pInputText
-      [(ngModel)]="supplier.Surname"
-      required
-    />
-  </div>
-
-  <div class="p-field">
-    <label class="p-mb-3">Category</label>
-    <div class="p-formgrid p-grid">
-      <div class="p-field-radiobutton p-col-6">
-        <p-radioButton
-          id="category1"
-          name="category"
-          value="Accessories"
-          [(ngModel)]="supplier.Male"
-        ></p-radioButton>
-        <label for="category1">Accessories</label>
-      </div>
-      <div class="p-field-radiobutton p-col-6">
-        <p-radioButton
-          id="category2"
-          name="category"
-          value="Clothing"
-          [(ngModel)]="supplier.Male"
-        ></p-radioButton>
-        <label for="category2">Clothing</label>
-      </div>
-    </div>
-  </div>
-
-  <div class="p-formgrid p-grid">
-    <div class="p-field p-col">
-      <label for="price">Price</label>
-      <input id="Email" type="email" [(ngModel)]="supplier.Email" />
-    </div>
-    <div class="p-field p-col">
-      <label for="quantity">Quantity</label>
-      <input id="Mobile" type="tel" [(ngModel)]="supplier.Mobile" />
-    </div>
-  </div>
-</form> -->
-
 <div class="form-1-container section-container">
   <div class="container">
     <div class="row">
-      <div class="col form-1 section-description wow fadeIn">
-        <h2>Form 1</h2>
-        <div class="divider-1 wow fadeInUp"><span></span></div>
-        <p>
-          A form with 2 "fieldset"-s and 2 "legend"-s: "User's credentials" and
-          "User's preferences".
-        </p>
+      <div class="col form-1 section-description">
+        <h3>Add Supplier</h3>
+        <p>Add All Required <b>*</b> Fields</p>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-10 offset-md-1 form-1-box wow fadeInUp">
-        <form action="" method="post">
-          <!-- User's Credentials  -->
-          <fieldset class="form-group border p-3">
-            <legend class="w-auto px-2">User's Credentials</legend>
-            <div class="form-group">
-              <label for="username">Username:</label>
+      <div class="col-md-12 form-1-box">
+        <form
+          #addSupplierForm="ngForm"
+          (ngSubmit)="
+            addSupplierForm.form.valid && saveSupplier(addSupplierForm)
+          "
+          novalidate
+        >
+          <fieldset class="form-group border p-3 row mb-3">
+            <legend class="px-2 col-lg-12 col-md-12">Identity</legend>
+            <div class="form-group col-md-6 col-lg-6">
+              <label class="form-label" for="TitleID">Title</label>
+              <select
+                id="TitleID"
+                name="TitleID"
+                class="form-control"
+                [ngModel]="supplier.TitleID"
+                #TitleID="ngModel"
+                [ngClass]="{ 'is-invalid': submitted && TitleID.errors }"
+              >
+                <option [ngValue]="null" disabled>Select Title</option>
+                <option *ngFor="let title of titles" [ngValue]="title.TitleID">
+                  {{ title.Title }}
+                </option>
+              </select>
+              <div *ngIf="submitted && TitleID.errors" class="invalid-feedback">
+                <div *ngIf="TitleID.errors['required']">Title is required</div>
+              </div>
+            </div>
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="Surname">Surname:</label>
               <input
                 type="text"
                 class="form-control username"
-                id="username"
-                placeholder="Username..."
-                name="username"
+                id="Surname"
+                placeholder="Surname..."
+                [(ngModel)]="supplier.Surname"
+                name="Surname"
               />
+              <small class="p-invalid" *ngIf="submitted && !supplier.Surname"
+                >Surname is required.</small
+              >
             </div>
-            <div class="form-group">
-              <label for="email">Email:</label>
+
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="FirstName">First Name:</label>
+              <input
+                type="text"
+                class="form-control username"
+                id="FirstName"
+                placeholder="First Name..."
+                [(ngModel)]="supplier.FirstName"
+                name="FirstName"
+              />
+              <small class="p-invalid" *ngIf="submitted && !supplier.FirstName"
+                >First Name is required.</small
+              >
+            </div>
+
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="MiddleName">Middle Name:</label>
+              <input
+                type="text"
+                class="form-control username"
+                id="MiddleName"
+                placeholder="Middle Name..."
+                [(ngModel)]="supplier.MiddleName"
+                name="MiddleName"
+              />
+              <small class="p-invalid" *ngIf="submitted && !supplier.FirstName"
+                >Middle Name is required.</small
+              >
+            </div>
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="CompanyName">Company Name:</label>
+              <input
+                type="text"
+                class="form-control username"
+                id="CompanyName"
+                placeholder="Company Name..."
+                [(ngModel)]="supplier.CompanyName"
+                name="CompanyName"
+              />
+              <small
+                class="p-invalid"
+                *ngIf="submitted && !supplier.CompanyName"
+                >Company Name is required.</small
+              >
+            </div>
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="LegalName">Legal Name:</label>
+              <input
+                type="text"
+                class="form-control username"
+                id="LegalName"
+                placeholder="Legal Name..."
+                [(ngModel)]="supplier.LegalName"
+                name="LegalName"
+              />
+              <small class="p-invalid" *ngIf="submitted && !supplier.LegalName"
+                >Legal Name is required.</small
+              >
+            </div>
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="IDNo">ID No:</label>
+              <input
+                type="number"
+                class="form-control username"
+                id="IDNo"
+                placeholder="ID Number..."
+                [(ngModel)]="supplier.IDNo"
+                name="IDNo"
+              />
+              <small class="p-invalid" *ngIf="submitted && !supplier.IDNo"
+                >ID No is required.</small
+              >
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group border p-3 row mb-3">
+            <legend class="px-2 col-lg-12 col-md-12">Address</legend>
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="POBox">PO Box:</label>
+              <input
+                type="text"
+                class="form-control username"
+                id="POBox"
+                placeholder="PO Box..."
+                [(ngModel)]="supplier.POBox"
+                name="POBox"
+              />
+              <small class="p-invalid" *ngIf="submitted && !supplier.Surname"
+                >PO Box is required.</small
+              >
+            </div>
+
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="PostalCode">Postal Code:</label>
+              <input
+                type="number"
+                class="form-control username"
+                id="PostalCode"
+                placeholder="Postal Code..."
+                [(ngModel)]="supplier.PostalCode"
+                name="PostalCode"
+              />
+              <small class="p-invalid" *ngIf="submitted && !supplier.PostalCode"
+                >Postal Code is required.</small
+              >
+            </div>
+
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="email">Email:</label>
               <input
                 type="email"
                 class="form-control email"
-                id="email"
-                placeholder="Email..."
+                [(ngModel)]="supplier.Email"
                 name="email"
+                #Email="ngModel"
+                required
+                email
+              />
+              <span
+                class="text-danger"
+                *ngIf="
+                  (Email.touched || addSupplierForm.submitted) &&
+                  Email.errors?.['required']
+                "
+              >
+                Email is required
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="Email.touched && Email.errors?.['email']"
+              >
+                Enter a valid email address
+              </span>
+            </div>
+
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="Website">Website:</label>
+              <input
+                type="url"
+                class="form-control email"
+                id="Website"
+                placeholder="Website..."
+                [(ngModel)]="supplier.Website"
+                name="Website"
               />
             </div>
-            <div class="form-group">
-              <label for="password">Password:</label>
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="Town">Town:</label>
               <input
-                type="password"
-                class="form-control password"
-                id="password"
-                placeholder="Password..."
-                name="password"
+                type="text"
+                class="form-control username"
+                id="Town"
+                placeholder="Town..."
+                [(ngModel)]="supplier.Town"
+                name="Town"
+              />
+              <small class="p-invalid" *ngIf="submitted && !supplier.Town"
+                >Town is required.</small
+              >
+            </div>
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="Mobile">Mobile:</label>
+              <input
+                type="tel"
+                class="form-control email"
+                id="Mobile"
+                placeholder="Mobile..."
+                [(ngModel)]="supplier.Mobile"
+                name="Mobile"
+              />
+            </div>
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="Fax">Fax:</label>
+              <input
+                type="text"
+                class="form-control email"
+                id="Fax"
+                placeholder="Fax..."
+                [(ngModel)]="supplier.Fax"
+                name="Fax"
               />
             </div>
           </fieldset>
+
           <!-- User's Preferences  -->
-          <fieldset class="form-group border p-3">
-            <legend class="w-auto px-2">User's Preferences</legend>
-            <div class="form-check">
+          <fieldset class="form-group border p-3 row mb-3">
+            <legend class="px-2 col-lg-12 col-md-12">Credit Info</legend>
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="CreditDays">Credit Days:</label>
               <input
-                class="form-check-input"
-                type="radio"
-                name="preferences"
-                id="daily"
-                value="daily"
+                type="number"
+                class="form-control email"
+                id="CreditDays"
+                placeholder="Credit Days..."
+                [(ngModel)]="supplier.CreditDays"
+                name="CreditDays"
               />
-              <label class="form-check-label" for="daily"
-                >I want <strong>daily</strong> emails</label
-              >
             </div>
-            <div class="form-check">
+            <div class="form-group col-lg-6 col-md-6">
+              <label class="form-label" for="CreditAmnt">Credit Amount:</label>
               <input
-                class="form-check-input"
-                type="radio"
-                name="preferences"
-                id="weekly"
-                value="weekly"
+                type="number"
+                class="form-control email"
+                id="CreditAmnt"
+                placeholder="Credit Amount..."
+                [(ngModel)]="supplier.CreditAmnt"
+                name="CreditAmnt"
               />
-              <label class="form-check-label" for="weekly"
-                >I want <strong>weekly</strong> emails</label
-              >
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="preferences"
-                id="monthly"
-                value="monthly"
-              />
-              <label class="form-check-label" for="monthly"
-                >I want <strong>monthly</strong> emails</label
-              >
             </div>
           </fieldset>
+
+          <div class="row">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="Active"
+                id="Active"
+                [(ngModel)]="supplier.Active"
+              />
+              <label class="form-check-label" for="Active"
+                ><strong>Active</strong>
+              </label>
+            </div>
+          </div>
+
           <!-- Submit Button  -->
-          <div class="form-group row text-right">
+          <div class="form-group row row">
             <div class="col">
-              <button type="submit" class="btn btn-primary btn-customized">
-                Subscribe
+              <button
+                type="submit"
+                [disabled]="!addSupplierForm.valid"
+                class="btn btn-primary btn-customized"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                routerLink="/admin/suppliers"
+                class="btn btn-link ml-3"
+              >
+                Cancel
               </button>
             </div>
           </div>

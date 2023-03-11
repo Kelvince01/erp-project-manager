@@ -1,7 +1,8 @@
-<p-tabView [(activeIndex)]="index">
+<!-- <p-tabView [(activeIndex)]="index"> -->
+<p-tabView>
   <p-tabPanel header="Suppliers" leftIcon="pi pi-calendar" tooltip="Suppliers">
-    <!-- <div class="row">
-      <button
+    <div class="row">
+      <!-- <button
         type="button"
         pButton
         pRipple
@@ -10,6 +11,17 @@
         icon="pi pi-plus"
         class="p-button-info mb-2 col-md-4 mr-2"
         pTooltip="Add Class of Transaction"
+        tooltipPosition="bottom"
+      ></button> -->
+      <button
+        type="button"
+        pButton
+        pRipple
+        label="Add Supplier"
+        icon="pi pi-plus"
+        routerLink="/admin/suppliers/add"
+        class="p-button-info mb-2 col-md-4 mr-2"
+        pTooltip="Add Supplier"
         tooltipPosition="bottom"
       ></button>
       <button
@@ -23,7 +35,7 @@
         pTooltip="Add Item"
         tooltipPosition="bottom"
       ></button>
-      <button
+      <!-- <button
         type="button"
         pButton
         pRipple
@@ -44,8 +56,8 @@
         class="p-button-info mb-2 col-md-4"
         pTooltip="Add Item Status"
         tooltipPosition="bottom"
-      ></button>
-    </div> -->
+      ></button> -->
+    </div>
 
     <div class="row">
       <div class="col-md-12">
@@ -135,7 +147,8 @@
     rightIcon="pi pi-star-fill"
     tooltip="Pay Bill"
   >
-    <app-pay-bill [tabIndex]="index" [intialInvoice]="invoice"></app-pay-bill>
+    <app-pay-bill></app-pay-bill>
+    <!-- <app-pay-bill [tabIndex]="index" [intialInvoice]="invoice"></app-pay-bill> -->
   </p-tabPanel>
   <p-tabPanel
     header="Receive Debit Note"

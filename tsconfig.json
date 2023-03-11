@@ -27,6 +27,7 @@
       "rxjs": ["dist/rxjs"],
       "@core/*": ["src/app/core/*"],
       "@admin/*": ["src/app/modules/admin/*"],
+      "@user/*": ["src/app/modules/user/*"],
       "@auth/*": ["src/app/auth/*"],
       "@main/*": ["src/app/modules/main/*"],
       "@services/*": ["src/app/data/services/*"],
