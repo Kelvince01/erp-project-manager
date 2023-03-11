@@ -1,3 +1,7 @@
 .bg-navbar {
   background-color: white;
 }
+
+.nav-link {
+  color: #007bff !important;
+}
